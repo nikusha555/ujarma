@@ -1,0 +1,163 @@
+<%# pages/contact.ejs — კონტაქტის გვერდი -%>
+
+<section class="page-banner" aria-label="გვერდის ერთაური">
+  <div class="container page-banner-content">
+    <nav aria-label="ნავიგაცია">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
+        <li class="breadcrumb-item active" aria-current="page">კონტაქტი</li>
+      </ol>
+    </nav>
+    <h1 class="page-banner-title">დაგვიკავშირდით</h1>
+    <p class="page-banner-subtitle">უჯარმის სოფლის ადმინისტრაციასთან დაკავშირდებით</p>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- ── Contact Information ─────────────────────── -->
+      <div class="col-lg-5">
+        <div class="section-label">ადმინისტრაცია</div>
+        <h2 style="margin-bottom:1.5rem;">დაგვიკავშირდით</h2>
+        <p style="color:var(--color-text-secondary);margin-bottom:2.5rem;">
+          ოფიციალური კითხვების, ადმინისტრაციული საკითხეებისა და
+          უჯარმის სოფლის შესახებ ინფორმაციისათვის, გაკვითხოვნეთ ქვემოთ საკონტაქტო
+          ინფორმაციის შესახებ ან გამოიგეთ შეთყობინების ფორმით.
+        </p>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-geo-alt-fill"></i></div>
+          <div>
+            <p class="contact-info-label">მისამართი</p>
+            <p class="contact-info-value">
+              უჯარმის სოფელი<br />
+              საგარეჯოს მუნიციპალიტეტი<br />
+              კახეთის რეგიონი, საქართველო
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-telephone-fill"></i></div>
+          <div>
+            <p class="contact-info-label">ტელეფონი</p>
+            <p class="contact-info-value">+995 (XXX) XXX-XXX</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-envelope-fill"></i></div>
+          <div>
+            <p class="contact-info-label">ელ.ფოსტა</p>
+            <p class="contact-info-value">info@ujarma.ge</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-clock-fill"></i></div>
+          <div>
+            <p class="contact-info-label">სამუშაო საათები</p>
+            <p class="contact-info-value">
+              ორშაბათი – პარასკევი: 09:00 – 18:00<br />
+              შაბათი: 10:00 – 14:00<br />
+              კვირა: დახურულია
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Contact Form ────────────────────────────── -->
+      <div class="col-lg-7">
+
+        <!-- Success Message -->
+        <% if (success) { %>
+          <div class="alert-custom alert-success mb-4" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            <strong>შეტყობინება გაიგზავნა.</strong> გმადლობელთ დაგვიკავშირდეთ უჯარმის სოფლის ადმინისტრაციასთან. მალე გიპასუხებ რაც ის შესაძლებლი.
+          </div>
+        <% } %>
+
+        <!-- Error Message -->
+        <% if (error) { %>
+          <div class="alert-custom alert-error mb-4" role="alert">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            <%= error %>
+          </div>
+        <% } %>
+
+        <div style="background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:2.5rem;">
+          <h3 style="font-family:var(--font-serif);font-size:1.375rem;color:var(--color-primary);margin-bottom:1.75rem;">
+            შეტყობინების გაგზავნა
+          </h3>
+
+          <form action="/contact" method="POST" novalidate>
+
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="name" class="form-label-custom">
+                  სრული სახელი <span style="color:#dc2626;">*</span>
+                </label>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       class="form-control-custom"
+                       value="<%= typeof formData !== 'undefined' ? (formData.name || '') : '' %>"
+                       placeholder="თქვენი სახელი და გვარისიანი"
+                       required
+                       autocomplete="name" />
+              </div>
+              <div class="col-sm-6">
+                <label for="email" class="form-label-custom">
+                  ელ.ფოსტის მისამართი <span style="color:#dc2626;">*</span>
+                </label>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       class="form-control-custom"
+                       value="<%= typeof formData !== 'undefined' ? (formData.email || '') : '' %>"
+                       placeholder="your@email.com"
+                       required
+                       autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <label for="subject" class="form-label-custom">თემა</label>
+              <input type="text"
+                     id="subject"
+                     name="subject"
+                     class="form-control-custom"
+                     value="<%= typeof formData !== 'undefined' ? (formData.subject || '') : '' %>"
+                     placeholder="რას შეეხება თქვენი დახმარება?" />
+            </div>
+
+            <div class="mt-3">
+              <label for="message" class="form-label-custom">
+                შეტყობინება <span style="color:#dc2626;">*</span>
+              </label>
+              <textarea id="message"
+                        name="message"
+                        class="form-control-custom"
+                        rows="5"
+                        placeholder="გეთხვით დავისავით თქვენი საკითხე დეტალურად..."
+                        required><%= typeof formData !== 'undefined' ? (formData.message || '') : '' %></textarea>
+            </div>
+
+            <div class="mt-4">
+              <button type="submit" class="btn-primary-custom">
+                <i class="bi bi-send me-2"></i>გაგზავნა
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,64 @@
+<%# pages/attractions.ejs — ღირსშესანიშნაობების გვერდი -%>
+
+<!-- გვერდის ბანერი -->
+<section class="page-banner" aria-label="გვერდის ერთაური">
+  <div class="container page-banner-content">
+    <nav aria-label="ნავიგაცია">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ღირსშესანიშნაობები</li>
+      </ol>
+    </nav>
+    <h1 class="page-banner-title">ღირსშესანიშნაობები</h1>
+    <p class="page-banner-subtitle">
+      აიკვლეთ ისტორიული ძეგლები, ფასეული სილარზე და უჯარმის კულტურული მემკვიდრეობა
+    </p>
+  </div>
+</section>
+
+<!-- Attractions Grid -->
+<section class="section">
+  <div class="container">
+
+    <% if (attractions && attractions.length > 0) { %>
+      <div class="row g-4">
+        <% attractions.forEach(function(attr) { %>
+          <div class="col-lg-4 col-md-6">
+            <div class="content-card h-100">
+              <% if (attr.image) { %>
+                <img src="/uploads/<%= attr.image %>"
+                     alt="<%= attr.name %>"
+                     class="content-card-img" loading="lazy" />
+              <% } else { %>
+                <div class="content-card-img-placeholder">
+                  <i class="bi bi-building" style="font-size:2.5rem;color:var(--gray-300);"></i>
+                </div>
+              <% } %>
+              <div class="content-card-body d-flex flex-column">
+                <% if (attr.category) { %>
+                  <span class="content-card-category"><%= attr.category %></span>
+                <% } %>
+                <h2 class="content-card-title" style="font-size:1.125rem;">
+                  <a href="/attractions/<%= attr.slug %>"><%= attr.name %></a>
+                </h2>
+                <p class="content-card-excerpt flex-grow-1"><%= attr.description %></p>
+                <a href="/attractions/<%= attr.slug %>" class="content-card-link mt-auto">
+                  დეტალები <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state" style="padding:6rem 2rem;">
+        <div class="empty-state-icon"><i class="bi bi-signpost-2"></i></div>
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">
+          ღირსშესანიშნაობები მალე დაემატება
+        </h3>
+        <p>ადგილობრივი როგორც გამოყვანილი ადგილობრივები მალე გამოფინდება.</p>
+      </div>
+    <% } %>
+
+  </div>
+</section>

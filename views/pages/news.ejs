@@ -1,0 +1,65 @@
+<%# pages/news.ejs — სიახლეების გვერდი -%>
+
+<!-- გვერდის ბანერი -->
+<section class="page-banner" aria-label="გვერდის ერთაური">
+  <div class="container page-banner-content">
+    <nav aria-label="ნავიგაცია">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
+        <li class="breadcrumb-item active" aria-current="page">სიახლეები</li>
+      </ol>
+    </nav>
+    <h1 class="page-banner-title">სიახლეები და განცხადებები</h1>
+    <p class="page-banner-subtitle">უჯარმის სოფლის ადმინისტრაციის ოფიციალური კომუნიკაციები</p>
+  </div>
+</section>
+
+<!-- News Listing -->
+<section class="section">
+  <div class="container">
+
+    <% if (articles && articles.length > 0) { %>
+      <div class="row g-4">
+        <% articles.forEach(function(article) { %>
+          <div class="col-lg-4 col-md-6">
+            <article class="content-card h-100">
+              <% if (article.image) { %>
+                <img src="/uploads/<%= article.image %>"
+                     alt="<%= article.title %>"
+                     class="content-card-img" loading="lazy" />
+              <% } else { %>
+                <div class="content-card-img-placeholder">
+                  <i class="bi bi-newspaper" style="font-size:2.5rem;color:var(--gray-300);"></i>
+                </div>
+              <% } %>
+              <div class="content-card-body d-flex flex-column">
+                <span class="news-date">
+                  <i class="bi bi-calendar3"></i>
+                  <%= new Date(article.published_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) %>
+                </span>
+                <h2 class="content-card-title mt-2" style="font-size:1.125rem;">
+                  <a href="/news/<%= article.slug %>"><%= article.title %></a>
+                </h2>
+                <% if (article.excerpt) { %>
+                  <p class="content-card-excerpt flex-grow-1"><%= article.excerpt %></p>
+                <% } %>
+                <a href="/news/<%= article.slug %>" class="content-card-link mt-auto">
+                  სრულად წაკითხვა <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state" style="padding:6rem 2rem;">
+        <div class="empty-state-icon"><i class="bi bi-newspaper"></i></div>
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">
+          სტატიები ჯერ არ გამოქვეყნებულა
+        </h3>
+        <p>მალე დაბრუნდით უჯარმის სოფლის ოფიციალური სიახლეებისათვის.</p>
+      </div>
+    <% } %>
+
+  </div>
+</section>

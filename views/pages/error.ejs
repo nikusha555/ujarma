@@ -1,0 +1,56 @@
+<%# pages/error.ejs — შეცდომის გვერდი -%>
+
+<section style="min-height:70vh;display:flex;align-items:center;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 text-center" style="padding:5rem 0;">
+
+        <!-- Error Code -->
+        <div style="font-family:var(--font-serif);font-size:clamp(5rem,15vw,9rem);font-weight:700;color:var(--color-primary);line-height:1;margin-bottom:1.25rem;opacity:.12;">
+          <%= statusCode %>
+        </div>
+
+        <div style="margin-top:-4.5rem;position:relative;">
+          <!-- Decorative separator -->
+          <div class="separator" style="justify-content:center;margin-bottom:1.75rem;">
+            <span class="separator-line"></span>
+            <span class="separator-diamond"></span>
+            <span class="separator-line"></span>
+          </div>
+
+          <h1 style="font-family:var(--font-serif);font-size:clamp(1.5rem,4vw,2rem);color:var(--color-primary);margin-bottom:1rem;">
+            <% if (statusCode === 404) { %>
+              გვერდი ვერ მოიძებნა
+            <% } else if (statusCode === 403) { %>
+              წვდომა აკრძალულია
+            <% } else { %>
+              შეცდომა მოხდა
+            <% } %>
+          </h1>
+
+          <p class="lead" style="color:var(--color-text-secondary);max-width:420px;margin:0 auto 1.5rem;">
+            <%= message %>
+          </p>
+
+          <!-- Technical detail (development only) -->
+          <% if (detail) { %>
+            <div style="background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);padding:1rem;margin-bottom:1.5rem;text-align:left;font-family:monospace;font-size:.8125rem;color:var(--gray-700);">
+              <%= detail %>
+            </div>
+          <% } %>
+
+          <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="/" class="btn-primary-custom">
+              <i class="bi bi-house me-2"></i>მთავარ გვერდზე დაბრუნება
+            </a>
+            <a href="/contact"
+               style="font-size:.8125rem;font-weight:500;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:.375rem;padding:.75rem 1.5rem;border:1.5px solid var(--color-border-strong);border-radius:var(--radius);">
+              ადმინისტრაციასთან კავშირი
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,105 @@
+<%# admin/dashboard.ejs — Admin Dashboard -%>
+
+<div class="admin-page-header">
+  <h1 class="admin-page-title">დასაბორდი</h1>
+  <span style="font-size:.8125rem;color:var(--color-text-muted);">
+    <i class="bi bi-calendar3 me-1"></i>
+    <%= new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
+  </span>
+</div>
+
+<!-- Summary Stats -->
+<div class="row g-4 mb-5">
+
+  <div class="col-lg-4 col-md-6">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon"><i class="bi bi-newspaper"></i></div>
+      <div>
+        <div class="admin-stat-number"><%= stats.news %></div>
+        <div class="admin-stat-label">გამოქვეყნებული სტატია</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon"><i class="bi bi-signpost-2"></i></div>
+      <div>
+        <div class="admin-stat-number"><%= stats.attractions %></div>
+        <div class="admin-stat-label">ღირსშესანიშნაობები</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon"><i class="bi bi-images"></i></div>
+      <div>
+        <div class="admin-stat-number"><%= stats.gallery %></div>
+        <div class="admin-stat-label">გალერეის ფოტოსურათები</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Quick Navigation -->
+<div class="row g-4">
+
+  <div class="col-lg-8">
+    <div class="admin-table-wrap">
+      <div class="admin-table-header">
+        <span class="admin-table-title">სწრაფი მოქმეၖ4ებები</span>
+      </div>
+      <div style="padding:1.5rem;">
+        <p style="font-size:.9rem;color:var(--color-text-secondary);margin-bottom:1.5rem;">
+          Use the navigation on the left to manage website content.
+          გამოიყენეთ მარცხენავი CRUD ოპერაციები განვითარდება შემდეგი ფაზის დროს.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="/admin/news"
+             style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
+            <i class="bi bi-newspaper"></i> Manage News
+          </a>
+          <a href="/admin/attractions"
+             style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
+            <i class="bi bi-signpost-2"></i> Manage Attractions
+          </a>
+          <a href="/admin/gallery"
+             style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
+            <i class="bi bi-images"></i> Manage Gallery
+          </a>
+          <a href="/" target="_blank"
+             style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
+            <i class="bi bi-box-arrow-up-right"></i> View Website
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="admin-table-wrap h-100">
+      <div class="admin-table-header">
+        <span class="admin-table-title">სისტემის სტატუსი</span>
+      </div>
+      <div style="padding:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--color-border);font-size:.875rem;">
+          <span style="color:var(--color-text-secondary);">Application</span>
+          <span class="badge-published">Online</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--color-border);font-size:.875rem;">
+          <span style="color:var(--color-text-secondary);">Environment</span>
+          <span style="font-size:.75rem;font-weight:600;color:var(--color-text);">
+            <%= process.env.NODE_ENV || 'development' %>
+          </span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;font-size:.875rem;">
+          <span style="color:var(--color-text-secondary);">Version</span>
+          <span style="font-size:.75rem;font-weight:600;color:var(--color-text);">1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

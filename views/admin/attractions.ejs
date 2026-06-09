@@ -1,0 +1,75 @@
+<%# admin/attractions.ejs — Admin Attractions Management -%>
+
+<div class="admin-page-header">
+  <h1 class="admin-page-title">ღირსშესანიშნაობების მართვა</h1>
+  <button class="btn-admin-add" disabled title="CRUD ოპერაციები მომავალი ფაზში განვითარდება">
+    <i class="bi bi-plus-lg"></i> დამატება
+  </button>
+</div>
+
+<div class="admin-table-wrap">
+  <div class="admin-table-header">
+    <span class="admin-table-title">All Attractions</span>
+    <span style="font-size:.8125rem;color:var(--color-text-muted);">
+      <%= attractions.length %> attraction<%= attractions.length !== 1 ? 's' : '' %>
+    </span>
+  </div>
+
+  <% if (attractions && attractions.length > 0) { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Featured</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% attractions.forEach(function(attr) { %>
+          <tr>
+            <td>
+              <span style="font-weight:500;color:var(--color-primary);">
+                <%= attr.name %>
+              </span>
+            </td>
+            <td style="color:var(--color-text-secondary);">
+              <%= attr.category || '—' %>
+            </td>
+            <td>
+              <% if (attr.is_featured) { %>
+                <i class="bi bi-star-fill" style="color:var(--color-accent);" title="Featured"></i>
+              <% } else { %>
+                <i class="bi bi-star" style="color:var(--gray-400);" title="Not featured"></i>
+              <% } %>
+            </td>
+            <td>
+              <span class="badge-published">Published</span>
+            </td>
+            <td>
+              <a href="/attractions/<%= attr.slug %>"
+                 target="_blank"
+                 style="font-size:.75rem;color:var(--color-accent);font-weight:500;"
+                 title="View on site">
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div class="empty-state" style="padding:4rem 2rem;">
+      <div class="empty-state-icon"><i class="bi bi-signpost-2"></i></div>
+      <p>No attractions have been added yet.</p>
+    </div>
+  <% } %>
+</div>
+
+<div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--gold-100);border:1px solid var(--gold-300);border-radius:var(--radius);border-left:3px solid var(--gold-500);">
+  <p style="font-size:.875rem;color:var(--gold-700);margin:0;">
+    <i class="bi bi-info-circle me-2"></i>
+    <strong>Foundation Phase:</strong> Full CRUD management will be implemented in the next phase.
+  </p>
+</div>

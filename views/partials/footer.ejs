@@ -1,0 +1,104 @@
+<%#
+  partials/footer.ejs — ოფიციალური ქვედა ბლოკი
+  res.locals: siteName, siteTagline, currentYear
+-%>
+
+<footer class="site-footer" aria-label="საიტის ქვედა ბლოკი">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- ── სვეტი 1: სოფლის შესახებ ────────────── -->
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-brand-name"><%= siteName.toUpperCase() %></div>
+        <div class="footer-brand-sub">ოფიციალური საინფორმაციო პორტალი</div>
+        <p class="footer-tagline">
+          უჯარმის სოფლის ოფიციალური ციფრული სახლი — მოსახლეებს და
+          სტუმრებს სთავაზობს მმართველობის, კულტურისა და ადგილობრივი
+          ცხოვრების სანდო ინფორმაციას.
+        </p>
+      </div>
+
+      <!-- ── სვეტი 2: ნავიგაცია ───────────────────── -->
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <h3 class="footer-heading">ნავიგაცია</h3>
+        <ul class="footer-links">
+          <li><a href="/"><i class="bi bi-chevron-right" style="font-size:0.6rem;"></i>მთავარი</a></li>
+          <li><a href="/news"><i class="bi bi-chevron-right" style="font-size:0.6rem;"></i>სიახლეები</a></li>
+          <li><a href="/attractions"><i class="bi bi-chevron-right" style="font-size:0.6rem;"></i>ღირსშესანიშნაობები</a></li>
+          <li><a href="/gallery"><i class="bi bi-chevron-right" style="font-size:0.6rem;"></i>გალერეა</a></li>
+          <li><a href="/about"><i class="bi bi-chevron-right" style="font-size:0.6rem;"></i>უჯარმის შესახებ</a></li>
+          <li><a href="/contact"><i class="bi bi-chevron-right" style="font-size:0.6rem;"></i>კონტაქტი</a></li>
+        </ul>
+      </div>
+
+      <!-- ── სვეტი 3: საკონტაქტო ინფორმაცია ────────── -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <h3 class="footer-heading">კონტაქტი</h3>
+
+        <div class="footer-contact-item">
+          <i class="bi bi-geo-alt footer-contact-icon"></i>
+          <span class="footer-contact-text">
+            უჯარმის სოფელი<br />
+            საგარეჯოს მუნიციპალიტეტი<br />
+            კახეთის რეგიონი, საქართველო
+          </span>
+        </div>
+
+        <div class="footer-contact-item">
+          <i class="bi bi-telephone footer-contact-icon"></i>
+          <span class="footer-contact-text">
+            +995 (XXX) XXX-XXX
+          </span>
+        </div>
+
+        <div class="footer-contact-item">
+          <i class="bi bi-envelope footer-contact-icon"></i>
+          <span class="footer-contact-text">
+            info@ujarma.ge
+          </span>
+        </div>
+      </div>
+
+      <!-- ── სვეტი 4: სამუშაო საათები ─────────────── -->
+      <div class="col-lg-3 col-md-6">
+        <h3 class="footer-heading">სამუშაო საათები</h3>
+        <ul class="footer-links">
+          <li>
+            <span class="footer-contact-text">ორშაბათი – პარასკევი</span>
+          </li>
+          <li>
+            <span style="font-size:.875rem;color:rgba(255,255,255,.85);font-weight:500;">
+              09:00 – 18:00
+            </span>
+          </li>
+          <li style="margin-top:.75rem;">
+            <span class="footer-contact-text">შაბათი</span>
+          </li>
+          <li>
+            <span style="font-size:.875rem;color:rgba(255,255,255,.85);font-weight:500;">
+              10:00 – 14:00
+            </span>
+          </li>
+          <li style="margin-top:.75rem;">
+            <span class="footer-contact-text" style="color:rgba(255,255,255,.4);">
+              კვირა — დახურულია
+            </span>
+          </li>
+        </ul>
+      </div>
+
+    </div><!-- /row -->
+
+    <!-- ── ქვედა ზოლი ─────────────────────────────── -->
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        &copy; <%= currentYear %> <%= siteName %> სოფელი. ყველა უფლება დაცულია.
+      </p>
+      <ul class="footer-legal-links">
+        <li><a href="/about">შესახებ</a></li>
+        <li><a href="/contact">კონტაქტი</a></li>
+      </ul>
+    </div>
+
+  </div>
+</footer>

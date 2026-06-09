@@ -1,0 +1,160 @@
+<%# admin/login.ejs — Admin Login Page (standalone, no layout) -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title || 'ადმინისტრატორის შესვლა — უჯარმა' %></title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous" />
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <style>
+    html, body {
+      height: 100%;
+      background-color: var(--navy-800);
+    }
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(197,160,40,0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .login-card {
+      background-color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      box-shadow: var(--shadow-xl);
+    }
+    .login-emblem { margin-bottom: 1.5rem; }
+    .login-title {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .login-subtitle {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 2.25rem;
+    }
+    .login-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-500), transparent);
+      margin-bottom: 2.25rem;
+      width: 48px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-page">
+    <div class="login-card">
+
+      <!-- Emblem -->
+      <div class="login-emblem text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 72" width="44" height="52" aria-label="Ujarma Emblem">
+          <path d="M30 3 L57 15 L57 44 Q57 64 30 70 Q3 64 3 44 L3 15 Z"
+                fill="none" stroke="#C5A028" stroke-width="1.5"/>
+          <path d="M30 8 L52 19 L52 43 Q52 60 30 66 Q8 60 8 43 L8 19 Z"
+                fill="#0A1628"/>
+          <line x1="30" y1="18" x2="30" y2="56" stroke="#C5A028" stroke-width="1.75"/>
+          <line x1="11" y1="37" x2="49" y2="37" stroke="#C5A028" stroke-width="1.75"/>
+          <circle cx="30" cy="37" r="4" fill="none" stroke="#C5A028" stroke-width="1.25"/>
+          <circle cx="30" cy="37" r="1.5" fill="#C5A028"/>
+        </svg>
+      </div>
+
+      <div class="text-center">
+        <div class="login-title">უჯარმა</div>
+        <div class="login-subtitle">ადმინისტრაციის პანელი</div>
+        <div class="login-divider mx-auto"></div>
+      </div>
+
+      <!-- Error Message -->
+      <% if (error) { %>
+        <div class="alert-custom alert-error mb-4" role="alert">
+          <i class="bi bi-exclamation-triangle me-2"></i><%= error %>
+        </div>
+      <% } %>
+
+      <!-- Login Form -->
+      <form action="/admin/login" method="POST" novalidate>
+
+        <div class="mb-3">
+          <label for="username" class="form-label-custom">მომხმარებლი</label>
+          <input type="text"
+                 id="username"
+                 name="username"
+                 class="form-control-custom"
+                 placeholder="შეიყვანეთ მომხმარებელი"
+                 required
+                 autocomplete="username"
+                 autofocus />
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label-custom">პაროლი</label>
+          <input type="password"
+                 id="password"
+                 name="password"
+                 class="form-control-custom"
+                 placeholder="შეიყვანეთ პაროლი"
+                 required
+                 autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="btn-primary-custom w-100 text-center"
+                style="padding:.875rem;font-size:.875rem;">
+          <i class="bi bi-box-arrow-in-right me-2"></i>შესვლა
+        </button>
+
+      </form>
+
+      <p class="text-center mt-4" style="font-size:.75rem;color:var(--color-text-muted);">
+        <a href="/" style="color:var(--color-text-muted);">
+          <i class="bi bi-arrow-left me-1"></i>ვებსაიტზე დაბრუნება
+        </a>
+      </p>
+
+    </div>
+  </div>
+
+</body>
+</html>

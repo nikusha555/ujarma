@@ -1,0 +1,103 @@
+<%#
+  partials/navbar.ejs — ძირითადი ნავიგაციის ზოლი
+  ─────────────────────────────────────────────────────
+  სრულიად ქართულ ენაზე | Bootstrap 5 collapse | მობილურის მხარდაჭერა
+  res.locals: currentPath, siteName
+-%>
+
+<nav class="navbar navbar-expand-lg site-navbar" id="siteNavbar" aria-label="ძირითადი ნავიგაცია">
+  <div class="container">
+
+    <!-- ── ბრენდი / ლოგო ──────────────────────────── -->
+    <a href="/" class="navbar-brand-wrap" aria-label="<%= siteName %> — მთავარი გვერდი">
+
+      <!-- სოფლის გერბი (SVG) -->
+      <div class="brand-emblem" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 72" width="44" height="52">
+          <path d="M30 3 L57 15 L57 44 Q57 64 30 70 Q3 64 3 44 L3 15 Z"
+                fill="none" stroke="#C5A028" stroke-width="1.5"/>
+          <path d="M30 8 L52 19 L52 43 Q52 60 30 66 Q8 60 8 43 L8 19 Z"
+                fill="#0A1628" stroke="none"/>
+          <line x1="30" y1="18" x2="30" y2="56" stroke="#C5A028" stroke-width="1.75"/>
+          <line x1="11" y1="37" x2="49" y2="37" stroke="#C5A028" stroke-width="1.75"/>
+          <circle cx="30" cy="37" r="4"   fill="none" stroke="#C5A028" stroke-width="1.25"/>
+          <circle cx="30" cy="37" r="1.5" fill="#C5A028"/>
+        </svg>
+      </div>
+
+      <!-- ბრენდის ტექსტი -->
+      <div class="brand-text">
+        <span class="brand-name"><%= siteName.toUpperCase() %></span>
+        <span class="brand-subtitle">ოფიციალური პორტალი</span>
+      </div>
+
+    </a>
+
+    <!-- ── მობილური ღილაკი ─────────────────────────── -->
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="მენიუს გახსნა">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- ── ნავიგაციის ბმულები ──────────────────────── -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+
+        <li class="nav-item">
+          <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>"
+             href="/"
+             aria-current="<%= currentPath === '/' ? 'page' : 'false' %>">
+            მთავარი
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link <%= currentPath.startsWith('/news') ? 'active' : '' %>"
+             href="/news"
+             aria-current="<%= currentPath.startsWith('/news') ? 'page' : 'false' %>">
+            სიახლეები
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link <%= currentPath.startsWith('/attractions') ? 'active' : '' %>"
+             href="/attractions"
+             aria-current="<%= currentPath.startsWith('/attractions') ? 'page' : 'false' %>">
+            ღირსშესანიშნაობები
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link <%= currentPath.startsWith('/gallery') ? 'active' : '' %>"
+             href="/gallery"
+             aria-current="<%= currentPath.startsWith('/gallery') ? 'page' : 'false' %>">
+            გალერეა
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link <%= currentPath.startsWith('/about') ? 'active' : '' %>"
+             href="/about"
+             aria-current="<%= currentPath.startsWith('/about') ? 'page' : 'false' %>">
+            უჯარმის შესახებ
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link nav-link-contact <%= currentPath.startsWith('/contact') ? 'active' : '' %>"
+             href="/contact">
+            კონტაქტი
+          </a>
+        </li>
+
+      </ul>
+    </div>
+    <!-- ── /ნავიგაციის ბმულები ─────────────────────── -->
+
+  </div>
+</nav>

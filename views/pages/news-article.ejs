@@ -1,0 +1,50 @@
+<%# pages/news-article.ejs — სტატიას გვერდი -%>
+
+<!-- გვერდის ბანერი -->
+<section class="page-banner" aria-label="გვერდის ერთაური">
+  <div class="container page-banner-content">
+    <nav aria-label="ნავიგაცია">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
+        <li class="breadcrumb-item"><a href="/news">სიახლეები</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= article.title %></li>
+      </ol>
+    </nav>
+    <h1 class="page-banner-title" style="font-size:clamp(1.5rem,4vw,2.5rem);">
+      <%= article.title %>
+    </h1>
+    <p class="page-banner-subtitle">
+      <i class="bi bi-calendar3 me-1"></i>
+      <%= new Date(article.published_at).toLocaleDateString('ka-GE', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
+    </p>
+  </div>
+</section>
+
+<!-- Article Content -->
+<section class="section section-sm">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+
+        <% if (article.image) { %>
+          <img src="/uploads/<%= article.image %>"
+               alt="<%= article.title %>"
+               class="w-100 mb-4"
+               style="border-radius:var(--radius-lg);object-fit:cover;max-height:480px;"
+               loading="lazy" />
+        <% } %>
+
+        <div class="article-body" style="font-size:1.0625rem;line-height:1.75;color:var(--color-text);">
+          <%- article.content %>
+        </div>
+
+        <hr class="divider my-5" />
+
+        <a href="/news" class="section-link">
+          <i class="bi bi-arrow-left"></i> სიახლეებზე დაბრუნება
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
