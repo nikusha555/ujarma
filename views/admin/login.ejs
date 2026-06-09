@@ -7,10 +7,10 @@
   <title><%= title || 'ადმინისტრატორის შესვლა — უჯარმა' %></title>
   <meta name="robots" content="noindex, nofollow" />
 
-  <!-- Fonts -->
+  <!-- Fonts (with Georgian support) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@600;700&family=Noto+Sans+Georgian:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet" />
 
   <!-- Bootstrap 5 -->
@@ -19,9 +19,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
         crossorigin="anonymous" />
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Bootstrap Icons removed — Lucide loaded before </body> -->
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/css/style.css" />
@@ -110,7 +108,7 @@
       <!-- Error Message -->
       <% if (error) { %>
         <div class="alert-custom alert-error mb-4" role="alert">
-          <i class="bi bi-exclamation-triangle me-2"></i><%= error %>
+          <i data-lucide="triangle-alert" style="width:1em;height:1em;vertical-align:-0.125em;"></i><%= error %>
         </div>
       <% } %>
 
@@ -142,19 +140,22 @@
 
         <button type="submit" class="btn-primary-custom w-100 text-center"
                 style="padding:.875rem;font-size:.875rem;">
-          <i class="bi bi-box-arrow-in-right me-2"></i>შესვლა
+          <i data-lucide="log-in" style="width:1em;height:1em;vertical-align:-0.125em;"></i>შესვლა
         </button>
 
       </form>
 
       <p class="text-center mt-4" style="font-size:.75rem;color:var(--color-text-muted);">
         <a href="/" style="color:var(--color-text-muted);">
-          <i class="bi bi-arrow-left me-1"></i>ვებსაიტზე დაბრუნება
+          <i data-lucide="arrow-left" style="width:0.875em;height:0.875em;vertical-align:-0.125em;"></i>ვებსაიტზე დაბრუნება
         </a>
       </p>
 
     </div>
   </div>
+  <!-- Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
 
 </body>
 </html>

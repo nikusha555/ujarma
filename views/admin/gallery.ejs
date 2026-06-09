@@ -3,7 +3,7 @@
 <div class="admin-page-header">
   <h1 class="admin-page-title">გალერეის მართვა</h1>
   <button class="btn-admin-add" disabled title="CRUD ოპერაციები მომავალი ფაზში განვითარდება">
-    <i class="bi bi-upload"></i> ფოტოს ატვირთვა
+    <i data-lucide="upload" class="icon-inline"></i> ფოტოს ატვირთვა
   </button>
 </div>
 
@@ -38,7 +38,7 @@
 <% } else { %>
   <div class="admin-table-wrap">
     <div class="empty-state" style="padding:4rem 2rem;">
-      <div class="empty-state-icon"><i class="bi bi-images"></i></div>
+      <div class="empty-state-icon"><i data-lucide="images"></i></div>
       <p>No gallery images have been uploaded yet.</p>
     </div>
   </div>
@@ -46,7 +46,7 @@
 
 <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--gold-100);border:1px solid var(--gold-300);border-radius:var(--radius);border-left:3px solid var(--gold-500);">
   <p style="font-size:.875rem;color:var(--gold-700);margin:0;">
-    <i class="bi bi-info-circle me-2"></i>
+    <i data-lucide="info" class="icon-inline"></i>
     <strong>Foundation Phase:</strong> Image upload and management will be implemented in the next phase.
     Multer is already configured in <code>config/multer.js</code>.
   </p>

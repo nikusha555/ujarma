@@ -29,7 +29,7 @@
         </p>
 
         <div class="contact-info-item">
-          <div class="contact-info-icon"><i class="bi bi-geo-alt-fill"></i></div>
+          <div class="contact-info-icon"><i data-lucide="map-pin"></i></div>
           <div>
             <p class="contact-info-label">მისამართი</p>
             <p class="contact-info-value">
@@ -41,7 +41,7 @@
         </div>
 
         <div class="contact-info-item">
-          <div class="contact-info-icon"><i class="bi bi-telephone-fill"></i></div>
+          <div class="contact-info-icon"><i data-lucide="phone"></i></div>
           <div>
             <p class="contact-info-label">ტელეფონი</p>
             <p class="contact-info-value">+995 (XXX) XXX-XXX</p>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="contact-info-item">
-          <div class="contact-info-icon"><i class="bi bi-envelope-fill"></i></div>
+          <div class="contact-info-icon"><i data-lucide="mail"></i></div>
           <div>
             <p class="contact-info-label">ელ.ფოსტა</p>
             <p class="contact-info-value">info@ujarma.ge</p>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="contact-info-item">
-          <div class="contact-info-icon"><i class="bi bi-clock-fill"></i></div>
+          <div class="contact-info-icon"><i data-lucide="clock"></i></div>
           <div>
             <p class="contact-info-label">სამუშაო საათები</p>
             <p class="contact-info-value">
@@ -76,7 +76,7 @@
         <!-- Success Message -->
         <% if (success) { %>
           <div class="alert-custom alert-success mb-4" role="alert">
-            <i class="bi bi-check-circle me-2"></i>
+            <i data-lucide="check-circle-2" class="icon-inline"></i>
             <strong>შეტყობინება გაიგზავნა.</strong> გმადლობელთ დაგვიკავშირდეთ უჯარმის სოფლის ადმინისტრაციასთან. მალე გიპასუხებ რაც ის შესაძლებლი.
           </div>
         <% } %>
@@ -84,7 +84,7 @@
         <!-- Error Message -->
         <% if (error) { %>
           <div class="alert-custom alert-error mb-4" role="alert">
-            <i class="bi bi-exclamation-circle me-2"></i>
+            <i data-lucide="alert-circle" class="icon-inline"></i>
             <%= error %>
           </div>
         <% } %>
@@ -149,7 +149,7 @@
 
             <div class="mt-4">
               <button type="submit" class="btn-primary-custom">
-                <i class="bi bi-send me-2"></i>გაგზავნა
+                <i data-lucide="send" class="icon-inline"></i>გაგზავნა
               </button>
             </div>
 

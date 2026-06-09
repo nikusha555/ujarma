@@ -3,7 +3,7 @@
 <div class="admin-page-header">
   <h1 class="admin-page-title">დასაბორდი</h1>
   <span style="font-size:.8125rem;color:var(--color-text-muted);">
-    <i class="bi bi-calendar3 me-1"></i>
+    <i data-lucide="calendar" class="icon-inline"></i>
     <%= new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
   </span>
 </div>
@@ -13,7 +13,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="admin-stat-card">
-      <div class="admin-stat-icon"><i class="bi bi-newspaper"></i></div>
+      <div class="admin-stat-icon"><i data-lucide="newspaper"></i></div>
       <div>
         <div class="admin-stat-number"><%= stats.news %></div>
         <div class="admin-stat-label">გამოქვეყნებული სტატია</div>
@@ -23,7 +23,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="admin-stat-card">
-      <div class="admin-stat-icon"><i class="bi bi-signpost-2"></i></div>
+      <div class="admin-stat-icon"><i data-lucide="map-pin"></i></div>
       <div>
         <div class="admin-stat-number"><%= stats.attractions %></div>
         <div class="admin-stat-label">ღირსშესანიშნაობები</div>
@@ -33,7 +33,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="admin-stat-card">
-      <div class="admin-stat-icon"><i class="bi bi-images"></i></div>
+      <div class="admin-stat-icon"><i data-lucide="images"></i></div>
       <div>
         <div class="admin-stat-number"><%= stats.gallery %></div>
         <div class="admin-stat-label">გალერეის ფოტოსურათები</div>
@@ -59,19 +59,19 @@
         <div class="d-flex flex-wrap gap-3">
           <a href="/admin/news"
              style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
-            <i class="bi bi-newspaper"></i> Manage News
+            <i data-lucide="newspaper" class="icon-inline"></i> სიახლეების მართვა
           </a>
           <a href="/admin/attractions"
              style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
-            <i class="bi bi-signpost-2"></i> Manage Attractions
+            <i data-lucide="map-pin" class="icon-inline"></i> ღირსშესანიშნაობების მართვა
           </a>
           <a href="/admin/gallery"
              style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
-            <i class="bi bi-images"></i> Manage Gallery
+            <i data-lucide="images" class="icon-inline"></i> გალერეის მართვა
           </a>
           <a href="/" target="_blank"
              style="display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.875rem;font-weight:500;color:var(--color-primary);text-decoration:none;transition:all .2s;">
-            <i class="bi bi-box-arrow-up-right"></i> View Website
+            <i data-lucide="external-link" class="icon-inline"></i> ვებსაიტის ნახვა
           </a>
         </div>
       </div>

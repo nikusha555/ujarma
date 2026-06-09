@@ -13,6 +13,16 @@
   'use strict';
 
   /* ──────────────────────────────────────────
+     Lucide Icons: inject all SVGs
+     Must run before any DOM inspection so
+     icons are rendered before the rest of
+     the JS reads element dimensions.
+  ────────────────────────────────────────── */
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+
+  /* ──────────────────────────────────────────
      Navbar: add shadow when page is scrolled
   ────────────────────────────────────────── */
   const navbar = document.getElementById('siteNavbar');

@@ -3,7 +3,7 @@
 <div class="admin-page-header">
   <h1 class="admin-page-title">სიახლეების მართვა</h1>
   <button class="btn-admin-add" disabled title="CRUD ოპერაციები მომავალი ფაზში განვითარდება">
-    <i class="bi bi-plus-lg"></i> სტატიის დამატება
+    <i data-lucide="plus" class="icon-inline"></i> სტატიის დამატება
   </button>
 </div>
 
@@ -45,7 +45,7 @@
                    target="_blank"
                    style="font-size:.75rem;color:var(--color-accent);font-weight:500;"
                    title="View on site">
-                  <i class="bi bi-box-arrow-up-right"></i>
+                  <i data-lucide="external-link" class="icon-inline"></i>
                 </a>
               </div>
             </td>
@@ -55,7 +55,7 @@
     </table>
   <% } else { %>
     <div class="empty-state" style="padding:4rem 2rem;">
-      <div class="empty-state-icon"><i class="bi bi-newspaper"></i></div>
+      <div class="empty-state-icon"><i data-lucide="newspaper"></i></div>
       <p>No articles have been published yet.</p>
       <p style="font-size:.8125rem;color:var(--color-text-muted);">
         Articles added through the admin interface will appear here.
@@ -67,7 +67,7 @@
 <!-- Implementation Notice -->
 <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--gold-100);border:1px solid var(--gold-300);border-radius:var(--radius);border-left:3px solid var(--gold-500);">
   <p style="font-size:.875rem;color:var(--gold-700);margin:0;">
-    <i class="bi bi-info-circle me-2"></i>
+    <i data-lucide="info" class="icon-inline"></i>
     <strong>Foundation Phase:</strong> Create, Edit, and Delete operations will be
     implemented in the next development phase.
   </p>

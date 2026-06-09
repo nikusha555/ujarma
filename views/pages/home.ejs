@@ -75,7 +75,7 @@
         <h2 id="news-heading" class="mb-0">ბოლო განცხადებები</h2>
       </div>
       <a href="/news" class="section-link">
-        ყველა სიახლე <i class="bi bi-arrow-right"></i>
+        ყველა სიახლე <i data-lucide="arrow-right" class="icon-inline"></i>
       </a>
     </div>
 
@@ -90,12 +90,12 @@
                      class="content-card-img" loading="lazy" />
               <% } else { %>
                 <div class="content-card-img-placeholder">
-                  <i class="bi bi-newspaper" style="font-size:2.5rem;color:var(--gray-300);"></i>
+                  <i data-lucide="newspaper" style="width:2.5rem;height:2.5rem;color:var(--gray-300);"></i>
                 </div>
               <% } %>
               <div class="content-card-body d-flex flex-column">
                 <span class="news-date">
-                  <i class="bi bi-calendar3"></i>
+                  <i data-lucide="calendar" class="icon-inline"></i>
                   <%= new Date(article.published_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) %>
                 </span>
                 <h3 class="content-card-title mt-2">
@@ -105,7 +105,7 @@
                   <p class="content-card-excerpt flex-grow-1"><%= article.excerpt %></p>
                 <% } %>
                 <a href="/news/<%= article.slug %>" class="content-card-link mt-auto">
-                  სრულად წაკითხვა <i class="bi bi-arrow-right"></i>
+                  სრულად წაკითხვა <i data-lucide="arrow-right" class="icon-inline"></i>
                 </a>
               </div>
             </article>
@@ -114,7 +114,7 @@
       </div>
     <% } else { %>
       <div class="empty-state">
-        <div class="empty-state-icon"><i class="bi bi-newspaper"></i></div>
+        <div class="empty-state-icon"><i data-lucide="newspaper"></i></div>
         <p>სიახლეები და განცხადებები გამოჩნდება გამოქვეყნების შემდეგ.</p>
       </div>
     <% } %>
@@ -144,7 +144,7 @@
             <div class="attraction-card h-100">
               <div class="attraction-card-inner">
                 <div class="attraction-icon">
-                  <i class="bi bi-building-fill"></i>
+                  <i data-lucide="landmark"></i>
                 </div>
                 <% if (attr.category) { %>
                   <span class="attraction-card-tag"><%= attr.category %></span>
@@ -154,7 +154,7 @@
                 </h3>
                 <p class="attraction-card-desc"><%= attr.description %></p>
                 <a href="/attractions/<%= attr.slug %>" class="content-card-link d-inline-flex mt-3">
-                  დეტალები <i class="bi bi-arrow-right"></i>
+                  დეტალები <i data-lucide="arrow-right" class="icon-inline"></i>
                 </a>
               </div>
             </div>
@@ -163,7 +163,7 @@
       </div>
     <% } else { %>
       <div class="empty-state">
-        <div class="empty-state-icon"><i class="bi bi-signpost-2"></i></div>
+        <div class="empty-state-icon"><i data-lucide="map-pin"></i></div>
         <p>გამორჩეული ღირსშესანიშნაობები დაემატება დამატების შემდეგ.</p>
       </div>
     <% } %>
@@ -188,7 +188,7 @@
         <h2 id="gallery-heading" class="mb-0">უჯარმადან</h2>
       </div>
       <a href="/gallery" class="section-link">
-        სრული გალერეა <i class="bi bi-arrow-right"></i>
+        სრული გალერეა <i data-lucide="arrow-right" class="icon-inline"></i>
       </a>
     </div>
 
@@ -202,7 +202,7 @@
                  alt="<%= item.title %>"
                  loading="lazy" />
             <div class="gallery-item-overlay">
-              <i class="bi bi-zoom-in"></i>
+              <i data-lucide="zoom-in"></i>
             </div>
           </div>
         <% }) %>
@@ -213,7 +213,7 @@
         <% for (let i = 0; i < 8; i++) { %>
           <div class="gallery-item">
             <div class="gallery-placeholder">
-              <i class="bi bi-image"></i>
+              <i data-lucide="image"></i>
             </div>
           </div>
         <% } %>

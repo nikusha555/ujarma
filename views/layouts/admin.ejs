@@ -6,18 +6,17 @@
   <title><%= typeof title !== 'undefined' ? title : 'Admin — Ujarma' %></title>
   <meta name="robots" content="noindex, nofollow" />
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts (with Georgian support) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@600;700&family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
     crossorigin="anonymous" />
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Bootstrap Icons removed — Lucide loaded in <body> -->
 
   <!-- Custom Styles -->
   <link rel="stylesheet" href="/css/style.css" />
@@ -39,7 +38,7 @@
 
         <a href="/admin/dashboard"
            class="admin-nav-link <%= currentPath === '/admin' || currentPath === '/admin/dashboard' ? 'active' : '' %>">
-          <i class="bi bi-grid-1x2"></i>
+          <i data-lucide="layout-dashboard"></i>
           დასაბორდი
         </a>
 
@@ -47,26 +46,26 @@
 
         <a href="/admin/news"
            class="admin-nav-link <%= currentPath.startsWith('/admin/news') ? 'active' : '' %>">
-          <i class="bi bi-newspaper"></i>
+          <i data-lucide="newspaper"></i>
           სიახლეები
         </a>
 
         <a href="/admin/attractions"
            class="admin-nav-link <%= currentPath.startsWith('/admin/attractions') ? 'active' : '' %>">
-          <i class="bi bi-signpost-2"></i>
+          <i data-lucide="map-pin"></i>
           ღირსშესანიშნაობები
         </a>
 
         <a href="/admin/gallery"
            class="admin-nav-link <%= currentPath.startsWith('/admin/gallery') ? 'active' : '' %>">
-          <i class="bi bi-images"></i>
+          <i data-lucide="images"></i>
           გალერეა
         </a>
 
         <div class="admin-nav-section" style="margin-top:1.25rem;">საიტი</div>
 
         <a href="/" target="_blank" class="admin-nav-link">
-          <i class="bi bi-box-arrow-up-right"></i>
+          <i data-lucide="external-link"></i>
           ვებსაიტის ნახვა
         </a>
 
@@ -74,7 +73,7 @@
 
       <div class="admin-sidebar-footer">
         <a href="/admin/logout" class="admin-logout-btn">
-          <i class="bi bi-box-arrow-left"></i>
+          <i data-lucide="log-out"></i>
           გამოსვლა
         </a>
       </div>
@@ -92,14 +91,14 @@
           <button id="adminSidebarToggle"
                   class="d-lg-none btn p-0 border-0"
                   style="background:none;color:var(--color-primary);font-size:1.25rem;">
-            <i class="bi bi-list"></i>
+            <i data-lucide="menu"></i>
           </button>
           <span class="admin-topbar-title">
             <%= typeof title !== 'undefined' ? title.replace(' — Ujarma Admin', '') : 'Admin' %>
           </span>
         </div>
         <div class="admin-topbar-user">
-          <i class="bi bi-person-circle"></i>
+          <i data-lucide="user-round"></i>
           ადმინისტრატორი
         </div>
       </header>
@@ -120,6 +119,9 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous">
   </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <!-- Custom JS -->
   <script src="/js/main.js"></script>

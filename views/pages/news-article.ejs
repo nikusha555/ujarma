@@ -14,7 +14,7 @@
       <%= article.title %>
     </h1>
     <p class="page-banner-subtitle">
-      <i class="bi bi-calendar3 me-1"></i>
+      <i data-lucide="calendar" class="icon-inline"></i>
       <%= new Date(article.published_at).toLocaleDateString('ka-GE', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
     </p>
   </div>
@@ -41,7 +41,7 @@
         <hr class="divider my-5" />
 
         <a href="/news" class="section-link">
-          <i class="bi bi-arrow-left"></i> სიახლეებზე დაბრუნება
+          <i data-lucide="arrow-left" class="icon-inline"></i> სიახლეებზე დაბრუნება
         </a>
 
       </div>

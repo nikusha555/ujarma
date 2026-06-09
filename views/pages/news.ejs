@@ -29,12 +29,12 @@
                      class="content-card-img" loading="lazy" />
               <% } else { %>
                 <div class="content-card-img-placeholder">
-                  <i class="bi bi-newspaper" style="font-size:2.5rem;color:var(--gray-300);"></i>
+                  <i data-lucide="newspaper" style="width:2.5rem;height:2.5rem;color:var(--gray-300);"></i>
                 </div>
               <% } %>
               <div class="content-card-body d-flex flex-column">
                 <span class="news-date">
-                  <i class="bi bi-calendar3"></i>
+                  <i data-lucide="calendar" class="icon-inline"></i>
                   <%= new Date(article.published_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) %>
                 </span>
                 <h2 class="content-card-title mt-2" style="font-size:1.125rem;">
@@ -44,7 +44,7 @@
                   <p class="content-card-excerpt flex-grow-1"><%= article.excerpt %></p>
                 <% } %>
                 <a href="/news/<%= article.slug %>" class="content-card-link mt-auto">
-                  სრულად წაკითხვა <i class="bi bi-arrow-right"></i>
+                  სრულად წაკითხვა <i data-lucide="arrow-right" class="icon-inline"></i>
                 </a>
               </div>
             </article>
@@ -53,7 +53,7 @@
       </div>
     <% } else { %>
       <div class="empty-state" style="padding:6rem 2rem;">
-        <div class="empty-state-icon"><i class="bi bi-newspaper"></i></div>
+        <div class="empty-state-icon"><i data-lucide="newspaper"></i></div>
         <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">
           სტატიები ჯერ არ გამოქვეყნებულა
         </h3>
