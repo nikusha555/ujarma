@@ -325,13 +325,13 @@ const seedData = async (conn) => {
     log('skip', 'Seed: admins — already populated');
   }
 
-  // ── News Categories ──────────────────────────
+  // ── News Categories (Georgian) ───────────────
   if (await isEmpty(conn, 'categories')) {
     const cats = [
-      ['Announcements', 'announcements'],
-      ['Development',   'development'],
-      ['Culture',       'culture'],
-      ['Events',        'events'],
+      ['განცხადებები',   'announcements'],
+      ['განვითარება',    'development'],
+      ['კულტურა',        'culture'],
+      ['ღონისძიებები',   'events'],
     ];
     for (const [name, slug] of cats) {
       await conn.execute(
@@ -344,60 +344,166 @@ const seedData = async (conn) => {
     log('skip', 'Seed: categories — already populated');
   }
 
-  // ── Sample News Article ──────────────────────
+  // ── News Articles (Georgian, realistic content) ─
   if (await isEmpty(conn, 'news')) {
-    // Fetch the "Announcements" category id
     const [catRows] = await conn.execute(
-      "SELECT id FROM categories WHERE slug = 'announcements' LIMIT 1"
+      "SELECT id, slug FROM categories WHERE slug IN ('announcements','culture','development') LIMIT 3"
     );
-    const catId = catRows[0]?.id ?? null;
+    const catMap = {};
+    catRows.forEach((r) => { catMap[r.slug] = r.id; });
+    const ann  = catMap['announcements'] ?? null;
+    const cult = catMap['culture']       ?? null;
+    const dev  = catMap['development']   ?? null;
 
-    await conn.execute(
-      `INSERT INTO news
-         (category_id, title, slug, content, excerpt, is_published, published_at)
-       VALUES
-         (?, ?, ?, ?, ?, 1, NOW())`,
-      [
-        catId,
-        'Welcome to the Official Ujarma Village Portal',
-        'welcome-to-the-official-ujarma-village-portal',
-        `<p>We are pleased to announce the launch of the official information portal for Ujarma Village.</p>
-<p>This platform will serve as the primary source of authoritative news, administrative announcements, and community information for residents and visitors alike.</p>
-<p>Through this portal, the Ujarma Village Administration commits to transparent, timely, and accurate communication with all stakeholders.</p>`,
-        'The official information portal of Ujarma Village is now live. Stay informed with the latest news and administrative announcements.',
-      ]
-    );
-    log('created', 'Seed: sample news article inserted');
+    const articles = [
+      {
+        category_id:  ann,
+        title:        'მოგესალმებათ უჯარმის ოფიციალური საინფორმაციო პორტალი',
+        slug:         'mogvesalmebit-ujarmas-oficialuri-sainformacio-portali',
+        content:      `<p>ძვირფასო უჯარმელებო და სტუმრებო,</p>
+<p>დიდი სიამოვნებით გაცნობებთ, რომ მოქმედებაში შევიდა <strong>უჯარმის სოფლის ოფიციალური ციფრული პორტალი</strong>. ეს პლატფორმა წარმოადგენს სოფლის ადმინისტრაციის, მოსახლეობის და სტუმრების ერთიან ციფრულ სივრცეს.</p>
+<h3>პორტალი გთავაზობთ:</h3>
+<ul>
+  <li>ადმინისტრაციის ოფიციალურ განცხადებებსა და გადაწყვეტილებებს</li>
+  <li>სოფლის ისტორიასა და კულტურულ მემკვიდრეობაზე ინფორმაციას</li>
+  <li>ტურისტულ მარშრუტებსა და ღირსშესანიშნაობების აღწერას</li>
+  <li>ფოტო-გალერეას</li>
+  <li>ადმინისტრაციასთან კონტაქტის შესაძლებლობას</li>
+</ul>
+<p>უჯარმის სოფლის ადმინისტრაცია მადლიერი იქნება ყველა შენიშვნისა და წინადადებისთვის, რომელიც ამ პლატფორმის გაუმჯობესებას შეუწყობს ხელს.</p>
+<p>გთხოვთ, პორტალი გამოიყენოთ, დაუკავშირდეთ ადმინისტრაციას და გახდეთ სოფლის ციფრული ცხოვრების აქტიური მონაწილე.</p>
+<p>პატივისცემით,<br>უჯარმის სოფლის ადმინისტრაცია</p>`,
+        summary:      'უჯარმის სოფლის ოფიციალური ციფრული პორტალი მოქმედებაში შევიდა. პლატფორმა აერთიანებს ადმინისტრაციულ სერვისებს, სიახლეებს და ტურისტულ ინფორმაციას.',
+        published_at: new Date('2024-01-15'),
+      },
+      {
+        category_id:  cult,
+        title:        'უჯარმის ციხე-სიმაგრე — კახეთის ისტორიული სიმბოლო',
+        slug:         'ujarmas-tsikhe-simagre-kakhetis-istoriuli-simbolo',
+        content:      `<p>უჯარმის ციხე-სიმაგრე ყველაზე ადრეული და ყველაზე შთამბეჭდავი ისტორიული ძეგლია, რომელიც სოფელ უჯარმას განასახიერებს. ციხის პირველი ნახსენები <strong>III–IV საუკუნეებს</strong> განეკუთვნება, მაგრამ სამეფო სიდიადე მან <strong>V საუკუნეში</strong> მოიპოვა — ვახტანგ გორგასლის მეფობის ხანაში.</p>
+<p>ქართლ-კახეთის სამეფო ისტორიის ამ გამორჩეულ ეტაპზე, "ქართლის ცხოვრების" მიხედვით, ვახტანგ მეფე ხშირად ამ ციხე-სიმაგრეს ამოირჩევდა სამეფო სამყოფელად — განსაკუთრებით კახეთში ლაშქრობების და სანადიროდ გამოსვლის პერიოდებში. ეს ფაქტი ციხეს ისტორიული ნიშნის გარდა სულიერი მნიშვნელობასაც ანიჭებს.</p>
+<h3>ციხის არქიტექტურა</h3>
+<p>ნანგრევები გვიჩვენებს, რომ კომპლექსი მოიცავდა:</p>
+<ul>
+  <li>სასახლის ნაშთებს</li>
+  <li>ადრეულ ქრისტიანულ ეკლესიას</li>
+  <li>სამხედრო კოშკებსა და გალავნებს</li>
+  <li>წყლის ობიექტებს</li>
+</ul>
+<p>ციხე იორის მარჯვენა ნაპირის კლდოვან ბორცვზე მდებარეობს, საიდანაც გაირინდება მდინარისა და ხეობის პანორამული ხედი. ამ ადგილს ფოტოგრაფები განსაკუთრებულ სიყვარულით ეპყრობიან — განსაკუთრებით გამთენიისას და მზის ჩასვლისას.</p>`,
+        summary:      'III–IV საუკუნეებიდან V საუკუნის სამეფო რეზიდენციამდე — უჯარმის ციხე-სიმაგრის ისტორია კახეთის ყველაზე შთამბეჭდავ თავებს შეიცავს.',
+        published_at: new Date('2024-02-20'),
+      },
+      {
+        category_id:  dev,
+        title:        'სოფლის ინფრასტრუქტურის განვითარების გეგმა 2024',
+        slug:         'soflis-infrastruqturis-ganvitarebis-gegma-2024',
+        content:      `<p>უჯარმის სოფლის ადმინისტრაცია აცხადებს <strong>2024 წლის ინფრასტრუქტურის განვითარების გეგმას</strong>. გეგმა შემუშავდა სოფლის მოსახლეობასთან კონსულტაციებისა და საჭიროებების შეფასების საფუძველზე.</p>
+<h3>პრიორიტეტული მიმართულებები:</h3>
+<h4>1. გზების მოწყობა</h4>
+<p>სოფლის მთავარი შიდა გზების გასწვდომის გაუმჯობესება, ნიაღვრებისაგან დაზიანებული მონაკვეთების აღდგენა.</p>
+<h4>2. სასმელი წყლის სისტემა</h4>
+<p>სასმელი წყლის მაგისტრალის ნაწილობრივ განახლება და სისტემის საიმედოობის ამაღლება.</p>
+<h4>3. ტურისტული ინფრასტრუქტურა</h4>
+<p>ციხე-სიმაგრეზე მიმავალი ბილიკის მოწყობა, ინფო-სტენდების განთავსება, მითითებიანი ნიშნები.</p>
+<h4>4. კომუნიკაციები</h4>
+<p>სოფელში ინტერნეტ-ინფრასტრუქტურის გაუმჯობესება სახელმწიფო პროგრამის ფარგლებში.</p>
+<p>ყველა სამუშაო განხორციელდება სახელმწიფო შესყიდვების კანონმდებლობის სრული დაცვით. ბიუჯეტი და ტენდერის პირობები გამოქვეყნდება <strong>ადგილობრივ თვითმმართველობის ვებ-გვერდზე</strong>.</p>
+<p>ადმინისტრაცია მოსახლეობას მოუწოდებს, მიიღონ მონაწილეობა საზოგადოებრივ განხილვაში.</p>`,
+        summary:      'გზების, სასმელი წყლისა და ტურისტული ინფრასტრუქტურის განვითარება — სოფელ უჯარმის 2024 წლის პრიორიტეტული სამოქმედო გეგმა.',
+        published_at: new Date('2024-03-10'),
+      },
+    ];
+
+    for (const art of articles) {
+      await conn.execute(
+        `INSERT INTO news
+           (category_id, title, slug, content, excerpt, summary,
+            featured_image, is_featured, is_published, published_at)
+         VALUES (?, ?, ?, ?, ?, ?, NULL, 0, 1, ?)`,
+        [
+          art.category_id,
+          art.title,
+          art.slug,
+          art.content,
+          art.summary,
+          art.summary,
+          art.published_at,
+        ]
+      );
+    }
+    log('created', `Seed: ${articles.length} Georgian news articles inserted`);
   } else {
     log('skip', 'Seed: news — already populated');
   }
 
-  // ── Sample Attraction ────────────────────────
+  // ── Attractions (Georgian, 6 real entries) ───
   if (await isEmpty(conn, 'attractions')) {
-    await conn.execute(
-      `INSERT INTO attractions
-         (name, slug, description, category, is_featured, is_published)
-       VALUES
-         (?, ?, ?, ?, 1, 1)`,
-      [
-        'Ujarma Fortress',
-        'ujarma-fortress',
-        'The Ujarma Fortress is a medieval royal residence located on the right bank of the Iori River in eastern Georgia. Dating back to the early centuries CE, it served as one of the primary fortifications of the early Georgian Kingdom and remains a significant archaeological and historical landmark. The fortress complex includes residential towers, a church, and extensive defensive walls that offer panoramic views of the surrounding Kakheti landscape.',
-        'Historical Landmark',
-      ]
-    );
-    log('created', 'Seed: sample attraction "Ujarma Fortress" inserted');
+    const attractions = [
+      {
+        name:        'უჯარმის ციხე-სიმაგრე',
+        slug:        'ujarmas-tsikhe-simagre',
+        description: 'უჯარმის ციხე-სიმაგრე — ადრეული შუა საუკუნეების ერთ-ერთი ყველაზე მნიშვნელოვანი სამეფო გამაგრება სამხრეთ კავკასიაში. III–IV საუკუნეებიდან ათვლილი ისტორია, V საუკუნეში ვახტანგ გორგასლის სამეფო რეზიდენციად ქცეული, ეს ციხე დღესაც ამაყად დგას იორის ნაპირის კლდოვან ბორცვზე. ნანგრევები მოიცავს სასახლის, ეკლესიის, სამხედრო კოშკებისა და გალავნების ნაშთებს. ციხის ბუნებრივი პოზიცია ხეობისა და მდინარის პანორამულ ხედს სთავაზობს ვიზიტორებს.',
+        category:    'ისტორიული ძეგლი',
+        is_featured: 1,
+      },
+      {
+        name:        'ციხის ადრეული ქრისტიანული ეკლესია',
+        slug:        'tsikhis-adruli-kristianuli-eklesia',
+        description: 'უჯარმის ციხის ტერიტორიაზე შემორჩენილია ადრეული ქრისტიანული ეკლესიის ნანგრევები, რომლის ათვლა V–VI საუკუნეებს განეკუთვნება. ეკლესია იმ ეპოქის სიმბოლოა, სადაც ქრისტიანობა საქართველოს სახელმწიფო რელიგიად გამოცხადდა. მოჩუქურთმებული ქვები და კედლის ნაშთები ქართული ადრეული ეკლესიური არქიტექტურის იშვიათ ნიმუშს წარმოადგენს. ჩვეულებრივი ვიზიტი ადგილობრივი გიდის ახსნა-განმარტებით ამ ადგილს განსაკუთრებულ სიღრმეს მატებს.',
+        category:    'რელიგიური ძეგლი',
+        is_featured: 1,
+      },
+      {
+        name:        'იორის ხეობის პანორამა',
+        slug:        'ioris-kheobis-panorama',
+        description: 'იორის მდინარის ხეობა, რომლის მარჯვენა ნაპირზეც უჯარმა მდებარეობს, კახეთის ერთ-ერთი ყველაზე მიმზიდველი ბუნებრივი ლანდშაფტია. ციხის ბორცვიდან გასაოცარი ხედი იხსნება — ვაკე-ვენახები, მდინარის ვიწრო კალაპოტი, ახლომდებარე სოფლები და ჰორიზონტზე — კახეთის მთები. ფოტოგრაფებისთვის, ბუნებისმოყვარეთათვის და ისტორიის მოყვარეთათვის ეს ადგილი სავალდებულო გაჩერებაა. სეზონების ცვლა — განსაკუთრებით შემოდგომის ოქრო და გაზაფხულის მწვანე — ლანდშაფტს ყოველ ვიზიტზე ახალ სახეს ანიჭებს.',
+        category:    'ბუნებრივი ლანდშაფტი',
+        is_featured: 1,
+      },
+      {
+        name:        'ვახტანგ გორგასლის ისტორიული ბილიკი',
+        slug:        'vakhtang-gorgaslis-istoriuli-biliki',
+        description: 'ვახტანგ გორგასლი — "ქართლის ცხოვრების" ლეგენდარული მეფე-მეომარი — ხშირად ამ გზებზე ლაშქრობდა. ამ ტრადიციის გახსენება მოვახდინეთ ადგილობრივი ისტორიული ბილიკის სახით, რომელიც ციხის ძირიდან დაიწყება, კლდის ნიჟარებს გავს და ხეობის ზემო ნაწილამდე ადის. ბილიკი ორ-სამ საათიანია, ადვილი სიარულის მოყვარეებისთვის ხელმისაწვდომი, ხოლო მთელი გზა სრულდება სოფლის ადგილობრივი ისტორიის ნარატივით. გამოცდილი ადგილობრივი გიდის ხელმძღვანელობით ეს ბილიკი ნამდვილ ისტორიულ მოგზაურობად იქცევა.',
+        category:    'ტურისტული მარშრუტი',
+        is_featured: 0,
+      },
+      {
+        name:        'კახური ვენახები და ღვინის კულტურა',
+        slug:        'kakhuri-venakhebi-da-ghvinis-kultura',
+        description: 'კახეთი — მსოფლიოს უძველეს ღვინის კულტურათა სამშობლო — უჯარმის მიმდებარე ტერიტორიაზეც ამ ტრადიციას ინარჩუნებს. ადგილობრივი ოჯახების ვენახები, სადაც ათწლეულების განმავლობაში ერთი და იგივე ვაზის ჯიშები გაშენებულია, ნახვა ღირს ნებისმიერ სეზონზე. რთველი — სექტემბერ-ოქტომბერში — კახური კალენდრის ყველაზე სიხარულიანი მოვლენაა, სადაც ვიზიტორებსაც ამ ტრადიციაში მონაწილეობა შეუძლიათ. ქვევრის ღვინო, ადგილობრივი ჭაჭა და სამზარეულო — ეს გამოცდილება კახეთის სულის ნამდვილ ცოდნას გიქმნის.',
+        category:    'სოფლის კულტურა',
+        is_featured: 0,
+      },
+      {
+        name:        'უჯარმის ძველი სასაფლაო',
+        slug:        'ujarmas-dzveli-sasaplao',
+        description: 'სოფლის ძველ სასაფლაოზე შემორჩენილია XVIII–XIX საუკუნეების ქვის ჯვრები და სამარხები, რომლებიც ქართული ეპიგრაფიკული კულტურის საინტერესო ნიმუშებს წარმოადგენს. ეს ადგილი ადგილობრივი ისტორიისა და სოფლის ოჯახური ტრადიციების კვლევის ნამდვილ წყაროს ქმნის. ისტორიკოსებისა და ეთნოგრაფებისთვის ეს პატარა, ხელუხლებელი სასაფლაო გაჩუმებული, მაგრამ ღირებული ისტორიული ანარჩევია. ვიზიტი შესაძლებელია სრულ პატივისცემაში.',
+        category:    'ისტორიული ადგილი',
+        is_featured: 0,
+      },
+    ];
+
+    for (const attr of attractions) {
+      await conn.execute(
+        `INSERT INTO attractions
+           (name, slug, description, category, is_featured, is_published)
+         VALUES (?, ?, ?, ?, ?, 1)`,
+        [attr.name, attr.slug, attr.description, attr.category, attr.is_featured]
+      );
+    }
+    log('created', `Seed: ${attractions.length} Georgian attractions inserted`);
   } else {
     log('skip', 'Seed: attractions — already populated');
   }
 
-  // ── Gallery Categories ───────────────────────
+  // ── Gallery Categories (Georgian) ───────────
   if (await isEmpty(conn, 'gallery_categories')) {
     const galCats = [
-      ['Landscapes',   'landscapes'],
-      ['Village Life', 'village-life'],
-      ['Architecture', 'architecture'],
-      ['Seasons',      'seasons'],
+      ['ლანდშაფტები',    'landscapes'],
+      ['სოფლის ცხოვრება', 'village-life'],
+      ['არქიტექტურა',    'architecture'],
+      ['სეზონები',       'seasons'],
     ];
     for (const [name, slug] of galCats) {
       await conn.execute(
@@ -420,7 +526,7 @@ const seedData = async (conn) => {
 
     await conn.execute(
       'INSERT INTO gallery_items (category_id, title, image) VALUES (?, ?, ?)',
-      [galCatId, 'Panoramic View of Ujarma', 'placeholder-landscape.jpg']
+      [galCatId, 'უჯარმის პანორამა', 'placeholder-landscape.jpg']
     );
     log('created', 'Seed: sample gallery item inserted');
   } else {
