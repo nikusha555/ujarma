@@ -84,8 +84,9 @@
         <% latestNews.forEach(function(article) { %>
           <div class="col-lg-4 col-md-6">
             <article class="content-card h-100">
-              <% if (article.image) { %>
-                <img src="/uploads/<%= article.image %>"
+              <% const homeNewsImg = newsImageUrl(article.featured_image || article.image); %>
+              <% if (homeNewsImg) { %>
+                <img src="<%= homeNewsImg %>"
                      alt="<%= article.title %>"
                      class="content-card-img" loading="lazy" />
               <% } else { %>
@@ -101,8 +102,8 @@
                 <h3 class="content-card-title mt-2">
                   <a href="/news/<%= article.slug %>"><%= article.title %></a>
                 </h3>
-                <% if (article.excerpt) { %>
-                  <p class="content-card-excerpt flex-grow-1"><%= article.excerpt %></p>
+                <% if (article.summary || article.excerpt) { %>
+                  <p class="content-card-excerpt flex-grow-1"><%= article.summary || article.excerpt %></p>
                 <% } %>
                 <a href="/news/<%= article.slug %>" class="content-card-link mt-auto">
                   სრულად წაკითხვა <i data-lucide="arrow-right" class="icon-inline"></i>

@@ -88,14 +88,20 @@ News articles and official announcements published on the website.
 | `id` | `INT UNSIGNED` | No | auto_increment | Primary key |
 | `category_id` | `INT UNSIGNED` | Yes | `NULL` | FK → `categories.id` |
 | `title` | `VARCHAR(255)` | No | — | Article headline |
-| `slug` | `VARCHAR(255)` | No | — | Unique URL identifier |
+| `slug` | `VARCHAR(255)` | No | — | Unique URL identifier (auto-generated via Georgian transliteration) |
 | `content` | `LONGTEXT` | No | — | Full HTML body |
-| `excerpt` | `VARCHAR(500)` | Yes | `NULL` | Short summary for cards |
-| `image` | `VARCHAR(255)` | Yes | `NULL` | Filename in `uploads/` |
+| `excerpt` | `VARCHAR(500)` | Yes | `NULL` | Legacy short summary (kept for backwards compat) |
+| `summary` | `VARCHAR(500)` | Yes | `NULL` | Short summary (admin form field, SEO description, card text) |
+| `image` | `VARCHAR(255)` | Yes | `NULL` | Legacy cover image filename in `uploads/news/` |
+| `featured_image` | `VARCHAR(255)` | Yes | `NULL` | Cover image filename in `uploads/news/` (primary; falls back to `image`) |
 | `is_published` | `TINYINT(1)` | No | `1` | `1` = live, `0` = draft |
+| `is_featured` | `TINYINT(1)` | No | `0` | `1` = shown in featured/homepage sections |
 | `published_at` | `DATETIME` | No | `CURRENT_TIMESTAMP` | Display date |
 | `created_at` | `DATETIME` | No | `CURRENT_TIMESTAMP` | Record creation |
 | `updated_at` | `DATETIME` | No | `CURRENT_TIMESTAMP ON UPDATE` | Last modification |
+
+> **Columns added via migration** (idempotent, runs on startup via `config/bootstrap.js → ensureMigrations`):
+> `summary`, `featured_image`, `is_featured`
 
 **Indexes:**
 - `PRIMARY KEY (id)`

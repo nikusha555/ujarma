@@ -1,50 +1,175 @@
-<%# pages/news-article.ejs — სტატიას გვერდი -%>
+<%# pages/news-article.ejs — სტატიის დეტალური გვერდი -%>
 
-<!-- გვერდის ბანერი -->
-<section class="page-banner" aria-label="გვერდის ერთაური">
+<!-- ═══════════════════════════════════════════════════════
+     PAGE BANNER — სათაური, კატეგორია, თარიღი
+════════════════════════════════════════════════════════ -->
+<section class="page-banner" aria-label="სტატიის სათაური">
   <div class="container page-banner-content">
+
+    <!-- ── Breadcrumb ─── -->
     <nav aria-label="ნავიგაცია">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
         <li class="breadcrumb-item"><a href="/news">სიახლეები</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= article.title %></li>
+        <li class="breadcrumb-item active" aria-current="page"
+            style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px;">
+          <%= article.title %>
+        </li>
       </ol>
     </nav>
-    <h1 class="page-banner-title" style="font-size:clamp(1.5rem,4vw,2.5rem);">
+
+    <!-- ── Category pill ─── -->
+    <% if (article.category_name) { %>
+      <span class="article-category-pill"><%= article.category_name %></span>
+    <% } %>
+
+    <!-- ── Headline ─── -->
+    <h1 class="page-banner-title"
+        style="font-size:clamp(1.5rem,4vw,2.75rem);overflow-wrap:break-word;word-break:break-word;">
       <%= article.title %>
     </h1>
-    <p class="page-banner-subtitle">
-      <i data-lucide="calendar" class="icon-inline"></i>
-      <%= new Date(article.published_at).toLocaleDateString('ka-GE', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
-    </p>
+
+    <!-- ── Meta row ─── -->
+    <div style="display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:.875rem;align-items:center;">
+      <span style="font-size:.8125rem;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:.375rem;">
+        <i data-lucide="calendar" class="icon-inline"></i>
+        <%= new Date(article.published_at).toLocaleDateString('ka-GE', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
+      </span>
+      <% if (article.is_featured) { %>
+        <span style="font-size:.625rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(197,160,40,.2);color:var(--gold-300);padding:.2rem .7rem;border-radius:999px;">
+          გამორჩეული
+        </span>
+      <% } %>
+    </div>
+
   </div>
 </section>
 
-<!-- Article Content -->
+
+<!-- ═══════════════════════════════════════════════════════
+     ARTICLE BODY — two columns (content + sidebar)
+════════════════════════════════════════════════════════ -->
 <section class="section section-sm">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-md-10">
+    <div class="row g-5">
 
-        <% if (article.image) { %>
-          <img src="/uploads/<%= article.image %>"
+      <!-- ── Main Content Column ────────────────────────── -->
+      <div class="col-lg-8">
+
+        <!-- Featured Image -->
+        <% if (imageUrl) { %>
+          <img src="<%= imageUrl %>"
                alt="<%= article.title %>"
-               class="w-100 mb-4"
-               style="border-radius:var(--radius-lg);object-fit:cover;max-height:480px;"
-               loading="lazy" />
+               class="article-featured-img"
+               loading="eager" />
         <% } %>
 
-        <div class="article-body" style="font-size:1.0625rem;line-height:1.75;color:var(--color-text);">
+        <!-- Summary / excerpt lead paragraph -->
+        <% const leadText = article.summary || article.excerpt; %>
+        <% if (leadText) { %>
+          <p class="lead"
+             style="font-size:1.125rem;font-weight:400;color:var(--color-text-secondary);border-left:3px solid var(--color-accent);padding-left:1.25rem;margin-bottom:2rem;overflow-wrap:break-word;word-break:break-word;">
+            <%= leadText %>
+          </p>
+        <% } %>
+
+        <!-- Article HTML content -->
+        <article class="article-body">
           <%- article.content %>
+        </article>
+
+        <!-- ── Bottom Bar: back link ──────────────────── -->
+        <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--color-border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+          <a href="/news" class="section-link">
+            <i data-lucide="arrow-left" class="icon-inline"></i> სიახლეებზე დაბრუნება
+          </a>
+          <!-- Share row (plain links — no external SDK) -->
+          <div style="display:flex;gap:.875rem;align-items:center;">
+            <span style="font-size:.75rem;color:var(--color-text-muted);">გაზიარება:</span>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent((typeof siteUrl !== 'undefined' ? siteUrl : '') + '/news/' + article.slug) %>"
+               target="_blank" rel="noopener"
+               style="color:var(--color-text-muted);font-size:.875rem;transition:color .15s;"
+               onmouseover="this.style.color='#1877f2'" onmouseout="this.style.color=''"
+               aria-label="Facebook-ზე გაზიარება">
+              <i data-lucide="share-2" class="icon-inline"></i>
+            </a>
+          </div>
         </div>
 
-        <hr class="divider my-5" />
+      </div>
 
-        <a href="/news" class="section-link">
-          <i data-lucide="arrow-left" class="icon-inline"></i> სიახლეებზე დაბრუნება
-        </a>
+      <!-- ── Sidebar Column ─────────────────────────────── -->
+      <div class="col-lg-4">
+
+        <!-- Sticky sidebar wrapper -->
+        <div style="position:sticky;top:calc(60px + 1.5rem);">
+
+          <!-- Related articles -->
+          <% if (relatedArticles && relatedArticles.length > 0) { %>
+            <div style="background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <h3 class="article-sidebar-heading">სხვა სიახლეები</h3>
+
+              <% relatedArticles.forEach(function(rel) { %>
+                <% const relImg = newsImageUrl(rel.featured_image || rel.image); %>
+                <a href="/news/<%= rel.slug %>" class="related-article-item">
+                  <% if (relImg) { %>
+                    <img src="<%= relImg %>"
+                         alt="<%= rel.title %>"
+                         class="related-article-thumb"
+                         loading="lazy" />
+                  <% } else { %>
+                    <div class="related-article-thumb-placeholder">
+                      <i data-lucide="newspaper" style="width:1.25rem;height:1.25rem;"></i>
+                    </div>
+                  <% } %>
+                  <div style="min-width:0;flex:1;">
+                    <div class="related-article-title"><%= rel.title %></div>
+                    <div class="related-article-date">
+                      <%= new Date(rel.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %>
+                    </div>
+                  </div>
+                </a>
+              <% }) %>
+
+              <a href="/news"
+                 class="section-link d-block text-center mt-3"
+                 style="font-size:.75rem;">
+                ყველა სიახლე <i data-lucide="arrow-right" class="icon-inline"></i>
+              </a>
+            </div>
+          <% } %>
+
+          <!-- Article meta card -->
+          <div style="background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.25rem;">
+            <h3 class="article-sidebar-heading">სტატიის ინფორმაცია</h3>
+
+            <% if (article.category_name) { %>
+              <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border);font-size:.875rem;">
+                <span style="color:var(--color-text-muted);">კატეგორია</span>
+                <span style="font-weight:500;color:var(--color-primary);">
+                  <%= article.category_name %>
+                </span>
+              </div>
+            <% } %>
+
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border);font-size:.875rem;">
+              <span style="color:var(--color-text-muted);">გამოქვეყნდა</span>
+              <span style="font-weight:500;color:var(--color-primary);">
+                <%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %>
+              </span>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.875rem;">
+              <span style="color:var(--color-text-muted);">სტატუსი</span>
+              <span class="badge-published">გამოქვეყნებული</span>
+            </div>
+          </div>
+
+        </div>
+        <!-- /sticky -->
 
       </div>
+
     </div>
   </div>
 </section>

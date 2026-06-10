@@ -7,6 +7,14 @@
 import News from '../models/News.js';
 
 /**
+ * Resolve the public URL for a news article image.
+ * Multer stores files in uploads/news/ — the filename only is persisted in DB.
+ * @param {string|null} filename
+ */
+const newsImageUrl = (filename) =>
+  filename ? `/uploads/news/${filename}` : null;
+
+/**
  * GET /news
  * Renders the paginated news listing page.
  */
@@ -15,9 +23,10 @@ export const getNews = async (req, res, next) => {
     const articles = await News.findAll(20).catch(() => []);
 
     res.render('pages/news', {
-      title:       'სიახლეები — უჯარმა',
-      description: 'უჯარმის სოფლის ადმინისტრაციის უახლესი განცხადებები, გადაწყვეთა და სიახლეები.',
+      title:        'სიახლეები — უჯარმა',
+      description:  'უჯარმის სოფლის ადმინისტრაციის უახლესი განცხადებები, გადაწყვეთა და სიახლეები.',
       articles,
+      newsImageUrl,
     });
   } catch (error) {
     next(error);
@@ -26,7 +35,7 @@ export const getNews = async (req, res, next) => {
 
 /**
  * GET /news/:slug
- * Renders a single news article.
+ * Renders a single news article with related articles in the sidebar.
  */
 export const getNewsArticle = async (req, res, next) => {
   try {
@@ -38,11 +47,21 @@ export const getNewsArticle = async (req, res, next) => {
       return next(error);
     }
 
+    // Fetch latest articles for sidebar (exclude current)
+    const allLatest     = await News.findLatest(4).catch(() => []);
+    const relatedArticles = allLatest.filter((a) => a.slug !== article.slug).slice(0, 3);
+
+    const imageFilename = article.featured_image || article.image;
+    const imageUrl      = newsImageUrl(imageFilename);
+
     res.render('pages/news-article', {
-      title:       `${article.title} — უჯარმა`,
-      description: article.excerpt || article.title,
-      ogImage:     article.image   || '/images/og-default.jpg',
+      title:          `${article.title} — უჯარმა`,
+      description:    article.summary || article.excerpt || article.title,
+      ogImage:        imageUrl || '/images/og-default.jpg',
       article,
+      imageUrl,
+      relatedArticles,
+      newsImageUrl,
     });
   } catch (error) {
     next(error);

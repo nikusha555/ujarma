@@ -1,0 +1,258 @@
+<%# admin/news-edit.ejs — სტატიის რედაქტირების ფორმა -%>
+
+<div class="admin-page-header">
+  <h1 class="admin-page-title">სტატიის რედაქტირება</h1>
+  <a href="/admin/news"
+     style="display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--color-text-secondary);text-decoration:none;">
+    <i data-lucide="arrow-left" class="icon-inline"></i> სიახლეებზე დაბრუნება
+  </a>
+</div>
+
+<!-- ── Validation Errors ──────────────────────────── -->
+<% if (errors && errors.length > 0) { %>
+  <div class="admin-error-list">
+    <ul>
+      <% errors.forEach(function(e) { %>
+        <li><i data-lucide="alert-circle" class="icon-inline"></i> <%= e %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<form method="POST"
+      action="/admin/news/<%= article.id %>/edit"
+      enctype="multipart/form-data"
+      novalidate>
+
+  <div class="row g-4">
+
+    <!-- ── Left: main content ────────────────────── -->
+    <div class="col-lg-8">
+
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="type" class="icon-inline"></i>
+          <span class="admin-form-card-title">ძირითადი ინფორმაცია</span>
+        </div>
+        <div class="admin-form-card-body">
+
+          <div class="admin-field">
+            <label for="title" class="admin-label">
+              სათაური <span class="req">*</span>
+            </label>
+            <input type="text"
+                   id="title"
+                   name="title"
+                   class="admin-input"
+                   value="<%= article.title || '' %>"
+                   required />
+          </div>
+
+          <!-- Current slug (read-only reference) -->
+          <div class="admin-field">
+            <label class="admin-label">მიმდინარე სლაგი</label>
+            <input type="text"
+                   class="admin-input"
+                   value="<%= article.slug %>"
+                   readonly
+                   style="background:var(--gray-50);color:var(--color-text-muted);cursor:default;" />
+            <p class="admin-hint">
+              სათაურის შეცვლისას სლაგი ავტომატურად განახლდება.
+              <a href="/news/<%= article.slug %>" target="_blank"
+                 style="color:var(--color-accent);">
+                <i data-lucide="external-link" class="icon-inline"></i> ნახვა
+              </a>
+            </p>
+          </div>
+
+          <div class="admin-field">
+            <label for="summary" class="admin-label">მოკლე შინაარსი</label>
+            <textarea id="summary"
+                      name="summary"
+                      class="admin-textarea"
+                      rows="3"><%= article.summary || article.excerpt || '' %></textarea>
+          </div>
+
+          <div class="admin-field">
+            <label for="content" class="admin-label">
+              კონტენტი <span class="req">*</span>
+            </label>
+            <textarea id="content"
+                      name="content"
+                      class="admin-textarea"
+                      rows="14"
+                      required><%= article.content || '' %></textarea>
+            <p class="admin-hint">HTML ტეგები მხარდაჭერილია.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Right: meta / options ─────────────────── -->
+    <div class="col-lg-4">
+
+      <!-- გამოქვეყნება -->
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="send" class="icon-inline"></i>
+          <span class="admin-form-card-title">გამოქვეყნება</span>
+        </div>
+        <div class="admin-form-card-body">
+
+          <div class="admin-check-row">
+            <input type="checkbox"
+                   id="is_published"
+                   name="is_published"
+                   <%= article.is_published ? 'checked' : '' %> />
+            <label for="is_published">გამოქვეყნებულია</label>
+          </div>
+
+          <div class="admin-check-row">
+            <input type="checkbox"
+                   id="is_featured"
+                   name="is_featured"
+                   <%= article.is_featured ? 'checked' : '' %> />
+            <label for="is_featured">გამორჩეული სტატია</label>
+          </div>
+
+          <div class="admin-field" style="margin-top:1rem;">
+            <label for="published_at" class="admin-label">გამოქვეყნების თარიღი</label>
+            <input type="datetime-local"
+                   id="published_at"
+                   name="published_at"
+                   class="admin-input"
+                   value="<%= new Date(article.published_at).toISOString().slice(0,16) %>" />
+          </div>
+
+        </div>
+      </div>
+
+      <!-- კატეგორია -->
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="tag" class="icon-inline"></i>
+          <span class="admin-form-card-title">კატეგორია</span>
+        </div>
+        <div class="admin-form-card-body">
+          <div class="admin-field">
+            <label for="category_id" class="admin-label">კატეგორია</label>
+            <select id="category_id" name="category_id" class="admin-select">
+              <option value="">— არ არის არჩეული —</option>
+              <% categories.forEach(function(cat) { %>
+                <option value="<%= cat.id %>"
+                  <%= article.category_id == cat.id ? 'selected' : '' %>>
+                  <%= cat.name %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- სურათი -->
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="image" class="icon-inline"></i>
+          <span class="admin-form-card-title">მთავარი სურათი</span>
+        </div>
+        <div class="admin-form-card-body">
+
+          <!-- Existing image preview -->
+          <% const existingImg = article.featured_image || article.image; %>
+          <% if (existingImg) { %>
+            <div class="admin-image-preview mb-3">
+              <img src="/uploads/news/<%= existingImg %>"
+                   alt="მიმდინარე სურათი"
+                   style="max-height:160px;width:auto;" />
+            </div>
+            <div class="admin-check-row mb-2">
+              <input type="checkbox" id="remove_image" name="remove_image" />
+              <label for="remove_image" style="color:#dc2626;">სურათის წაშლა</label>
+            </div>
+          <% } %>
+
+          <div class="admin-field">
+            <label for="image" class="admin-label">
+              <%= existingImg ? 'ახალი სურათი (ჩასანაცვლებლად)' : 'სურათის ატვირთვა' %>
+            </label>
+            <input type="file"
+                   id="image"
+                   name="image"
+                   class="admin-input"
+                   accept="image/jpeg,image/jpg,image/png,image/webp"
+                   style="padding:.5rem;" />
+            <p class="admin-hint">JPG, PNG, WebP — მაქს. 5 MB</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Save -->
+      <button type="submit"
+              class="btn-primary-custom w-100 text-center"
+              style="padding:.875rem;font-size:.875rem;width:100%;display:block;margin-bottom:.875rem;">
+        <i data-lucide="save" class="icon-inline"></i> ცვლილებების შენახვა
+      </button>
+
+      <!-- Delete link -->
+      <button type="button"
+              class="btn-delete-trigger"
+              data-id="<%= article.id %>"
+              data-title="<%= article.title.replace(/\"/g, '&quot;') %>"
+              style="width:100%;padding:.75rem;background:none;border:1.5px solid #fecaca;border-radius:var(--radius);color:#dc2626;font-size:.8125rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;">
+        <i data-lucide="trash-2" class="icon-inline"></i> სტატიის წაშლა
+      </button>
+
+    </div>
+  </div>
+
+</form>
+
+<!-- ── Delete Confirmation Modal ────────────────────── -->
+<div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">
+  <div class="admin-modal">
+    <h2 class="admin-modal-title">სტატიის წაშლა</h2>
+    <p class="admin-modal-body" id="deleteModalBody"></p>
+    <div class="admin-modal-actions">
+      <button type="button"
+              onclick="closeDeleteModal()"
+              class="admin-page-btn"
+              style="padding:.625rem 1.25rem;">
+        გაუქმება
+      </button>
+      <form id="deleteForm" method="POST" action="">
+        <button type="submit"
+                style="padding:.625rem 1.5rem;background:#dc2626;color:var(--white);border:none;border-radius:var(--radius);font-size:.8125rem;font-weight:600;cursor:pointer;">
+          <i data-lucide="trash-2" class="icon-inline"></i> წაშლა
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openDeleteModal(id, title) {
+    document.getElementById('deleteModalBody').textContent =
+      'დარწმუნებული ხართ, რომ გსურთ სტატიის "' + title + '" წაშლა? ეს მოქმედება შეუქცევადია.';
+    document.getElementById('deleteForm').action = '/admin/news/' + id + '/delete';
+    document.getElementById('deleteModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.btn-delete-trigger').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      openDeleteModal(this.dataset.id, this.dataset.title);
+    });
+  });
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDeleteModal();
+  });
+</script>

@@ -1,0 +1,172 @@
+<%# admin/news-create.ejs — სტატიის დამატების ფორმა -%>
+
+<div class="admin-page-header">
+  <h1 class="admin-page-title">სტატიის დამატება</h1>
+  <a href="/admin/news"
+     style="display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--color-text-secondary);text-decoration:none;">
+    <i data-lucide="arrow-left" class="icon-inline"></i> სიახლეებზე დაბრუნება
+  </a>
+</div>
+
+<!-- ── Validation Errors ──────────────────────────── -->
+<% if (errors && errors.length > 0) { %>
+  <div class="admin-error-list">
+    <ul>
+      <% errors.forEach(function(e) { %>
+        <li><i data-lucide="alert-circle" class="icon-inline"></i> <%= e %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<form method="POST"
+      action="/admin/news/create"
+      enctype="multipart/form-data"
+      novalidate>
+
+  <div class="row g-4">
+
+    <!-- ── Left: main content ────────────────────── -->
+    <div class="col-lg-8">
+
+      <!-- სათაური & სლაგი -->
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="type" class="icon-inline"></i>
+          <span class="admin-form-card-title">ძირითადი ინფორმაცია</span>
+        </div>
+        <div class="admin-form-card-body">
+
+          <div class="admin-field">
+            <label for="title" class="admin-label">
+              სათაური <span class="req">*</span>
+            </label>
+            <input type="text"
+                   id="title"
+                   name="title"
+                   class="admin-input"
+                   value="<%= formData.title || '' %>"
+                   placeholder="სათაური ქართულად…"
+                   required />
+            <p class="admin-hint">სლაგი ავტომატურად გენერირდება სათაურიდან.</p>
+          </div>
+
+          <div class="admin-field">
+            <label for="summary" class="admin-label">მოკლე შინაარსი</label>
+            <textarea id="summary"
+                      name="summary"
+                      class="admin-textarea"
+                      rows="3"
+                      placeholder="მოკლე აღწერა (SEO-სა და ბარათებში გამოიყენება)…"><%= formData.summary || '' %></textarea>
+          </div>
+
+          <div class="admin-field">
+            <label for="content" class="admin-label">
+              კონტენტი <span class="req">*</span>
+            </label>
+            <textarea id="content"
+                      name="content"
+                      class="admin-textarea"
+                      rows="14"
+                      placeholder="სტატიის სრული ტექსტი…"
+                      required><%= formData.content || '' %></textarea>
+            <p class="admin-hint">HTML ტეგები მხარდაჭერილია.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Right: meta / options ─────────────────── -->
+    <div class="col-lg-4">
+
+      <!-- გამოქვეყნება -->
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="send" class="icon-inline"></i>
+          <span class="admin-form-card-title">გამოქვეყნება</span>
+        </div>
+        <div class="admin-form-card-body">
+
+          <div class="admin-check-row">
+            <input type="checkbox"
+                   id="is_published"
+                   name="is_published"
+                   <%= formData.is_published === 'on' || formData.is_published === undefined ? 'checked' : '' %> />
+            <label for="is_published">გამოქვეყნებულია</label>
+          </div>
+
+          <div class="admin-check-row">
+            <input type="checkbox"
+                   id="is_featured"
+                   name="is_featured"
+                   <%= formData.is_featured === 'on' ? 'checked' : '' %> />
+            <label for="is_featured">გამორჩეული სტატია</label>
+          </div>
+
+          <div class="admin-field" style="margin-top:1rem;">
+            <label for="published_at" class="admin-label">გამოქვეყნების თარიღი</label>
+            <input type="datetime-local"
+                   id="published_at"
+                   name="published_at"
+                   class="admin-input"
+                   value="<%= formData.published_at || new Date().toISOString().slice(0,16) %>" />
+          </div>
+
+        </div>
+      </div>
+
+      <!-- კატეგორია -->
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="tag" class="icon-inline"></i>
+          <span class="admin-form-card-title">კატეგორია</span>
+        </div>
+        <div class="admin-form-card-body">
+          <div class="admin-field">
+            <label for="category_id" class="admin-label">კატეგორია</label>
+            <select id="category_id" name="category_id" class="admin-select">
+              <option value="">— არ არის არჩეული —</option>
+              <% categories.forEach(function(cat) { %>
+                <option value="<%= cat.id %>"
+                  <%= formData.category_id == cat.id ? 'selected' : '' %>>
+                  <%= cat.name %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- სურათი -->
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header">
+          <i data-lucide="image" class="icon-inline"></i>
+          <span class="admin-form-card-title">მთავარი სურათი</span>
+        </div>
+        <div class="admin-form-card-body">
+          <div class="admin-field">
+            <label for="image" class="admin-label">სურათის ატვირთვა</label>
+            <input type="file"
+                   id="image"
+                   name="image"
+                   class="admin-input"
+                   accept="image/jpeg,image/jpg,image/png,image/webp"
+                   style="padding:.5rem;" />
+            <p class="admin-hint">JPG, PNG, WebP — მაქს. 5 MB</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+              class="btn-primary-custom w-100 text-center"
+              style="padding:.875rem;font-size:.875rem;width:100%;display:block;">
+        <i data-lucide="save" class="icon-inline"></i> სტატიის შენახვა
+      </button>
+
+    </div>
+  </div>
+
+</form>

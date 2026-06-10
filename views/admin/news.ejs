@@ -1,74 +1,217 @@
-<%# admin/news.ejs — Admin News Management -%>
+﻿<%# admin/news.ejs — სიახლეების სია -%>
 
 <div class="admin-page-header">
   <h1 class="admin-page-title">სიახლეების მართვა</h1>
-  <button class="btn-admin-add" disabled title="CRUD ოპერაციები მომავალი ფაზში განვითარდება">
+  <a href="/admin/news/create"
+     style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.125rem;background:var(--color-primary);color:var(--white);border:none;border-radius:var(--radius);font-size:.8125rem;font-weight:600;text-decoration:none;cursor:pointer;">
     <i data-lucide="plus" class="icon-inline"></i> სტატიის დამატება
-  </button>
+  </a>
 </div>
 
-<div class="admin-table-wrap">
-  <div class="admin-table-header">
-    <span class="admin-table-title">All Articles</span>
-    <span style="font-size:.8125rem;color:var(--color-text-muted);">
-      <%= articles.length %> article<%= articles.length !== 1 ? 's' : '' %>
-    </span>
+<!-- ── Flash Message ───────────────────────────────── -->
+<% if (flash === 'created') { %>
+  <div class="admin-flash-success">
+    <i data-lucide="check-circle-2" class="icon-inline"></i>
+    სტატია წარმატებით დაემატა.
   </div>
+<% } else if (flash === 'updated') { %>
+  <div class="admin-flash-success">
+    <i data-lucide="check-circle-2" class="icon-inline"></i>
+    სტატია წარმატებით განახლდა.
+  </div>
+<% } else if (flash === 'deleted') { %>
+  <div class="admin-flash-success"
+       style="background:#fff7ed;border-color:#fed7aa;border-left-color:#ea580c;color:#9a3412;">
+    <i data-lucide="trash-2" class="icon-inline"></i>
+    სტატია წაიშალა.
+  </div>
+<% } %>
 
+<!-- ── Search & Filter ──────────────────────────────── -->
+<div class="admin-table-wrap">
+  <form method="GET" action="/admin/news">
+    <div class="admin-filters">
+      <input class="admin-filter-input"
+             type="text"
+             name="search"
+             value="<%= search %>"
+             placeholder="სათაურით ძებნა…" />
+
+      <select class="admin-filter-select" name="category">
+        <option value="">ყველა კატეგორია</option>
+        <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id %>"
+            <%= categoryId == cat.id ? 'selected' : '' %>>
+            <%= cat.name %>
+          </option>
+        <% }) %>
+      </select>
+
+      <button type="submit" class="admin-filter-btn">
+        <i data-lucide="search" class="icon-inline"></i> ძებნა
+      </button>
+
+      <% if (search || categoryId) { %>
+        <a href="/admin/news"
+           style="font-size:.8125rem;color:var(--color-text-muted);text-decoration:none;">
+          გასუფთავება
+        </a>
+      <% } %>
+
+      <span style="margin-left:auto;font-size:.8125rem;color:var(--color-text-muted);">
+        სულ: <%= total %> სტატია
+      </span>
+    </div>
+  </form>
+
+  <!-- ── Table ──────────────────────────────────────── -->
   <% if (articles && articles.length > 0) { %>
     <table class="admin-table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Status</th>
-          <th>Published</th>
-          <th>Actions</th>
+          <th>სათაური</th>
+          <th>კატეგორია</th>
+          <th>გამოქვეყნება</th>
+          <th>სტატუსი</th>
+          <th>მოქმედებები</th>
         </tr>
       </thead>
       <tbody>
         <% articles.forEach(function(article) { %>
           <tr>
             <td>
-              <span style="font-weight:500;color:var(--color-primary);">
+              <div style="font-weight:500;color:var(--color-primary);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
                 <%= article.title %>
-              </span>
+              </div>
+              <% if (article.is_featured) { %>
+                <span style="font-size:.625rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-700);background:var(--gold-100);padding:.15rem .5rem;border-radius:999px;margin-top:3px;display:inline-block;">
+                  გამორჩეული
+                </span>
+              <% } %>
+            </td>
+            <td style="color:var(--color-text-secondary);font-size:.875rem;">
+              <%= article.category_name || '—' %>
+            </td>
+            <td style="font-size:.8125rem;color:var(--color-text-secondary);">
+              <%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %>
             </td>
             <td>
-              <span class="badge-published">Published</span>
-            </td>
-            <td style="color:var(--color-text-secondary);">
-              <%= new Date(article.published_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) %>
+              <% if (article.is_published) { %>
+                <span class="badge-published">გამოქვეყნებული</span>
+              <% } else { %>
+                <span class="badge-draft">მუსვარი</span>
+              <% } %>
             </td>
             <td>
-              <div style="display:flex;gap:.5rem;">
+              <div style="display:flex;gap:.625rem;align-items:center;">
                 <a href="/news/<%= article.slug %>"
                    target="_blank"
-                   style="font-size:.75rem;color:var(--color-accent);font-weight:500;"
-                   title="View on site">
+                   title="ვებსაიტზე ნახვა"
+                   style="color:var(--color-text-muted);">
                   <i data-lucide="external-link" class="icon-inline"></i>
                 </a>
+                <a href="/admin/news/<%= article.id %>/edit"
+                   title="რედაქტირება"
+                   style="color:var(--color-primary);">
+                  <i data-lucide="pencil" class="icon-inline"></i>
+                </a>
+                <button type="button"
+                        class="btn-delete-trigger"
+                        data-id="<%= article.id %>"
+                        data-title="<%= article.title.replace(/\"/g, '&quot;') %>"
+                        title="წაშლა"
+                        style="background:none;border:none;cursor:pointer;padding:0;color:#dc2626;">
+                  <i data-lucide="trash-2" class="icon-inline"></i>
+                </button>
               </div>
             </td>
           </tr>
         <% }) %>
       </tbody>
     </table>
+
+    <% if (totalPages > 1) { %>
+      <div class="admin-pagination">
+        <% if (page > 1) { %>
+          <a href="/admin/news?page=<%= page-1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>"
+             class="admin-page-btn">
+            <i data-lucide="chevron-left" class="icon-inline"></i>
+          </a>
+        <% } else { %>
+          <span class="admin-page-btn disabled">
+            <i data-lucide="chevron-left" class="icon-inline"></i>
+          </span>
+        <% } %>
+        <% for (let p = 1; p <= totalPages; p++) { %>
+          <a href="/admin/news?page=<%= p %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>"
+             class="admin-page-btn <%= p === page ? 'active' : '' %>">
+            <%= p %>
+          </a>
+        <% } %>
+        <% if (page < totalPages) { %>
+          <a href="/admin/news?page=<%= page+1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>"
+             class="admin-page-btn">
+            <i data-lucide="chevron-right" class="icon-inline"></i>
+          </a>
+        <% } else { %>
+          <span class="admin-page-btn disabled">
+            <i data-lucide="chevron-right" class="icon-inline"></i>
+          </span>
+        <% } %>
+      </div>
+    <% } %>
+
   <% } else { %>
     <div class="empty-state" style="padding:4rem 2rem;">
       <div class="empty-state-icon"><i data-lucide="newspaper"></i></div>
-      <p>No articles have been published yet.</p>
-      <p style="font-size:.8125rem;color:var(--color-text-muted);">
-        Articles added through the admin interface will appear here.
-      </p>
+      <p><% if (search || categoryId) { %>ფილტრის შედეგები ცარიელია.<% } else { %>სტატიები ჯერ არ დამატებულა.<% } %></p>
     </div>
   <% } %>
 </div>
 
-<!-- Implementation Notice -->
-<div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--gold-100);border:1px solid var(--gold-300);border-radius:var(--radius);border-left:3px solid var(--gold-500);">
-  <p style="font-size:.875rem;color:var(--gold-700);margin:0;">
-    <i data-lucide="info" class="icon-inline"></i>
-    <strong>Foundation Phase:</strong> Create, Edit, and Delete operations will be
-    implemented in the next development phase.
-  </p>
+<!-- ── Delete Confirmation Modal ────────────────────── -->
+<div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">
+  <div class="admin-modal">
+    <h2 class="admin-modal-title">სტატიის წაშლა</h2>
+    <p class="admin-modal-body" id="deleteModalBody"></p>
+    <div class="admin-modal-actions">
+      <button type="button"
+              onclick="closeDeleteModal()"
+              class="admin-page-btn"
+              style="padding:.625rem 1.25rem;">
+        გაუქმება
+      </button>
+      <form id="deleteForm" method="POST" action="">
+        <button type="submit"
+                style="padding:.625rem 1.5rem;background:#dc2626;color:var(--white);border:none;border-radius:var(--radius);font-size:.8125rem;font-weight:600;cursor:pointer;">
+          <i data-lucide="trash-2" class="icon-inline"></i> წაშლა
+        </button>
+      </form>
+    </div>
+  </div>
 </div>
+
+<script>
+  function openDeleteModal(id, title) {
+    document.getElementById('deleteModalBody').textContent =
+      'დარწმუნებული ხართ, რომ გსურთ სტატიის "' + title + '" წაშლა? ეს მოქმედება შეუქცევადია.';
+    document.getElementById('deleteForm').action = '/admin/news/' + id + '/delete';
+    document.getElementById('deleteModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.btn-delete-trigger').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      openDeleteModal(this.dataset.id, this.dataset.title);
+    });
+  });
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDeleteModal();
+  });
+</script>

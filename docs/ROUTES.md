@@ -12,7 +12,7 @@ All public routes are registered in `routes/index.js` and mounted at `/` in `app
 
 ### Home
 
-| Field | Value |
+| Field | Value |  
 |---|---|
 | **Method** | `GET` |
 | **URL** | `/` |
@@ -26,7 +26,7 @@ All public routes are registered in `routes/index.js` and mounted at `/` in `app
 ---
 
 ### News Listing
-
+ 
 | Field | Value |
 |---|---|
 | **Method** | `GET` |
@@ -217,18 +217,89 @@ All admin routes are registered in `routes/admin.js` and mounted at `/admin` in 
 
 ---
 
-### Admin News Management
+### Admin News — List
 
 | Field | Value |
 |---|---|
 | **Method** | `GET` |
 | **URL** | `/admin/news` |
-| **Controller** | `controllers/adminController.js` → `getAdminNews` |
+| **Controller** | `controllers/newsAdminController.js` → `getAdminNewsList` |
 | **View** | `views/admin/news.ejs` |
 | **Layout** | `views/layouts/admin.ejs` |
 | **Auth Required** | **Yes** |
+| **Query Params** | `page` (default 1), `search` (keyword), `category` (category ID) |
 
-**Description:** Lists all news articles (up to 50) in a management table. CRUD operations are scaffolded for the next development phase.
+**Description:** Paginated (15/page), searchable, category-filterable table of all articles. Each row shows title, category, date, status badge, and view/edit/delete actions.
+
+---
+
+### Admin News — Create Form
+
+| Field | Value |
+|---|---|
+| **Method** | `GET` |
+| **URL** | `/admin/news/create` |
+| **Controller** | `controllers/newsAdminController.js` → `getAdminNewsCreate` |
+| **View** | `views/admin/news-create.ejs` |
+| **Auth Required** | **Yes** |
+
+---
+
+### Admin News — Create Submit
+
+| Field | Value |
+|---|---|
+| **Method** | `POST` |
+| **URL** | `/admin/news/create` |
+| **Controller** | `controllers/newsAdminController.js` → `postAdminNewsCreate` |
+| **Auth Required** | **Yes** |
+| **Multipart** | `image` (optional, ≤5 MB, JPEG/PNG/WebP) |
+| **Body Params** | `title`, `category_id`, `content`, `summary`, `is_featured`, `is_published`, `published_at` |
+| **Success Redirect** | `GET /admin/news?flash=created` |
+
+**Description:** Validates inputs, generates a unique Georgian slug, saves image to `uploads/news/`, persists article.
+
+---
+
+### Admin News — Edit Form
+
+| Field | Value |
+|---|---|
+| **Method** | `GET` |
+| **URL** | `/admin/news/:id/edit` |
+| **Controller** | `controllers/newsAdminController.js` → `getAdminNewsEdit` |
+| **View** | `views/admin/news-edit.ejs` |
+| **Auth Required** | **Yes** |
+| **URL Params** | `id` — article ID |
+
+---
+
+### Admin News — Edit Submit
+
+| Field | Value |
+|---|---|
+| **Method** | `POST` |
+| **URL** | `/admin/news/:id/edit` |
+| **Controller** | `controllers/newsAdminController.js` → `postAdminNewsEdit` |
+| **Auth Required** | **Yes** |
+| **Multipart** | `image` (optional replacement), `remove_image` checkbox |
+| **Success Redirect** | `GET /admin/news?flash=updated` |
+
+**Description:** Updates all article fields. If a new image is uploaded, the old file is deleted from disk. `remove_image=on` deletes the current image without replacement.
+
+---
+
+### Admin News — Delete
+
+| Field | Value |
+|---|---|
+| **Method** | `POST` |
+| **URL** | `/admin/news/:id/delete` |
+| **Controller** | `controllers/newsAdminController.js` → `postAdminNewsDelete` |
+| **Auth Required** | **Yes** |
+| **Success Redirect** | `GET /admin/news?flash=deleted` |
+
+**Description:** Deletes the article record and removes its image file from `uploads/news/`.
 
 ---
 

@@ -226,6 +226,67 @@ const ensureTables = async (conn) => {
 };
 
 // ─────────────────────────────────────────────
+// Step 2b — Column Migrations
+// ─────────────────────────────────────────────
+
+/**
+ * Idempotently add columns that were introduced after the initial schema.
+ * Each migration checks information_schema before altering the table,
+ * so this function is safe to run on every application startup.
+ * @param {mysql.Connection} conn
+ */
+const ensureMigrations = async (conn) => {
+  const dbName = process.env.DB_NAME || 'ujarma';
+
+  // Helper: check whether a column already exists
+  const columnExists = async (table, column) => {
+    const [rows] = await conn.execute(
+      `SELECT 1
+         FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?
+        LIMIT 1`,
+      [dbName, table, column]
+    );
+    return rows.length > 0;
+  };
+
+  // ── news: is_featured ─────────────────────────
+  if (!(await columnExists('news', 'is_featured'))) {
+    await conn.query(
+      `ALTER TABLE news ADD COLUMN is_featured TINYINT(1) NOT NULL DEFAULT 0
+       AFTER is_published`
+    );
+    log('created', 'Migration: news.is_featured column added');
+  } else {
+    log('skip', 'Migration: news.is_featured — already exists');
+  }
+
+  // ── news: rename excerpt → summary (if excerpt exists but summary doesn't) ─
+  // The public models use "excerpt"; the admin form calls it "summary".
+  // We keep both: summary is a full copy. If summary is missing we add it.
+  if (!(await columnExists('news', 'summary'))) {
+    await conn.query(
+      `ALTER TABLE news ADD COLUMN summary VARCHAR(500) DEFAULT NULL
+       AFTER excerpt`
+    );
+    log('created', 'Migration: news.summary column added');
+  } else {
+    log('skip', 'Migration: news.summary — already exists');
+  }
+
+  // ── news: featured_image (alias path; old column was "image") ─────────────
+  if (!(await columnExists('news', 'featured_image'))) {
+    await conn.query(
+      `ALTER TABLE news ADD COLUMN featured_image VARCHAR(255) DEFAULT NULL
+       AFTER image`
+    );
+    log('created', 'Migration: news.featured_image column added');
+  } else {
+    log('skip', 'Migration: news.featured_image — already exists');
+  }
+};
+
+// ─────────────────────────────────────────────
 // Step 3 — Seed Data
 // ─────────────────────────────────────────────
 
@@ -415,6 +476,12 @@ const bootstrap = async () => {
     // ── Step 2: Tables ────────────────────────────
     console.log('  ├─ Tables ───────────────────────────────────');
     await ensureTables(conn);
+
+    // ── Step 2b: Column Migrations ────────────────
+    // Adds columns that were introduced after the initial schema.
+    // Each ALTER is wrapped in a check so re-runs are safe.
+    console.log('  ├─ Migrations ───────────────────────────────');
+    await ensureMigrations(conn);
 
     // ── Step 3: Seed Data ─────────────────────────
     console.log('  ├─ Seed Data ─────────────────────────────────');
