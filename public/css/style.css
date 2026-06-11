@@ -1990,7 +1990,398 @@ body.admin-body {
   .article-body blockquote { padding: 1rem 1.125rem; }
 }
 
-/* ── 22. Lucide Icon System ───────────────────────────── */
+/* ── 22. About Page — Premium Layout ─────────────────── */
+
+/* ── About Hero ── */
+.about-hero {
+  position: relative;
+  background-color: var(--navy-800);
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.about-hero-texture {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(197,160,40,0.055) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+}
+.about-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold-500), transparent);
+  opacity: 0.75;
+}
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 5rem 0 4rem;
+}
+.about-hero-breadcrumb { margin-bottom: 1.5rem; }
+.about-hero-breadcrumb .breadcrumb-item a {
+  color: rgba(255,255,255,.5);
+  font-size: .8125rem;
+}
+.about-hero-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  color: rgba(255,255,255,.25);
+}
+.about-hero-emblem {
+  margin-bottom: 1.25rem;
+}
+.about-hero-label {
+  color: var(--gold-400) !important;
+  font-size: .6875rem;
+  margin-bottom: .5rem;
+}
+.about-hero-label::before { background-color: var(--gold-400); }
+.about-hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: .625rem;
+  letter-spacing: -.01em;
+}
+.about-hero-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: .06em;
+  color: rgba(255,255,255,.6);
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+/* ── Section wrappers ── */
+.about-intro      { padding: 5rem 0; background: var(--white); }
+.about-alt-section { padding: 5rem 0; background: var(--gray-50); }
+.about-white-section { padding: 5rem 0; background: var(--white); }
+
+/* ── Shared typography ── */
+.about-section-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4vw, 2.375rem);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+.about-lead-text {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+}
+.about-body-text {
+  font-size: .9375rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.125rem;
+}
+.about-blockquote {
+  border-left: 3px solid var(--color-accent);
+  background: var(--gold-100);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin: 1.75rem 0;
+  font-size: .9375rem;
+  line-height: 1.75;
+  color: var(--navy-700);
+  font-style: italic;
+}
+
+/* ── Intro stat cards ── */
+.about-stat-card {
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  height: 100%;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.about-stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.about-stat-card--accent {
+  background: var(--navy-800);
+  border-color: var(--navy-700);
+}
+.about-stat-card--accent .about-stat-label,
+.about-stat-card--accent .about-stat-value,
+.about-stat-card--accent .about-stat-sub { color: var(--white) !important; }
+.about-stat-card--accent .about-stat-icon { color: var(--gold-400) !important; }
+.about-stat-icon {
+  width: 1.5rem; height: 1.5rem;
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: .625rem;
+}
+.about-stat-label {
+  font-size: .625rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: .25rem;
+}
+.about-stat-value {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: .125rem;
+  line-height: 1.2;
+}
+.about-stat-sub {
+  font-size: .75rem;
+  color: var(--color-text-muted);
+}
+
+/* ── History timeline ── */
+.about-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.about-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px; top: 8px; bottom: 8px;
+  width: 1.5px;
+  background: linear-gradient(to bottom, var(--color-border), var(--color-accent), var(--color-border));
+}
+.about-timeline-item {
+  position: relative;
+  margin-bottom: 2.25rem;
+  padding-left: 1rem;
+}
+.about-timeline-item:last-child { margin-bottom: 0; }
+.about-timeline-dot {
+  position: absolute;
+  left: -1.5rem;
+  top: 5px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--color-border-strong);
+}
+.about-timeline-dot--gold {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(197,160,40,.2);
+}
+.about-timeline-year {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: .25rem;
+}
+.about-timeline-desc {
+  font-size: .8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* ── Geography cards ── */
+.about-geo-card {
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  gap: .875rem;
+  align-items: flex-start;
+  transition: box-shadow var(--transition);
+}
+.about-geo-card:hover { box-shadow: var(--shadow-md); }
+.about-geo-icon {
+  width: 1.25rem; height: 1.25rem;
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.about-geo-title {
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: .25rem;
+}
+.about-geo-text {
+  font-size: .8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+/* ── Culture cards ── */
+.about-culture-card {
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  height: 100%;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.about-culture-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+.about-culture-card--featured {
+  background: var(--navy-800);
+  border-color: var(--navy-700);
+}
+.about-culture-card--featured .about-culture-title { color: var(--white); }
+.about-culture-card--featured .about-culture-text  { color: rgba(255,255,255,.7); }
+.about-culture-icon-wrap {
+  width: 48px; height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--gold-100);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.25rem;
+  color: var(--gold-700);
+}
+.about-culture-icon-wrap svg { width: 1.375rem; height: 1.375rem; }
+.about-culture-icon-wrap--gold { background: rgba(197,160,40,.2); }
+.about-culture-icon-wrap--gold svg { color: var(--gold-300); }
+.about-culture-title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: .75rem;
+}
+.about-culture-text {
+  font-size: .875rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ── Tourism highlights ── */
+.about-tour-card {
+  background: var(--gray-50);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.375rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.about-tour-card:hover {
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.about-tour-icon-wrap {
+  width: 36px; height: 36px;
+  border-radius: var(--radius);
+  background: var(--navy-700);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--gold-400);
+}
+.about-tour-icon-wrap svg { width: 1rem; height: 1rem; }
+.about-tour-title {
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: .2rem;
+}
+.about-tour-desc {
+  font-size: .8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* ── Admin band ── */
+.about-admin-band {
+  position: relative;
+  background: var(--navy-800);
+  padding: 5rem 0;
+  overflow: hidden;
+}
+.about-admin-texture {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(197,160,40,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+/* ── FAQ accordion ── */
+.about-faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: .75rem;
+  overflow: hidden;
+  transition: box-shadow var(--transition-fast);
+}
+.about-faq-item:hover { box-shadow: var(--shadow-sm); }
+.about-faq-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.125rem 1.375rem;
+  cursor: pointer;
+  background: var(--white);
+  list-style: none;
+  user-select: none;
+  gap: 1rem;
+  transition: background-color var(--transition-fast);
+}
+.about-faq-summary::-webkit-details-marker { display: none; }
+.about-faq-summary:hover { background: var(--gray-50); }
+details[open] > .about-faq-summary {
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--color-border);
+}
+details[open] .about-faq-chevron svg {
+  transform: rotate(180deg);
+}
+.about-faq-chevron svg {
+  width: .875rem; height: .875rem;
+  color: var(--color-text-muted);
+  transition: transform .2s ease;
+  flex-shrink: 0;
+}
+.about-faq-q {
+  font-weight: 600;
+  font-size: .9375rem;
+  color: var(--color-primary);
+  line-height: 1.4;
+}
+.about-faq-answer {
+  padding: 1rem 1.375rem 1.125rem;
+  font-size: .9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  background: var(--gray-50);
+}
+
+/* ── Responsive ── */
+@media (max-width: 991.98px) {
+  .about-intro, .about-alt-section,
+  .about-white-section, .about-admin-band { padding: 3.5rem 0; }
+  .about-hero { min-height: 360px; }
+  .about-hero-content { padding: 4rem 0 3rem; }
+}
+@media (max-width: 767.98px) {
+  .about-intro, .about-alt-section,
+  .about-white-section, .about-admin-band { padding: 2.75rem 0; }
+  .about-hero-title { font-size: clamp(2.5rem, 12vw, 3.5rem); }
+  .about-section-heading { font-size: clamp(1.5rem, 5vw, 1.875rem); }
+  .about-faq-summary { padding: .875rem 1.125rem; }
+  .about-faq-answer  { padding: .875rem 1.125rem; }
+}
+
+/* ── 23. Lucide Icon System ───────────────────────────── */
 /*
  * Bootstrap Icons (font-based) replaced with Lucide (SVG-based).
  * lucide.createIcons() in main.js replaces <i data-lucide="name">
