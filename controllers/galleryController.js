@@ -1,21 +1,16 @@
 /**
- * controllers/galleryController.js — Gallery Controller
- * =======================================================
- * Handles gallery listing with optional category filter.
+ * controllers/galleryController.js
  */
 
 import GalleryItem from '../models/GalleryItem.js';
 
-/**
- * GET /gallery
- * Renders the gallery with optional ?category= query param.
- */
+const galleryImgUrl = (f) => f ? `/uploads/gallery/${f}` : null;
+
 export const getGallery = async (req, res, next) => {
   try {
-    const { category } = req.query;
-
+    const { category: categorySlug } = req.query;
     const [items, categories] = await Promise.all([
-      GalleryItem.findAll(category || null).catch(() => []),
+      GalleryItem.findAll(categorySlug || null).catch(() => []),
       GalleryItem.getCategories().catch(() => []),
     ]);
 
@@ -24,9 +19,8 @@ export const getGallery = async (req, res, next) => {
       description:    'გადიხეთ ფოტოსურათები, რომლებიც ასახავს უჯარმის სოფლის ბუნებრივ სილარზესა და თემთა ცხოვრებას.',
       items,
       categories,
-      activeCategory: category || null,
+      activeCategory: categorySlug || null,
+      galleryImgUrl,
     });
-  } catch (error) {
-    next(error);
-  }
+  } catch (error) { next(error); }
 };

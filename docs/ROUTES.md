@@ -303,33 +303,47 @@ All admin routes are registered in `routes/admin.js` and mounted at `/admin` in 
 
 ---
 
-### Admin Attractions Management
+### Admin Attractions — List
 
 | Field | Value |
 |---|---|
 | **Method** | `GET` |
 | **URL** | `/admin/attractions` |
-| **Controller** | `controllers/adminController.js` → `getAdminAttractions` |
-| **View** | `views/admin/attractions.ejs` |
-| **Layout** | `views/layouts/admin.ejs` |
+| **Controller** | `controllers/attractionsAdminController.js` → `getAdminAttractionsList` |
+| **Query Params** | `page`, `search`, `category` |
 | **Auth Required** | **Yes** |
 
-**Description:** Lists all attractions with featured/published status. CRUD operations scaffolded.
+### Admin Attractions — Create / Edit / Delete
+
+| Method | URL | Handler |
+|---|---|---|
+| `GET` | `/admin/attractions/create` | `getAdminAttractionsCreate` |
+| `POST` | `/admin/attractions/create` | `postAdminAttractionsCreate` (Multer `uploads/attractions/`) |
+| `GET` | `/admin/attractions/:id/edit` | `getAdminAttractionsEdit` |
+| `POST` | `/admin/attractions/:id/edit` | `postAdminAttractionsEdit` |
+| `POST` | `/admin/attractions/:id/delete` | `postAdminAttractionsDelete` |
 
 ---
 
-### Admin Gallery Management
+### Admin Gallery — List
 
 | Field | Value |
 |---|---|
 | **Method** | `GET` |
 | **URL** | `/admin/gallery` |
-| **Controller** | `controllers/adminController.js` → `getAdminGallery` |
-| **View** | `views/admin/gallery.ejs` |
-| **Layout** | `views/layouts/admin.ejs` |
+| **Controller** | `controllers/galleryAdminController.js` → `getAdminGalleryList` |
+| **Query Params** | `page`, `search`, `category` (category_id) |
 | **Auth Required** | **Yes** |
 
-**Description:** Shows all gallery images in a grid. Upload functionality is scaffolded via `config/multer.js`.
+### Admin Gallery — Create / Edit / Delete
+
+| Method | URL | Handler |
+|---|---|---|
+| `GET` | `/admin/gallery/create` | `getAdminGalleryCreate` |
+| `POST` | `/admin/gallery/create` | `postAdminGalleryCreate` (Multer `uploads/gallery/`) |
+| `GET` | `/admin/gallery/:id/edit` | `getAdminGalleryEdit` |
+| `POST` | `/admin/gallery/:id/edit` | `postAdminGalleryEdit` |
+| `POST` | `/admin/gallery/:id/delete` | `postAdminGalleryDelete` |
 
 ---
 

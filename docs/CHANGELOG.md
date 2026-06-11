@@ -4,6 +4,45 @@
 
 ---
 
+## [1.6.0] — 2026-06-11
+
+### Added
+- **Complete Attractions CRUD** (`/admin/attractions`)
+  - List with pagination (15/page), keyword search, category filter, featured star badge, status badge
+  - Create form: name, category (with datalist autocomplete), full description (HTML), image upload, featured/published toggles
+  - Edit form: all fields pre-filled, existing image preview, remove-image checkbox, auto-regenerates slug on name change
+  - Delete with confirmation modal — removes image file from `uploads/attractions/` on disk
+  - `controllers/attractionsAdminController.js` — dedicated CRUD controller
+  - `config/multerAttractions.js` — 5 MB, JPEG/PNG/WebP, saves to `uploads/attractions/`
+  - Views: `admin/attractions.ejs`, `admin/attractions-create.ejs`, `admin/attractions-edit.ejs`
+- **Complete Gallery CRUD** (`/admin/gallery`)
+  - Grid-view list with pagination (20/page), search, category filter
+  - Create form: image upload (required), title, category select
+  - Edit form: image preview, replace/remove image, title, category
+  - Delete with confirmation modal — removes file from `uploads/gallery/`
+  - `controllers/galleryAdminController.js`
+  - `config/multerGallery.js` — 5 MB, JPEG/PNG/WebP, saves to `uploads/gallery/`
+  - Views: `admin/gallery.ejs`, `admin/gallery-create.ejs`, `admin/gallery-edit.ejs`
+
+### Changed
+- `models/Attraction.js` — full CRUD: `findAll`, `findFeatured`, `findBySlug`, `findRelated`, `getCategories`, `adminFindAll`, `findById`, `slugExists`, `create`, `update`, `delete`; fixed `LIMIT ?` → `LIMIT ${n}` (binary protocol fix)
+- `models/GalleryItem.js` — full CRUD using `gallery_items` ⟶ `gallery_categories` JOIN; `getCategories` now returns `{id, name, slug}` objects; `findAll` uses slug filter; fixed `LIMIT ?`
+- `controllers/attractionsController.js` — added `attrImgUrl` helper (resolves `uploads/attractions/`), category filter, `related` attractions for detail page
+- `controllers/galleryController.js` — added `galleryImgUrl` helper (resolves `uploads/gallery/`), passes categories as `{id,name,slug}` objects
+- `controllers/adminController.js` — removed stub `getAdminAttractions` / `getAdminGallery`; dashboard uses new model API
+- `routes/admin.js` — full CRUD routes for attractions (6) and gallery (6); unified `makeUploadHandler` factory for all three Multer instances
+- `views/pages/attractions.ejs` — category filter bar, uses `attrImgUrl()`
+- `views/pages/attraction-detail.ejs` — uses `imageUrl` from controller, related attractions sidebar
+- `views/pages/gallery.ejs` — category filter uses slug, uses `galleryImgUrl()`
+- `docs/ROUTES.md` — expanded attractions and gallery admin sections
+
+### Fixed
+- All "Foundation Phase" placeholder notices removed from admin views
+- All `დამატება` buttons now link to live create routes
+- Image 404s on public attractions/gallery pages (wrong `uploads/` subdirectory)
+
+---
+
 ## [1.5.0] — 2026-06-10
 
 ### Fixed

@@ -1,71 +1,40 @@
-<%# pages/gallery.ejs — ფოტოგალერეა -%>
+﻿<%# pages/gallery.ejs — ფოტოგალერეა -%>
 
 <section class="page-banner" aria-label="გვერდის ერთაური">
   <div class="container page-banner-content">
-    <nav aria-label="ნავიგაცია">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
-        <li class="breadcrumb-item active" aria-current="page">გალერეა</li>
-      </ol>
-    </nav>
+    <nav aria-label="ნავიგაცია"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">მთავარი</a></li><li class="breadcrumb-item active">გალერეა</li></ol></nav>
     <h1 class="page-banner-title">ფოტოგალერეა</h1>
     <p class="page-banner-subtitle">უჯარმის სოფლისა და მის შემოგარედაბის ფოტოსურათები</p>
   </div>
 </section>
 
-<!-- Gallery Section -->
 <section class="section">
   <div class="container">
 
-    <!-- Category Filter -->
     <% if (categories && categories.length > 0) { %>
       <div class="d-flex flex-wrap gap-2 mb-5">
-        <a href="/gallery"
-           class="gallery-filter-btn <%= !activeCategory ? 'active' : '' %>">
-          ყველა
-        </a>
+        <a href="/gallery" class="gallery-filter-btn <%= !activeCategory ? 'active' : '' %>">ყველა</a>
         <% categories.forEach(function(cat) { %>
-          <a href="/gallery?category=<%= encodeURIComponent(cat) %>"
-             class="gallery-filter-btn <%= activeCategory === cat ? 'active' : '' %>">
-            <%= cat %>
-          </a>
+          <a href="/gallery?category=<%= encodeURIComponent(cat.slug) %>" class="gallery-filter-btn <%= activeCategory === cat.slug ? 'active' : '' %>"><%= cat.name %></a>
         <% }) %>
       </div>
     <% } %>
 
-    <!-- Image Grid -->
     <% if (items && items.length > 0) { %>
       <div class="gallery-grid" style="grid-template-columns:repeat(4,1fr);">
         <% items.forEach(function(item) { %>
-          <div class="gallery-item"
-               data-src="/uploads/<%= item.image %>"
-               title="<%= item.title %>"
-               role="button"
-               tabindex="0"
-               aria-label="View image: <%= item.title %>">
-            <img src="/uploads/<%= item.image %>"
-                 alt="<%= item.title %>"
-                 loading="lazy" />
-            <div class="gallery-item-overlay" aria-hidden="true">
-              <i data-lucide="zoom-in"></i>
-            </div>
+          <% const gUrl = galleryImgUrl(item.image); %>
+          <div class="gallery-item" data-src="<%= gUrl || '' %>" title="<%= item.title %>" role="button" tabindex="0" aria-label="სურათის ნახვა: <%= item.title %>">
+            <% if (gUrl) { %><img src="<%= gUrl %>" alt="<%= item.title %>" loading="lazy" /><% } else { %><div class="gallery-placeholder"><i data-lucide="image"></i></div><% } %>
+            <div class="gallery-item-overlay" aria-hidden="true"><i data-lucide="zoom-in"></i></div>
           </div>
         <% }) %>
       </div>
     <% } else { %>
       <div class="empty-state" style="padding:6rem 2rem;">
         <div class="empty-state-icon"><i data-lucide="images"></i></div>
-        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">
-          გალერეა ცარიელია
-        </h3>
-        <p>
-          <% if (activeCategory) { %>
-            კატეგორიაში &ldquo;<%= activeCategory %>&rdquo; სურათები ვერ მოიძებნა.
-            <a href="/gallery" style="color:var(--color-accent);">ყველა სურათის ნახვა</a>
-          <% } else { %>
-            გალერეის სურათები გამოჩნდება ადმინისტრაციის მიერ ატვირთვის შემდეგ.
-          <% } %>
-        </p>
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">გალერეა ცარიელია</h3>
+        <p><% if (activeCategory) { %>კატეგორიაში სურათები ვერ მოიძებნა. <a href="/gallery" style="color:var(--color-accent);">ყველა სურათის ნახვა</a><% } else { %>გალერეის სურათები გამოჩნდება ადმინისტრაციის მიერ ატვირთვის შემდეგ.<% } %></p>
       </div>
     <% } %>
 

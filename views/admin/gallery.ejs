@@ -1,53 +1,91 @@
-<%# admin/gallery.ejs — Admin Gallery Management -%>
+﻿<%# admin/gallery.ejs — გალერეის სია -%>
 
 <div class="admin-page-header">
   <h1 class="admin-page-title">გალერეის მართვა</h1>
-  <button class="btn-admin-add" disabled title="CRUD ოპერაციები მომავალი ფაზში განვითარდება">
-    <i data-lucide="upload" class="icon-inline"></i> ფოტოს ატვირთვა
-  </button>
+  <a href="/admin/gallery/create"
+     style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.125rem;background:var(--color-primary);color:var(--white);border-radius:var(--radius);font-size:.8125rem;font-weight:600;text-decoration:none;">
+    <i data-lucide="upload" class="icon-inline"></i> ფოტოს დამატება
+  </a>
 </div>
 
-<% if (items && items.length > 0) { %>
+<!-- Flash -->
+<% if (flash === 'created') { %><div class="admin-flash-success"><i data-lucide="check-circle-2" class="icon-inline"></i> ფოტო წარმატებით დაემატა.</div><% } %>
+<% if (flash === 'updated') { %><div class="admin-flash-success"><i data-lucide="check-circle-2" class="icon-inline"></i> ფოტო განახლდა.</div><% } %>
+<% if (flash === 'deleted') { %><div class="admin-flash-success" style="background:#fff7ed;border-color:#fed7aa;border-left-color:#ea580c;color:#9a3412;"><i data-lucide="trash-2" class="icon-inline"></i> ფოტო წაიშალა.</div><% } %>
 
-  <!-- Image Grid View -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem;">
-    <% items.forEach(function(item) { %>
-      <div style="background:var(--white);border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">
-        <div style="aspect-ratio:1;overflow:hidden;background:var(--gray-100);">
-          <img src="/uploads/<%= item.image %>"
-               alt="<%= item.title %>"
-               loading="lazy"
-               style="width:100%;height:100%;object-fit:cover;" />
+<!-- Search / filter -->
+<div class="admin-table-wrap">
+  <form method="GET" action="/admin/gallery">
+    <div class="admin-filters">
+      <input class="admin-filter-input" type="text" name="search" value="<%= search %>" placeholder="სახელწოდებით ძებნა…" />
+      <select class="admin-filter-select" name="category">
+        <option value="">ყველა კატეგორია</option>
+        <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id %>" <%= categoryId == cat.id ? 'selected' : '' %>><%= cat.name %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="admin-filter-btn"><i data-lucide="search" class="icon-inline"></i> ძებნა</button>
+      <% if (search || categoryId) { %><a href="/admin/gallery" style="font-size:.8125rem;color:var(--color-text-muted);text-decoration:none;">გასუფთავება</a><% } %>
+      <span style="margin-left:auto;font-size:.8125rem;color:var(--color-text-muted);">სულ: <%= total %> ფოტო</span>
+    </div>
+  </form>
+
+  <% if (items && items.length > 0) { %>
+    <!-- Grid view -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;padding:1.5rem;">
+      <% items.forEach(function(item) { %>
+        <div style="background:var(--white);border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;position:relative;">
+          <!-- image -->
+          <div style="aspect-ratio:1;overflow:hidden;background:var(--gray-100);">
+            <% if (item.image) { %>
+              <img src="/uploads/gallery/<%= item.image %>" alt="<%= item.title %>" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+            <% } else { %>
+              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--gray-400);"><i data-lucide="image" style="width:2rem;height:2rem;"></i></div>
+            <% } %>
+          </div>
+          <!-- meta -->
+          <div style="padding:.75rem;">
+            <p style="font-size:.8125rem;font-weight:500;color:var(--color-primary);margin:0 0 .2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= item.title %></p>
+            <p style="font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-muted);margin:0;"><%= item.category_name || '—' %></p>
+          </div>
+          <!-- actions -->
+          <div style="padding:.5rem .75rem;border-top:1px solid var(--color-border);display:flex;justify-content:flex-end;gap:.5rem;">
+            <a href="/admin/gallery/<%= item.id %>/edit" title="რედაქტირება" style="color:var(--color-primary);"><i data-lucide="pencil" class="icon-inline"></i></a>
+            <button type="button" class="btn-delete-trigger" data-id="<%= item.id %>" data-title="<%= item.title.replace(/\"/g,'&quot;') %>" title="წაშლა" style="background:none;border:none;cursor:pointer;padding:0;color:#dc2626;"><i data-lucide="trash-2" class="icon-inline"></i></button>
+          </div>
         </div>
-        <div style="padding:.75rem;">
-          <p style="font-size:.8125rem;font-weight:500;color:var(--color-primary);margin-bottom:.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-            <%= item.title %>
-          </p>
-          <span style="font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-muted);">
-            <%= item.category || 'General' %>
-          </span>
-        </div>
+      <% }) %>
+    </div>
+
+    <% if (totalPages > 1) { %>
+      <div class="admin-pagination">
+        <% if (page > 1) { %><a href="/admin/gallery?page=<%= page-1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn"><i data-lucide="chevron-left" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled"><i data-lucide="chevron-left" class="icon-inline"></i></span><% } %>
+        <% for (let p = 1; p <= totalPages; p++) { %><a href="/admin/gallery?page=<%= p %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn <%= p === page ? 'active' : '' %>"><%= p %></a><% } %>
+        <% if (page < totalPages) { %><a href="/admin/gallery?page=<%= page+1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn"><i data-lucide="chevron-right" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled"><i data-lucide="chevron-right" class="icon-inline"></i></span><% } %>
       </div>
-    <% }) %>
-  </div>
+    <% } %>
+  <% } else { %>
+    <div class="empty-state" style="padding:4rem 2rem;"><div class="empty-state-icon"><i data-lucide="images"></i></div><p><% if (search || categoryId) { %>ფილტრის შედეგები ცარიელია.<% } else { %>გალერეის სურათები ჯერ არ ატვირთულა.<% } %></p></div>
+  <% } %>
+</div>
 
-  <div style="padding:.875rem 1.25rem;background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius);font-size:.8125rem;color:var(--color-text-muted);">
-    Showing <%= items.length %> image<%= items.length !== 1 ? 's' : '' %>
-  </div>
-
-<% } else { %>
-  <div class="admin-table-wrap">
-    <div class="empty-state" style="padding:4rem 2rem;">
-      <div class="empty-state-icon"><i data-lucide="images"></i></div>
-      <p>No gallery images have been uploaded yet.</p>
+<!-- Delete modal -->
+<div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">
+  <div class="admin-modal">
+    <h2 class="admin-modal-title">ფოტოს წაშლა</h2>
+    <p class="admin-modal-body" id="deleteModalBody"></p>
+    <div class="admin-modal-actions">
+      <button type="button" onclick="closeDeleteModal()" class="admin-page-btn" style="padding:.625rem 1.25rem;">გაუქმება</button>
+      <form id="deleteForm" method="POST" action="">
+        <button type="submit" style="padding:.625rem 1.5rem;background:#dc2626;color:var(--white);border:none;border-radius:var(--radius);font-size:.8125rem;font-weight:600;cursor:pointer;"><i data-lucide="trash-2" class="icon-inline"></i> წაშლა</button>
+      </form>
     </div>
   </div>
-<% } %>
-
-<div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--gold-100);border:1px solid var(--gold-300);border-radius:var(--radius);border-left:3px solid var(--gold-500);">
-  <p style="font-size:.875rem;color:var(--gold-700);margin:0;">
-    <i data-lucide="info" class="icon-inline"></i>
-    <strong>Foundation Phase:</strong> Image upload and management will be implemented in the next phase.
-    Multer is already configured in <code>config/multer.js</code>.
-  </p>
 </div>
+<script>
+  function openDeleteModal(id, title) { document.getElementById('deleteModalBody').textContent = 'გსურთ "' + title + '" წაშლა?'; document.getElementById('deleteForm').action = '/admin/gallery/' + id + '/delete'; document.getElementById('deleteModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); document.body.style.overflow = ''; }
+  document.querySelectorAll('.btn-delete-trigger').forEach(b => b.addEventListener('click', () => openDeleteModal(b.dataset.id, b.dataset.title)));
+  document.getElementById('deleteModal').addEventListener('click', e => { if (e.target === document.getElementById('deleteModal')) closeDeleteModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDeleteModal(); });
+</script>

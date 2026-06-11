@@ -1,50 +1,41 @@
-<%# pages/attractions.ejs — ღირსშესანიშნაობების გვერდი -%>
+﻿<%# pages/attractions.ejs — ღირსშესანიშნაობების გვერდი -%>
 
-<!-- გვერდის ბანერი -->
 <section class="page-banner" aria-label="გვერდის ერთაური">
   <div class="container page-banner-content">
-    <nav aria-label="ნავიგაცია">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
-        <li class="breadcrumb-item active" aria-current="page">ღირსშესანიშნაობები</li>
-      </ol>
-    </nav>
+    <nav aria-label="ნავიგაცია"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">მთავარი</a></li><li class="breadcrumb-item active">ღირსშესანიშნაობები</li></ol></nav>
     <h1 class="page-banner-title">ღირსშესანიშნაობები</h1>
-    <p class="page-banner-subtitle">
-      აიკვლეთ ისტორიული ძეგლები, ფასეული სილარზე და უჯარმის კულტურული მემკვიდრეობა
-    </p>
+    <p class="page-banner-subtitle">აიკვლეთ ისტორიული ძეგლები, ფასეული სილარზე და უჯარმის კულტურული მემკვიდრეობა</p>
   </div>
 </section>
 
-<!-- Attractions Grid -->
 <section class="section">
   <div class="container">
+
+    <% if (categories && categories.length > 0) { %>
+      <div class="d-flex flex-wrap gap-2 mb-5">
+        <a href="/attractions" class="gallery-filter-btn <%= !activeCategory ? 'active' : '' %>">ყველა</a>
+        <% categories.forEach(function(cat) { %>
+          <a href="/attractions?category=<%= encodeURIComponent(cat) %>" class="gallery-filter-btn <%= activeCategory === cat ? 'active' : '' %>"><%= cat %></a>
+        <% }) %>
+      </div>
+    <% } %>
 
     <% if (attractions && attractions.length > 0) { %>
       <div class="row g-4">
         <% attractions.forEach(function(attr) { %>
+          <% const img = attrImgUrl(attr.image); %>
           <div class="col-lg-4 col-md-6">
             <div class="content-card h-100">
-              <% if (attr.image) { %>
-                <img src="/uploads/<%= attr.image %>"
-                     alt="<%= attr.name %>"
-                     class="content-card-img" loading="lazy" />
+              <% if (img) { %>
+                <img src="<%= img %>" alt="<%= attr.name %>" class="content-card-img" loading="lazy" />
               <% } else { %>
-                <div class="content-card-img-placeholder">
-                  <i data-lucide="building-2" style="width:2.5rem;height:2.5rem;color:var(--gray-300);"></i>
-                </div>
+                <div class="content-card-img-placeholder"><i data-lucide="building-2" style="width:2.5rem;height:2.5rem;color:var(--gray-300);"></i></div>
               <% } %>
               <div class="content-card-body d-flex flex-column">
-                <% if (attr.category) { %>
-                  <span class="content-card-category"><%= attr.category %></span>
-                <% } %>
-                <h2 class="content-card-title" style="font-size:1.125rem;">
-                  <a href="/attractions/<%= attr.slug %>"><%= attr.name %></a>
-                </h2>
+                <% if (attr.category) { %><span class="content-card-category"><%= attr.category %></span><% } %>
+                <h2 class="content-card-title" style="font-size:1.125rem;"><a href="/attractions/<%= attr.slug %>"><%= attr.name %></a></h2>
                 <p class="content-card-excerpt flex-grow-1"><%= attr.description %></p>
-                <a href="/attractions/<%= attr.slug %>" class="content-card-link mt-auto">
-                  დეტალები <i data-lucide="arrow-right" class="icon-inline"></i>
-                </a>
+                <a href="/attractions/<%= attr.slug %>" class="content-card-link mt-auto">დეტალები <i data-lucide="arrow-right" class="icon-inline"></i></a>
               </div>
             </div>
           </div>
@@ -53,10 +44,8 @@
     <% } else { %>
       <div class="empty-state" style="padding:6rem 2rem;">
         <div class="empty-state-icon"><i data-lucide="map-pin"></i></div>
-        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">
-          ღირსშესანიშნაობები მალე დაემატება
-        </h3>
-        <p>ადგილობრივი როგორც გამოყვანილი ადგილობრივები მალე გამოფინდება.</p>
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">ღირსშესანიშნაობები მალე დაემატება</h3>
+        <p><% if (activeCategory) { %>კატეგორიაში “<%= activeCategory %>” არც გაიყვნება. <a href="/attractions">ყველას ნახვა</a><% } else { %>ადგილობრივი როგორც გამოყვანილი ადგილობრივები მალე გამოფინდება.<% } %></p>
       </div>
     <% } %>
 

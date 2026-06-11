@@ -152,4 +152,30 @@
     });
   });
 
+
+  /* ──────────────────────────────────────────
+     Heritage Strip: scroll-reveal fade-in
+     Uses IntersectionObserver with staggered
+     delay controlled by CSS transition-delay.
+  ────────────────────────────────────────── */
+  const heritageCards = document.querySelectorAll('.heritage-card');
+
+  if (heritageCards.length > 0 && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    heritageCards.forEach((card) => revealObserver.observe(card));
+  } else {
+    // Fallback for browsers without IntersectionObserver
+    heritageCards.forEach((card) => card.classList.add('is-visible'));
+  }
+
 })();

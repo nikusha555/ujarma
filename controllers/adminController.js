@@ -115,19 +115,19 @@ export const getAdminLogout = (req, res) => {
  */
 export const getDashboard = async (req, res, next) => {
   try {
-    const [newsCount, attractions, gallery] = await Promise.all([
+    const [newsCount, attractions, galleryItems] = await Promise.all([
       News.count().catch(() => 0),
       Attraction.findAll().catch(() => []),
-      GalleryItem.findAll().catch(() => []),
+      GalleryItem.adminFindAll({ perPage: 1000 }).catch(() => ({ rows: [], total: 0 })),
     ]);
 
     res.render('admin/dashboard', {
       layout: 'layouts/admin',
-      title:  'Dashboard — Ujarma Admin',
+      title:  'დასაბორდი — უჯარმა ადმინი',
       stats:  {
         news:        newsCount,
         attractions: attractions.length,
-        gallery:     gallery.length,
+        gallery:     galleryItems.total ?? galleryItems.rows?.length ?? 0,
       },
     });
   } catch (error) {
@@ -157,38 +157,5 @@ export const getAdminNews = async (req, res, next) => {
   }
 };
 
-/**
- * GET /admin/attractions
- * Renders the attractions management table.
- */
-export const getAdminAttractions = async (req, res, next) => {
-  try {
-    const attractions = await Attraction.findAll().catch(() => []);
-
-    res.render('admin/attractions', {
-      layout:      'layouts/admin',
-      title:       'Attractions Management — Ujarma Admin',
-      attractions,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * GET /admin/gallery
- * Renders the gallery management page.
- */
-export const getAdminGallery = async (req, res, next) => {
-  try {
-    const items = await GalleryItem.findAll().catch(() => []);
-
-    res.render('admin/gallery', {
-      layout: 'layouts/admin',
-      title:  'Gallery Management — Ujarma Admin',
-      items,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+// getAdminAttractions and getAdminGallery removed — superseded by
+// attractionsAdminController.js and galleryAdminController.js

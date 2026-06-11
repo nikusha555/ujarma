@@ -1,0 +1,66 @@
+<%# admin/attractions-create.ejs — ღირსშესანიშნაობის დამატება -%>
+
+<div class="admin-page-header">
+  <h1 class="admin-page-title">ობიექტის დამატება</h1>
+  <a href="/admin/attractions" style="display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--color-text-secondary);text-decoration:none;">
+    <i data-lucide="arrow-left" class="icon-inline"></i> სიაზე დაბრუნება
+  </a>
+</div>
+
+<% if (errors && errors.length > 0) { %>
+  <div class="admin-error-list"><ul><% errors.forEach(e => { %><li><i data-lucide="alert-circle" class="icon-inline"></i> <%= e %></li><% }) %></ul></div>
+<% } %>
+
+<form method="POST" action="/admin/attractions/create" enctype="multipart/form-data" novalidate>
+  <div class="row g-4">
+
+    <div class="col-lg-8">
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header"><i data-lucide="type" class="icon-inline"></i><span class="admin-form-card-title">ძირითადი ინფორმაცია</span></div>
+        <div class="admin-form-card-body">
+          <div class="admin-field">
+            <label for="name" class="admin-label">სახელი <span class="req">*</span></label>
+            <input type="text" id="name" name="name" class="admin-input" value="<%= formData.name || '' %>" placeholder="ღირსშესანიშნაობის სახელი…" required />
+          </div>
+          <div class="admin-field">
+            <label for="category" class="admin-label">კატეგორია</label>
+            <input type="text" id="category" name="category" class="admin-input" value="<%= formData.category || '' %>" placeholder="მაგ: ისტორიული ძეგლი, ბუნებრივი ლანდშაფტი…" list="cat-suggestions" />
+            <datalist id="cat-suggestions">
+              <% categories.forEach(c => { %><option value="<%= c %>"><% }) %>
+            </datalist>
+          </div>
+          <div class="admin-field">
+            <label for="description" class="admin-label">სრული აღწერა <span class="req">*</span></label>
+            <textarea id="description" name="description" class="admin-textarea" rows="10" placeholder="ობიექტის დეტალური აღწერა…" required><%= formData.description || '' %></textarea>
+            <p class="admin-hint">HTML ტეგები მხარდაჭერილია.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header"><i data-lucide="settings-2" class="icon-inline"></i><span class="admin-form-card-title">პარამეტრები</span></div>
+        <div class="admin-form-card-body">
+          <div class="admin-check-row"><input type="checkbox" id="is_published" name="is_published" <%= formData.is_published === 'on' || formData.is_published === undefined ? 'checked' : '' %> /><label for="is_published">გამოქვეყნებულია</label></div>
+          <div class="admin-check-row"><input type="checkbox" id="is_featured" name="is_featured" <%= formData.is_featured === 'on' ? 'checked' : '' %> /><label for="is_featured">გამორჩეული ობიექტი</label></div>
+        </div>
+      </div>
+
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header"><i data-lucide="image" class="icon-inline"></i><span class="admin-form-card-title">მთავარი სურათი</span></div>
+        <div class="admin-form-card-body">
+          <div class="admin-field">
+            <label for="image" class="admin-label">სურათის ატვირთვა</label>
+            <input type="file" id="image" name="image" class="admin-input" accept="image/jpeg,image/jpg,image/png,image/webp" style="padding:.5rem;" />
+            <p class="admin-hint">JPG, PNG, WebP — მაქს. 5 MB</p>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary-custom w-100 text-center" style="padding:.875rem;font-size:.875rem;width:100%;display:block;">
+        <i data-lucide="save" class="icon-inline"></i> შენახვა
+      </button>
+    </div>
+  </div>
+</form>

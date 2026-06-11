@@ -1,0 +1,98 @@
+<%# admin/attractions-edit.ejs — ღირსშესანიშნაობის რედაქტირება -%>
+
+<div class="admin-page-header">
+  <h1 class="admin-page-title">ობიექტის რედაქტირება</h1>
+  <a href="/admin/attractions" style="display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--color-text-secondary);text-decoration:none;">
+    <i data-lucide="arrow-left" class="icon-inline"></i> სიაზე დაბრუნება
+  </a>
+</div>
+
+<% if (errors && errors.length > 0) { %>
+  <div class="admin-error-list"><ul><% errors.forEach(e => { %><li><i data-lucide="alert-circle" class="icon-inline"></i> <%= e %></li><% }) %></ul></div>
+<% } %>
+
+<form method="POST" action="/admin/attractions/<%= attraction.id %>/edit" enctype="multipart/form-data" novalidate>
+  <div class="row g-4">
+
+    <div class="col-lg-8">
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header"><i data-lucide="type" class="icon-inline"></i><span class="admin-form-card-title">ძირითადი ინფორმაცია</span></div>
+        <div class="admin-form-card-body">
+          <div class="admin-field">
+            <label for="name" class="admin-label">სახელი <span class="req">*</span></label>
+            <input type="text" id="name" name="name" class="admin-input" value="<%= attraction.name || '' %>" required />
+          </div>
+          <div class="admin-field">
+            <label class="admin-label">მიმდინარე სლაგი</label>
+            <input type="text" class="admin-input" value="<%= attraction.slug %>" readonly style="background:var(--gray-50);color:var(--color-text-muted);cursor:default;" />
+            <p class="admin-hint">სახელის შეცვლისას სლაგი ავტომატურად განახლდება. <a href="/attractions/<%= attraction.slug %>" target="_blank" style="color:var(--color-accent);"><i data-lucide="external-link" class="icon-inline"></i> ნახვა</a></p>
+          </div>
+          <div class="admin-field">
+            <label for="category" class="admin-label">კატეგორია</label>
+            <input type="text" id="category" name="category" class="admin-input" value="<%= attraction.category || '' %>" list="cat-suggestions" />
+            <datalist id="cat-suggestions">
+              <% categories.forEach(c => { %><option value="<%= c %>"><% }) %>
+            </datalist>
+          </div>
+          <div class="admin-field">
+            <label for="description" class="admin-label">სრული აღწერა <span class="req">*</span></label>
+            <textarea id="description" name="description" class="admin-textarea" rows="10" required><%= attraction.description || '' %></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header"><i data-lucide="settings-2" class="icon-inline"></i><span class="admin-form-card-title">პარამეტრები</span></div>
+        <div class="admin-form-card-body">
+          <div class="admin-check-row"><input type="checkbox" id="is_published" name="is_published" <%= attraction.is_published ? 'checked' : '' %> /><label for="is_published">გამოქვეყნებულია</label></div>
+          <div class="admin-check-row"><input type="checkbox" id="is_featured" name="is_featured" <%= attraction.is_featured ? 'checked' : '' %> /><label for="is_featured">გამორჩეული ობიექტი</label></div>
+        </div>
+      </div>
+
+      <div class="admin-form-card mb-4">
+        <div class="admin-form-card-header"><i data-lucide="image" class="icon-inline"></i><span class="admin-form-card-title">მთავარი სურათი</span></div>
+        <div class="admin-form-card-body">
+          <% if (attraction.image) { %>
+            <div class="admin-image-preview mb-3"><img src="/uploads/attractions/<%= attraction.image %>" alt="<%= attraction.name %>" style="max-height:160px;width:auto;" /></div>
+            <div class="admin-check-row mb-2"><input type="checkbox" id="remove_image" name="remove_image" /><label for="remove_image" style="color:#dc2626;">სურათის წაშლა</label></div>
+          <% } %>
+          <div class="admin-field">
+            <label for="image" class="admin-label"><%= attraction.image ? 'ახალი სურათი (ჩასანაცვლებლად)' : 'სურათის ატვირთვა' %></label>
+            <input type="file" id="image" name="image" class="admin-input" accept="image/jpeg,image/jpg,image/png,image/webp" style="padding:.5rem;" />
+            <p class="admin-hint">JPG, PNG, WebP — მაქს. 5 MB</p>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary-custom w-100 text-center" style="padding:.875rem;font-size:.875rem;width:100%;display:block;margin-bottom:.875rem;">
+        <i data-lucide="save" class="icon-inline"></i> ცვლილებების შენახვა
+      </button>
+      <button type="button" class="btn-delete-trigger" data-id="<%= attraction.id %>" data-title="<%= attraction.name.replace(/\"/g,'&quot;') %>"
+        style="width:100%;padding:.75rem;background:none;border:1.5px solid #fecaca;border-radius:var(--radius);color:#dc2626;font-size:.8125rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;">
+        <i data-lucide="trash-2" class="icon-inline"></i> ობიექტის წაშლა
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">
+  <div class="admin-modal">
+    <h2 class="admin-modal-title">ობიექტის წაშლა</h2>
+    <p class="admin-modal-body" id="deleteModalBody"></p>
+    <div class="admin-modal-actions">
+      <button type="button" onclick="closeDeleteModal()" class="admin-page-btn" style="padding:.625rem 1.25rem;">გაუქმება</button>
+      <form id="deleteForm" method="POST" action="">
+        <button type="submit" style="padding:.625rem 1.5rem;background:#dc2626;color:var(--white);border:none;border-radius:var(--radius);font-size:.8125rem;font-weight:600;cursor:pointer;"><i data-lucide="trash-2" class="icon-inline"></i> წაშლა</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  function openDeleteModal(id, title) { document.getElementById('deleteModalBody').textContent = 'გსურთ "' + title + '" წაშლა?'; document.getElementById('deleteForm').action = '/admin/attractions/' + id + '/delete'; document.getElementById('deleteModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); document.body.style.overflow = ''; }
+  document.querySelectorAll('.btn-delete-trigger').forEach(b => b.addEventListener('click', () => openDeleteModal(b.dataset.id, b.dataset.title)));
+  document.getElementById('deleteModal').addEventListener('click', e => { if (e.target === document.getElementById('deleteModal')) closeDeleteModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDeleteModal(); });
+</script>
