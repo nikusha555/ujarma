@@ -12,6 +12,7 @@ import helmet           from 'helmet';
 import compression      from 'compression';
 import path             from 'path';
 import { fileURLToPath } from 'url';
+import { readFileSync }  from 'fs';
 import dotenv           from 'dotenv';
 
 // Load environment variables before anything else
@@ -20,6 +21,13 @@ dotenv.config();
 // Resolve __dirname in ES Module context
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
+
+// Read package.json version for static asset cache-busting.
+// Changing package.json "version" on each deployment will automatically
+// invalidate any browser-cached copy of style.css / main.js.
+const { version: PKG_VERSION } = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url))
+);
 
 // ─────────────────────────────────────────────
 // Global Process Error Handlers
@@ -130,6 +138,12 @@ app.set('view engine', 'ejs');
 // Global Template Locals
 // Variables available in every EJS template
 // ─────────────────────────────────────────────
+
+// assetVersion is set once here so every layout/partial can use it
+// without repeating the lookup.  Bump package.json "version" on each
+// deployment to bust the browser cache automatically.
+app.locals.assetVersion = process.env.ASSET_VERSION || PKG_VERSION;
+
 app.use((req, res, next) => {
   res.locals.currentPath    = req.path;
   res.locals.currentYear    = new Date().getFullYear();
