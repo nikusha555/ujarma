@@ -121,25 +121,64 @@
 
   /* ──────────────────────────────────────────
      Admin sidebar: mobile toggle
+     - Slide-in drawer on <992 px
+     - Backdrop overlay + body scroll lock
+     - Close via: button re-click, backdrop,
+       Escape key, nav-link tap, resize
   ────────────────────────────────────────── */
-  const sidebarToggle = document.getElementById('adminSidebarToggle');
-  const adminSidebar  = document.getElementById('adminSidebar');
+  const sidebarToggle   = document.getElementById('adminSidebarToggle');
+  const adminSidebar    = document.getElementById('adminSidebar');
+  const sidebarBackdrop = document.getElementById('adminSidebarBackdrop');
+
+  function openAdminSidebar() {
+    adminSidebar.classList.add('open');
+    if (sidebarBackdrop) sidebarBackdrop.classList.add('open');
+    document.body.classList.add('admin-sidebar-open');
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeAdminSidebar() {
+    adminSidebar.classList.remove('open');
+    if (sidebarBackdrop) sidebarBackdrop.classList.remove('open');
+    document.body.classList.remove('admin-sidebar-open');
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false');
+  }
 
   if (sidebarToggle && adminSidebar) {
+    // Toggle on hamburger click
     sidebarToggle.addEventListener('click', () => {
-      adminSidebar.classList.toggle('open');
-    });
-
-    // Close sidebar when clicking outside on mobile
-    document.addEventListener('click', (e) => {
-      if (
-        window.innerWidth < 992 &&
-        !adminSidebar.contains(e.target) &&
-        !sidebarToggle.contains(e.target)
-      ) {
-        adminSidebar.classList.remove('open');
+      if (adminSidebar.classList.contains('open')) {
+        closeAdminSidebar();
+      } else {
+        openAdminSidebar();
       }
     });
+
+    // Close via backdrop click
+    if (sidebarBackdrop) {
+      sidebarBackdrop.addEventListener('click', closeAdminSidebar);
+    }
+
+    // Close via Escape key (return focus to toggle)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && adminSidebar.classList.contains('open')) {
+        closeAdminSidebar();
+        sidebarToggle.focus();
+      }
+    });
+
+    // Close when a nav link is tapped on mobile (page navigates anyway,
+    // but this prevents a visual flash of the open drawer)
+    adminSidebar.querySelectorAll('.admin-nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 992) closeAdminSidebar();
+      });
+    });
+
+    // Auto-close if viewport is resized to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 992) closeAdminSidebar();
+    }, { passive: true });
   }
 
 

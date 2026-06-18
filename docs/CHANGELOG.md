@@ -4,6 +4,69 @@
 
 ---
 
+## [1.7.0] — 2026-06-18
+
+### Responsive / Mobile — Admin Panel
+
+> All changes are CSS/JS only. No routes, controllers, models, database schema, or form field names were modified. Desktop appearance is unchanged.
+
+#### Admin Sidebar — Slide-in Mobile Drawer
+- Added `.admin-sidebar-backdrop` overlay element to `views/layouts/admin.ejs`; displayed on `z-index: 99` beneath the sidebar (`z-index: 100`)
+- Added `aria-label`, `aria-expanded="false"`, and `aria-controls="adminSidebar"` to the hamburger toggle button
+- Added `body.admin-sidebar-open { overflow: hidden }` to prevent background scroll while drawer is open
+- Rewrote sidebar JS in `public/js/main.js`: `openAdminSidebar()` / `closeAdminSidebar()` helpers manage `.open` class, backdrop, body scroll lock, and `aria-expanded` state
+- Sidebar now closes via: backdrop click, **Escape** key (returns focus to toggle), nav-link tap on mobile, and viewport resize to ≥992 px
+
+#### Admin Navigation Touch Targets
+- At `≤991.98 px`: `.admin-nav-link` gains `min-height: 44 px` (up from ~34 px) — meets WCAG 2.5.5 touch-target guideline
+- At `≤991.98 px`: `.admin-logout-btn` gains `min-height: 44 px`
+- At `≤991.98 px`: table icon-link `<a>` tags receive `display: inline-flex; min-height: 36 px; min-width: 36 px`
+- At `≤991.98 px`: `.btn-delete-trigger` inside tables gains `padding: 0.375rem !important; min-height/width: 36 px`
+
+#### Admin Tables — Horizontal Scroll
+- Moved `overflow-x: auto` from `≤575.98 px` up to `≤991.98 px` so every table scrolls horizontally on all phone and small-tablet widths
+- Added `min-width: 520 px` to `.admin-table` so columns never collapse to unreadable widths
+
+#### Admin Page Header
+- At `≤991.98 px`: added `flex-wrap: wrap; gap: 0.75 rem` — title and action button wrap gracefully
+- At `≤767.98 px`: stacks to `flex-direction: column; align-items: flex-start` — action button sits below title, full label always visible
+- At `≤767.98 px`: `.admin-page-title` font-size reduced to `1.375 rem`
+- At `≤575.98 px`: `.admin-page-title` reduced to `1.25 rem`
+
+#### Admin Topbar
+- At `≤575.98 px`: `.admin-topbar-title` gains `overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 55vw` to prevent collision with user area
+- At `≤575.98 px`: `.admin-topbar-user` hidden (`display: none`) — saves space on 320–414 px screens
+
+#### Admin Filters Bar
+- At `≤767.98 px` (already existed): `flex-direction: column; align-items: stretch` — all filter controls stack vertically
+- Added explicit `width: 100%` and removed `min-width: 200 px` on `.admin-filter-input` and `.admin-filter-select` at `≤767.98 px` so inputs never cause horizontal overflow on 320 px screens
+
+#### Admin Flash & Error Messages
+- Added `word-break: break-word` to `.admin-flash-success` and `.admin-error-list` at `≤767.98 px` — long Georgian strings no longer overflow their containers
+
+#### Admin Image Previews
+- At `≤767.98 px`: `.admin-image-preview` changed from `display: inline-block` to `display: block; max-width: 100%`; `img` gains `max-width: 100%; height: auto` — prevents image overflow in narrow sidebar columns on phones
+- At `≤575.98 px`: preview image capped at `max-height: 120 px`
+
+#### Delete Confirmation Modals
+- At `≤575.98 px`: `.admin-modal` padding reduced from `2 rem` to `1.25 rem` — fits within 288 px content area on 320 px screens
+- At `≤575.98 px`: `.admin-modal-actions` gains `flex-wrap: wrap; gap: 0.5 rem` — Cancel + Delete buttons stack when viewport is too narrow for side-by-side layout
+
+#### Dashboard Stat Cards
+- Bootstrap `col-lg-4 col-md-6` grid already produces single-column stacking on xs screens; confirmed no changes needed
+
+#### Gallery Admin Grid
+- `grid-template-columns: repeat(auto-fill, minmax(180 px, 1fr))` behaves correctly on all tested widths (320–991 px) — cards reduce to 1–2 per row naturally via CSS Grid auto-fill
+
+#### Files Changed
+| File | Nature |
+|------|--------|
+| `public/css/style.css` | Added backdrop CSS, body scroll lock, touch target rules, table scroll, page header stacking, filter/flash/modal/image-preview responsive fixes |
+| `public/js/main.js` | Rewrote sidebar toggle: backdrop, scroll lock, Escape key, aria-expanded, resize listener |
+| `views/layouts/admin.ejs` | Added `.admin-sidebar-backdrop` div; added `aria-label`, `aria-expanded`, `aria-controls` to hamburger button |
+
+---
+
 ## [1.6.0] — 2026-06-11
 
 ### Added

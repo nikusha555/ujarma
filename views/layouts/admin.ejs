@@ -81,6 +81,9 @@
     </aside>
     <!-- ── /Sidebar ────────────────────────────── -->
 
+    <!-- Sidebar backdrop (mobile overlay) -->
+    <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop" aria-hidden="true"></div>
+
     <!-- ── Main Content ─────────────────────────── -->
     <div class="admin-main">
 
@@ -90,7 +93,10 @@
           <!-- Mobile sidebar toggle -->
           <button id="adminSidebarToggle"
                   class="d-lg-none btn p-0 border-0"
-                  style="background:none;color:var(--color-primary);font-size:1.25rem;">
+                  style="background:none;color:var(--color-primary);font-size:1.25rem;"
+                  aria-label="მენიუ"
+                  aria-expanded="false"
+                  aria-controls="adminSidebar">
             <i data-lucide="menu"></i>
           </button>
           <span class="admin-topbar-title">

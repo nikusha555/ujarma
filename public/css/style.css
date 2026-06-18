@@ -1260,6 +1260,19 @@ body.admin-body {
 }
 .admin-logout-btn:hover { color: rgba(255,255,255,0.8); }
 
+/* Sidebar mobile backdrop */
+.admin-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(6, 13, 26, 0.55);
+}
+.admin-sidebar-backdrop.open { display: block; }
+
+/* Body scroll lock when mobile sidebar is open */
+body.admin-sidebar-open { overflow: hidden; }
+
 /* Main admin content area */
 .admin-main {
   margin-left: 240px;
@@ -1465,6 +1478,17 @@ body.admin-body {
   .admin-main { margin-left: 0; }
   .admin-topbar { padding: 0 1.25rem; }
   .admin-content { padding: 1.25rem; }
+  /* Mobile: raise nav-link touch targets to ≥44 px */
+  .admin-nav-link { min-height: 44px; }
+  .admin-logout-btn { min-height: 44px; }
+  /* Tables: enable horizontal scroll so columns never clip */
+  .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .admin-table { min-width: 520px; }
+  /* Page header: wrap cleanly when title + button are wide */
+  .admin-page-header { flex-wrap: wrap; gap: 0.75rem; }
+  /* Table action buttons: pad to usable touch target */
+  .admin-table .btn-delete-trigger { padding: 0.375rem !important; min-height: 36px; min-width: 36px; }
+  .admin-table td a { display: inline-flex; align-items: center; min-height: 36px; min-width: 36px; }
 }
 
 @media (max-width: 767.98px) {
@@ -1482,6 +1506,15 @@ body.admin-body {
   .lead { font-size: 1rem; }
   .about-text-col { padding-right: 0 !important; }
   .contact-info-item { flex-direction: row; }
+  /* Admin: stack page header title + action button on phones */
+  .admin-page-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .admin-page-title { font-size: 1.375rem; }
+  /* Admin: prevent text overflow in flash / error banners */
+  .admin-flash-success,
+  .admin-error-list { word-break: break-word; }
+  /* Admin: filter inputs full-width in column layout */
+  .admin-filter-input,
+  .admin-filter-select { min-width: 0; width: 100%; }
 }
 
 @media (max-width: 575.98px) {
@@ -1498,6 +1531,14 @@ body.admin-body {
   /* Page banner on tiny screens */
   .page-banner { padding: 3rem 0 2rem; }
   .page-banner-title { font-size: clamp(1.5rem, 8vw, 2rem); }
+  /* Admin: extra-small screen adjustments */
+  .admin-page-title { font-size: 1.25rem; }
+  .admin-topbar-title { font-size: 0.875rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 55vw; }
+  .admin-topbar-user { display: none; }
+  .admin-modal { padding: 1.25rem; }
+  .admin-modal-actions { flex-wrap: wrap; gap: 0.5rem; }
+  .admin-image-preview { display: block; max-width: 100%; }
+  .admin-image-preview img { max-height: 120px; max-width: 100%; width: auto; }
 }
 
 
@@ -1758,6 +1799,9 @@ body.admin-body {
   .admin-filter-input { min-width: 0; }
   .admin-form-card-body { padding: 1.25rem; }
   .admin-textarea { min-height: 180px; }
+  /* Image previews: never overflow their container on mobile */
+  .admin-image-preview { display: block; max-width: 100%; }
+  .admin-image-preview img { max-width: 100%; height: auto; }
 }
 
 /* ── 21. Article Typography & Layout ─────────────────── */
