@@ -159,6 +159,15 @@
       sidebarBackdrop.addEventListener('click', closeAdminSidebar);
     }
 
+    // Close via the in-drawer close button (visible on mobile only)
+    const sidebarCloseBtn = document.getElementById('adminSidebarClose');
+    if (sidebarCloseBtn) {
+      sidebarCloseBtn.addEventListener('click', () => {
+        closeAdminSidebar();
+        sidebarToggle.focus(); // return focus to hamburger
+      });
+    }
+
     // Close via Escape key (return focus to toggle)
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && adminSidebar.classList.contains('open')) {

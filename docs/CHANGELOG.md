@@ -4,6 +4,107 @@
 
 ---
 
+## [1.8.0] — 2026-06-18
+
+### Admin Mobile UX Enhancements
+
+> Pure CSS / JS / presentational improvements. No routes, controllers, models, DB schema, forms, validation, authentication, session handling, or business logic were modified. Desktop appearance is unchanged.
+
+---
+
+#### Issues Identified Before Implementation
+
+| # | Area | Issue |
+|---|------|-------|
+| 1 | Tables | Horizontal scroll on phones — content feels like a shrunken desktop table |
+| 2 | Tables | Long Georgian titles truncate with `…`; no room to read |
+| 3 | Tables | Action icons (view/edit/delete) are bare icon links with no visual tap affordance or proper touch size |
+| 4 | Sidebar | `ease` easing instead of natural `cubic-bezier` made the drawer feel stiff |
+| 5 | Sidebar | Backdrop used `display:none`→`display:block` — no fade-in/out animation |
+| 6 | Sidebar | No in-drawer close button; users relied on tapping outside or Escape |
+| 7 | Forms | Input `font-size: 0.9375rem` (15 px) triggers iOS Safari auto-zoom on focus |
+| 8 | Forms | Checkboxes were 16 px, below comfortable touch size |
+| 9 | Forms | Filter bar submit button was not full-width on mobile |
+| 10 | Dashboard | Quick-action links were ~30 px tall, below 44 px touch target minimum |
+| 11 | Gallery | Card action icons (edit/delete) had no padding or visual container |
+| 12 | Pagination | Buttons were ~36 px on all mobile widths — too small |
+| 13 | Stat cards | Icon/number didn't scale down on small phones |
+| 14 | Long content | `.admin-content` lacked `overflow-wrap: break-word` |
+| 15 | Modal | Action buttons didn't stretch to full width on ≤575 px |
+
+---
+
+#### Improvements Implemented
+
+**Sidebar — Drawer Animation & Close Button**
+- Changed backdrop from `display:none / display:block` → `opacity: 0 / 1` + `pointer-events: none / auto` with `transition: opacity 0.25s ease` — smooth fade now matches open/close
+- Changed sidebar slide transition from `ease` to `cubic-bezier(0.4, 0, 0.2, 1)` — natural "Material-style" easing that feels like a real mobile drawer
+- Added `<button id="adminSidebarClose">` with X icon inside the sidebar logo area, visible only on mobile/tablet via `display: none` base + `display: flex` at `≤991.98px`; `.admin-logo { position: relative }` anchors it absolutely
+- Close button: `focus` state has a gold outline ring (`outline: 2px solid rgba(197,160,40,0.5)`) for keyboard accessibility
+- `main.js`: added `sidebarCloseBtn` event listener that calls `closeAdminSidebar()` and returns focus to the hamburger toggle
+
+**Tables → Card Layout (≤767.98px)**
+- Added `data-label` attributes to every `<td>` in `news.ejs` (სათაური, კატეგორია, თარიღი, სტატუსი) and `attractions.ejs` (სახელი, კატეგორია, სტატუსი, გამორჩ.)
+- Added `class="admin-cell-title"` to the title/name `<div>` inside the first `<td>` of both tables
+- CSS converts `<table>` → block at `≤767.98px`: `thead` hidden; each `<tbody tr>` becomes a white card with `border`, `border-radius`, and `box-shadow`; each `<td>` renders as a label+value row via `td[data-label]::before { content: attr(data-label) }`
+- Actions `<td>` (`data-label=""`) shows no label and is right-aligned with a `var(--gray-50)` background — visually a button bar footer
+- Title `div` (`admin-cell-title`) resets to `white-space: normal; overflow: visible; max-width: none` in card view — full Georgian title is readable
+- Action icon buttons in the card footer get `min-width/height: 40px`, `background: var(--gray-100)`, `border-radius: var(--radius-md)` — clear visual tap targets; delete button gets `background: #fef2f2; border: 1px solid #fecaca`
+- Horizontal scroll removed at `≤767.98px` (`overflow-x: visible !important`; `min-width: 0 !important`)
+- Desktop table layout (`≥768px`) is completely unchanged
+
+**Forms — iOS Zoom Fix & Better Touch**
+- Set `font-size: 1rem !important` on all admin inputs, selects, textareas, and filter controls at `≤767.98px` — prevents iOS Safari's automatic viewport zoom on focus (triggered when `font-size < 16px`)
+- Inputs and selects gain `padding: 0.8125rem 0.875rem; min-height: 48px` at `≤767.98px` — comfortable thumb typing
+- Checkbox rows: `min-height: 44px; padding: 0.25rem 0; gap: 0.75rem` + checkboxes `width/height: 1.125rem`
+- Filter bar submit button: `width: 100%; min-height: 44px` at `≤767.98px`
+
+**Dashboard Quick Links**
+- Added `class="admin-quick-link"` to all four quick-action `<a>` tags; inline styles preserved for desktop
+- On mobile (≤767.98px): `display: flex !important; width: 100% !important; min-height: 48px; justify-content: center` — full-width stacked buttons
+
+**Gallery Card Actions**
+- Added `class="admin-gallery-card-actions"` to gallery item action `<div>`
+- At `≤767.98px`: edit/delete icons get `min-width/height: 40px; display: inline-flex; border-radius: var(--radius)` — tappable
+
+**Pagination**
+- At `≤991.98px`: `.admin-page-btn` gains `min-height: 40px; min-width: 36px; display: inline-flex`
+- At `≤575.98px`: `min-height: 42px; min-width: 38px` + `justify-content: center` on the pagination row
+
+**Stat Cards**
+- At `≤767.98px`: padding `1.25rem`, icon `44×44px`, number `1.75rem`
+- At `≤575.98px`: padding `1rem`, icon `40×40px`, number `1.5rem`
+
+**Admin Content**
+- Base style: `.admin-content { overflow-wrap: break-word; word-break: break-word }` — long Georgian words / URLs never overflow
+
+**Flash Banners**
+- `align-items: flex-start` and `border-radius: var(--radius-md)` on mobile — banners with multi-line text no longer misalign the icon
+
+**Modals**
+- At `≤575.98px`: title `1.125rem`, body `0.875rem`, action buttons get `flex: 1; min-width: 0` — both Cancel and Delete stretch to equal widths
+
+**Sidebar Close Button (CSS Section 24)**
+- Base: `.admin-sidebar-close { display: none }` — invisible on desktop even without Bootstrap
+- `≤991.98px`: `display: flex; position: absolute; top/right`; styled as a semi-transparent pill with hover state
+- Added `/* ── 24. Admin Mobile UX Enhancements */` CSS section with comprehensive documentation
+
+---
+
+#### Files Modified
+
+| File | Change |
+|------|--------|
+| `public/css/style.css` | Backdrop opacity animation; sidebar cubic-bezier; Section 24 (300+ lines) |
+| `public/js/main.js` | `adminSidebarClose` button event listener with focus return |
+| `views/layouts/admin.ejs` | Sidebar close `<button id="adminSidebarClose">` |
+| `views/admin/news.ejs` | `data-label` on all `<td>`; `admin-cell-title` on title div |
+| `views/admin/attractions.ejs` | `data-label` on all `<td>`; `admin-cell-title` on name div |
+| `views/admin/dashboard.ejs` | `admin-quick-link` class on quick-action links |
+| `views/admin/gallery.ejs` | `admin-gallery-card-actions` class on action div |
+
+---
+
 ## [1.7.0] — 2026-06-18
 
 ### Responsive / Mobile — Admin Panel

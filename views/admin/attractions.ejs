@@ -35,16 +35,16 @@
       <tbody>
         <% attractions.forEach(function(a) { %>
           <tr>
-            <td>
-              <div style="font-weight:500;color:var(--color-primary);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= a.name %></div>
+            <td data-label="სახელი">
+              <div class="admin-cell-title" style="font-weight:500;color:var(--color-primary);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= a.name %></div>
               <div style="font-size:.75rem;color:var(--color-text-muted);margin-top:2px;"><%= a.slug %></div>
             </td>
-            <td style="font-size:.875rem;color:var(--color-text-secondary);"><%= a.category || '—' %></td>
-            <td><% if (a.is_published) { %><span class="badge-published">გამოქვეყნებული</span><% } else { %><span class="badge-draft">მუსვარი</span><% } %></td>
-            <td style="text-align:center;">
+            <td data-label="კატეგორია" style="font-size:.875rem;color:var(--color-text-secondary);"><%= a.category || '—' %></td>
+            <td data-label="სტატუსი"><% if (a.is_published) { %><span class="badge-published">გამოქვეყნებული</span><% } else { %><span class="badge-draft">მუსვარი</span><% } %></td>
+            <td data-label="გამორჩ." style="text-align:center;">
               <% if (a.is_featured) { %><i data-lucide="star" style="fill:var(--color-accent);stroke:var(--color-accent);width:1rem;height:1rem;"></i><% } else { %><i data-lucide="star" style="fill:none;stroke:var(--gray-400);width:1rem;height:1rem;"></i><% } %>
             </td>
-            <td>
+            <td data-label="">
               <div style="display:flex;gap:.625rem;align-items:center;">
                 <a href="/attractions/<%= a.slug %>" target="_blank" title="ვებსაიტზე ნახვა" style="color:var(--color-text-muted);"><i data-lucide="external-link" class="icon-inline"></i></a>
                 <a href="/admin/attractions/<%= a.id %>/edit" title="რედაქტირება" style="color:var(--color-primary);"><i data-lucide="pencil" class="icon-inline"></i></a>

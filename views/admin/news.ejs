@@ -79,8 +79,8 @@
       <tbody>
         <% articles.forEach(function(article) { %>
           <tr>
-            <td>
-              <div style="font-weight:500;color:var(--color-primary);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+            <td data-label="სათაური">
+              <div class="admin-cell-title" style="font-weight:500;color:var(--color-primary);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
                 <%= article.title %>
               </div>
               <% if (article.is_featured) { %>
@@ -89,20 +89,20 @@
                 </span>
               <% } %>
             </td>
-            <td style="color:var(--color-text-secondary);font-size:.875rem;">
+            <td data-label="კატეგორია" style="color:var(--color-text-secondary);font-size:.875rem;">
               <%= article.category_name || '—' %>
             </td>
-            <td style="font-size:.8125rem;color:var(--color-text-secondary);">
+            <td data-label="თარიზი" style="font-size:.8125rem;color:var(--color-text-secondary);">
               <%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %>
             </td>
-            <td>
+            <td data-label="სტატუსი">
               <% if (article.is_published) { %>
                 <span class="badge-published">გამოქვეყნებული</span>
               <% } else { %>
                 <span class="badge-draft">მუსვარი</span>
               <% } %>
             </td>
-            <td>
+            <td data-label="">
               <div style="display:flex;gap:.625rem;align-items:center;">
                 <a href="/news/<%= article.slug %>"
                    target="_blank"
