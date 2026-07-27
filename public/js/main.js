@@ -226,4 +226,95 @@
     heritageCards.forEach((card) => card.classList.add('is-visible'));
   }
 
+
+  /* ──────────────────────────────────────────
+     Admin: Mobile filter bottom sheet
+     Manages open/close of the slide-up drawer
+     on the news / attractions / gallery list pages.
+  ────────────────────────────────────────── */
+  (function initMobileFilterSheet() {
+    const sheet      = document.getElementById('mobileFilterSheet');
+    const toggleBtn  = document.getElementById('mobileFilterToggle');
+    const applyBtn   = document.getElementById('applyMobileFilters');
+    const form       = document.getElementById('contentFilterForm');
+
+    if (!sheet || !form) return;
+
+    const backdrop    = sheet.querySelector('.admin-filter-sheet-backdrop');
+    const closeBtn    = sheet.querySelector('.admin-filter-sheet-close-btn');
+    const mobileSearch   = document.getElementById('mobileSearchInput');
+    const desktopSearch  = document.getElementById('filterSearchInput');
+    const mobileCategory = document.getElementById('mobileFilterCategory');
+    const desktopCategory= document.getElementById('filterCategorySelect');
+
+    function openSheet() {
+      sheet.classList.add('open');
+      sheet.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      // Focus first interactive element after animation completes
+      const firstEl = sheet.querySelector('select, input, button:not(.admin-filter-sheet-close-btn)');
+      if (firstEl) setTimeout(() => firstEl.focus(), 340);
+    }
+
+    function closeSheet() {
+      sheet.classList.remove('open');
+      sheet.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (toggleBtn) toggleBtn.focus();
+    }
+
+    // Sync mobile search → real input (runs before browser serialises form)
+    form.addEventListener('submit', function () {
+      if (window.innerWidth < 992 && mobileSearch && desktopSearch) {
+        desktopSearch.value = mobileSearch.value;
+      }
+    });
+
+    // Apply button: sync both fields then submit
+    if (applyBtn) {
+      applyBtn.addEventListener('click', function () {
+        if (mobileSearch  && desktopSearch)   desktopSearch.value  = mobileSearch.value;
+        if (mobileCategory && desktopCategory) desktopCategory.value = mobileCategory.value;
+        closeSheet();
+        form.submit();
+      });
+    }
+
+    if (toggleBtn)  toggleBtn.addEventListener('click', openSheet);
+    if (backdrop)   backdrop.addEventListener('click', closeSheet);
+    if (closeBtn)   closeBtn.addEventListener('click', closeSheet);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
+    });
+  }());
+
+
+  /* ──────────────────────────────────────────
+     Admin: FAB — hide on scroll-down,
+     reappear on scroll-up (mobile only)
+  ────────────────────────────────────────── */
+  (function initAdminFAB() {
+    const fab = document.querySelector('.admin-fab');
+    if (!fab) return;
+
+    let lastY    = window.scrollY;
+    let ticking  = false;
+
+    window.addEventListener('scroll', () => {
+      if (ticking || window.innerWidth >= 992) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y > lastY + 30) {
+          fab.classList.add('fab-hidden');
+        } else if (y < lastY - 10) {
+          fab.classList.remove('fab-hidden');
+        }
+        lastY   = y;
+        ticking = false;
+      });
+    }, { passive: true });
+  }());
+
 })();

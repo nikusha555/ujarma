@@ -3,6 +3,7 @@
 <div class="admin-page-header">
   <h1 class="admin-page-title">გალერეის მართვა</h1>
   <a href="/admin/gallery/create"
+     class="admin-desktop-create-btn"
      style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.125rem;background:var(--color-primary);color:var(--white);border-radius:var(--radius);font-size:.8125rem;font-weight:600;text-decoration:none;">
     <i data-lucide="upload" class="icon-inline"></i> ფოტოს დამატება
   </a>
@@ -13,12 +14,14 @@
 <% if (flash === 'updated') { %><div class="admin-flash-success"><i data-lucide="check-circle-2" class="icon-inline"></i> ფოტო განახლდა.</div><% } %>
 <% if (flash === 'deleted') { %><div class="admin-flash-success" style="background:#fff7ed;border-color:#fed7aa;border-left-color:#ea580c;color:#9a3412;"><i data-lucide="trash-2" class="icon-inline"></i> ფოტო წაიშალა.</div><% } %>
 
-<!-- Search / filter -->
 <div class="admin-table-wrap">
-  <form method="GET" action="/admin/gallery">
+  <form method="GET" action="/admin/gallery" id="contentFilterForm">
+
+    <!-- Desktop filter bar -->
     <div class="admin-filters">
-      <input class="admin-filter-input" type="text" name="search" value="<%= search %>" placeholder="სახელწოდებით ძებნა…" />
-      <select class="admin-filter-select" name="category">
+      <input class="admin-filter-input" type="text" name="search" id="filterSearchInput"
+             value="<%= search %>" placeholder="სახელწოდებით ძებნა…" />
+      <select class="admin-filter-select" name="category" id="filterCategorySelect">
         <option value="">ყველა კატეგორია</option>
         <% categories.forEach(function(cat) { %>
           <option value="<%= cat.id %>" <%= categoryId == cat.id ? 'selected' : '' %>><%= cat.name %></option>
@@ -28,11 +31,62 @@
       <% if (search || categoryId) { %><a href="/admin/gallery" style="font-size:.8125rem;color:var(--color-text-muted);text-decoration:none;">გასუფთავება</a><% } %>
       <span style="margin-left:auto;font-size:.8125rem;color:var(--color-text-muted);">სულ: <%= total %> ფოტო</span>
     </div>
+
+    <!-- Mobile search bar -->
+    <div class="admin-mobile-search-bar">
+      <input type="text" class="admin-filter-input" id="mobileSearchInput"
+             value="<%= search %>" placeholder="სახელწოდებით ძებნა…" autocomplete="off" />
+      <button type="button"
+              class="admin-mobile-filter-toggle <%= categoryId ? 'has-filter' : '' %>"
+              id="mobileFilterToggle" aria-label="ფილტრები">
+        <i data-lucide="sliders-horizontal"></i>
+        <% if (categoryId) { %><span class="admin-filter-active-dot"></span><% } %>
+      </button>
+      <button type="submit" class="admin-mobile-search-submit" aria-label="ძებნა">
+        <i data-lucide="search"></i>
+      </button>
+    </div>
+    <div class="admin-results-count">სულ: <%= total %> ფოტო</div>
+
+    <!-- Mobile filter sheet -->
+    <div class="admin-filter-sheet" id="mobileFilterSheet" aria-hidden="true">
+      <div class="admin-filter-sheet-backdrop"></div>
+      <div class="admin-filter-sheet-panel" role="dialog" aria-modal="true" aria-label="ფილტრები">
+        <div class="admin-filter-sheet-handle"></div>
+        <div class="admin-filter-sheet-header">
+          <span class="admin-filter-sheet-title">ფილტრი</span>
+          <button type="button" class="admin-filter-sheet-close-btn" aria-label="დახურვა">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="admin-filter-sheet-body">
+          <div class="admin-field">
+            <label class="admin-label" for="mobileFilterCategory">კატეგორია</label>
+            <select class="admin-select" id="mobileFilterCategory">
+              <option value="">ყველა კატეგორია</option>
+              <% categories.forEach(function(cat) { %>
+                <option value="<%= cat.id %>" <%= categoryId == cat.id ? 'selected' : '' %>><%= cat.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+        <div class="admin-filter-sheet-footer">
+          <button type="button" class="btn-primary-custom" id="applyMobileFilters">
+            <i data-lucide="check" class="icon-inline"></i> გამოყენება
+          </button>
+          <% if (categoryId) { %>
+            <a href="/admin/gallery<%= search ? '?search=' + encodeURIComponent(search) : '' %>"
+               class="admin-filter-clear-btn">გასუფთავება</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
   </form>
 
   <% if (items && items.length > 0) { %>
     <!-- Grid view -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;padding:1.5rem;">
+    <div class="admin-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;padding:1.5rem;">
       <% items.forEach(function(item) { %>
         <div style="background:var(--white);border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;position:relative;">
           <!-- image -->
@@ -59,15 +113,21 @@
 
     <% if (totalPages > 1) { %>
       <div class="admin-pagination">
-        <% if (page > 1) { %><a href="/admin/gallery?page=<%= page-1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn"><i data-lucide="chevron-left" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled"><i data-lucide="chevron-left" class="icon-inline"></i></span><% } %>
-        <% for (let p = 1; p <= totalPages; p++) { %><a href="/admin/gallery?page=<%= p %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn <%= p === page ? 'active' : '' %>"><%= p %></a><% } %>
-        <% if (page < totalPages) { %><a href="/admin/gallery?page=<%= page+1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn"><i data-lucide="chevron-right" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled"><i data-lucide="chevron-right" class="icon-inline"></i></span><% } %>
+        <% if (page > 1) { %><a href="/admin/gallery?page=<%= page-1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn admin-page-prev"><i data-lucide="chevron-left" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled admin-page-prev"><i data-lucide="chevron-left" class="icon-inline"></i></span><% } %>
+        <% for (let p = 1; p <= totalPages; p++) { %><a href="/admin/gallery?page=<%= p %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn admin-page-num <%= p === page ? 'active' : '' %>"><%= p %></a><% } %>
+        <span class="admin-page-info"><%= page %> / <%= totalPages %></span>
+        <% if (page < totalPages) { %><a href="/admin/gallery?page=<%= page+1 %>&search=<%= encodeURIComponent(search) %>&category=<%= categoryId %>" class="admin-page-btn admin-page-next"><i data-lucide="chevron-right" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled admin-page-next"><i data-lucide="chevron-right" class="icon-inline"></i></span><% } %>
       </div>
     <% } %>
   <% } else { %>
     <div class="empty-state" style="padding:4rem 2rem;"><div class="empty-state-icon"><i data-lucide="images"></i></div><p><% if (search || categoryId) { %>ფილტრის შედეგები ცარიელია.<% } else { %>გალერეის სურათები ჯერ არ ატვირთულა.<% } %></p></div>
   <% } %>
 </div>
+
+<!-- FAB (mobile only) -->
+<a href="/admin/gallery/create" class="admin-fab" aria-label="ფოტოს დამატება">
+  <i data-lucide="plus"></i>
+</a>
 
 <!-- Delete modal -->
 <div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">

@@ -3,6 +3,7 @@
 <div class="admin-page-header">
   <h1 class="admin-page-title">ღირსშესანიშნაობების მართვა</h1>
   <a href="/admin/attractions/create"
+     class="admin-desktop-create-btn"
      style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.125rem;background:var(--color-primary);color:var(--white);border-radius:var(--radius);font-size:.8125rem;font-weight:600;text-decoration:none;">
     <i data-lucide="plus" class="icon-inline"></i> ობიექტის დამატება
   </a>
@@ -14,10 +15,13 @@
 <% if (flash === 'deleted') { %><div class="admin-flash-success" style="background:#fff7ed;border-color:#fed7aa;border-left-color:#ea580c;color:#9a3412;"><i data-lucide="trash-2" class="icon-inline"></i> ობიექტი წაიშალა.</div><% } %>
 
 <div class="admin-table-wrap">
-  <form method="GET" action="/admin/attractions">
+  <form method="GET" action="/admin/attractions" id="contentFilterForm">
+
+    <!-- Desktop filter bar -->
     <div class="admin-filters">
-      <input class="admin-filter-input" type="text" name="search" value="<%= search %>" placeholder="სახელით ძებნა…" />
-      <select class="admin-filter-select" name="category">
+      <input class="admin-filter-input" type="text" name="search" id="filterSearchInput"
+             value="<%= search %>" placeholder="სახელით ძებნა…" />
+      <select class="admin-filter-select" name="category" id="filterCategorySelect">
         <option value="">ყველა კატეგორია</option>
         <% categories.forEach(function(cat) { %>
           <option value="<%= cat %>" <%= category === cat ? 'selected' : '' %>><%= cat %></option>
@@ -27,6 +31,57 @@
       <% if (search || category) { %><a href="/admin/attractions" style="font-size:.8125rem;color:var(--color-text-muted);text-decoration:none;">გასუფთავება</a><% } %>
       <span style="margin-left:auto;font-size:.8125rem;color:var(--color-text-muted);">სულ: <%= total %></span>
     </div>
+
+    <!-- Mobile search bar -->
+    <div class="admin-mobile-search-bar">
+      <input type="text" class="admin-filter-input" id="mobileSearchInput"
+             value="<%= search %>" placeholder="სახელით ძებნა…" autocomplete="off" />
+      <button type="button"
+              class="admin-mobile-filter-toggle <%= category ? 'has-filter' : '' %>"
+              id="mobileFilterToggle" aria-label="ფილტრები">
+        <i data-lucide="sliders-horizontal"></i>
+        <% if (category) { %><span class="admin-filter-active-dot"></span><% } %>
+      </button>
+      <button type="submit" class="admin-mobile-search-submit" aria-label="ძებნა">
+        <i data-lucide="search"></i>
+      </button>
+    </div>
+    <div class="admin-results-count">სულ: <%= total %> ობიექტი</div>
+
+    <!-- Mobile filter sheet -->
+    <div class="admin-filter-sheet" id="mobileFilterSheet" aria-hidden="true">
+      <div class="admin-filter-sheet-backdrop"></div>
+      <div class="admin-filter-sheet-panel" role="dialog" aria-modal="true" aria-label="ფილტრები">
+        <div class="admin-filter-sheet-handle"></div>
+        <div class="admin-filter-sheet-header">
+          <span class="admin-filter-sheet-title">ფილტრი</span>
+          <button type="button" class="admin-filter-sheet-close-btn" aria-label="დახურვა">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="admin-filter-sheet-body">
+          <div class="admin-field">
+            <label class="admin-label" for="mobileFilterCategory">კატეგორია</label>
+            <select class="admin-select" id="mobileFilterCategory">
+              <option value="">ყველა კატეგორია</option>
+              <% categories.forEach(function(cat) { %>
+                <option value="<%= cat %>" <%= category === cat ? 'selected' : '' %>><%= cat %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+        <div class="admin-filter-sheet-footer">
+          <button type="button" class="btn-primary-custom" id="applyMobileFilters">
+            <i data-lucide="check" class="icon-inline"></i> გამოყენება
+          </button>
+          <% if (category) { %>
+            <a href="/admin/attractions<%= search ? '?search=' + encodeURIComponent(search) : '' %>"
+               class="admin-filter-clear-btn">გასუფთავება</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
   </form>
 
   <% if (attractions && attractions.length > 0) { %>
@@ -35,20 +90,47 @@
       <tbody>
         <% attractions.forEach(function(a) { %>
           <tr>
-            <td data-label="სახელი">
+            <td class="td-title" data-label="სახელი">
               <div class="admin-cell-title" style="font-weight:500;color:var(--color-primary);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= a.name %></div>
-              <div style="font-size:.75rem;color:var(--color-text-muted);margin-top:2px;"><%= a.slug %></div>
+              <div class="td-mobile-meta">
+                <% if (a.is_published) { %>
+                  <span class="badge-published">გამოქვეყნებული</span>
+                <% } else { %>
+                  <span class="badge-draft">მუსვარი</span>
+                <% } %>
+                <% if (a.is_featured) { %>
+                  <span class="meta-sep">·</span>
+                  <span class="meta-text" style="color:var(--gold-700);">&#9733; გამორჩეული</span>
+                <% } %>
+                <% if (a.category) { %>
+                  <span class="meta-sep">·</span>
+                  <span class="meta-text"><%= a.category %></span>
+                <% } %>
+                <span class="meta-slug"><%= a.slug %></span>
+              </div>
             </td>
             <td data-label="კატეგორია" style="font-size:.875rem;color:var(--color-text-secondary);"><%= a.category || '—' %></td>
             <td data-label="სტატუსი"><% if (a.is_published) { %><span class="badge-published">გამოქვეყნებული</span><% } else { %><span class="badge-draft">მუსვარი</span><% } %></td>
             <td data-label="გამორჩ." style="text-align:center;">
               <% if (a.is_featured) { %><i data-lucide="star" style="fill:var(--color-accent);stroke:var(--color-accent);width:1rem;height:1rem;"></i><% } else { %><i data-lucide="star" style="fill:none;stroke:var(--gray-400);width:1rem;height:1rem;"></i><% } %>
             </td>
-            <td data-label="">
-              <div style="display:flex;gap:.625rem;align-items:center;">
-                <a href="/attractions/<%= a.slug %>" target="_blank" title="ვებსაიტზე ნახვა" style="color:var(--color-text-muted);"><i data-lucide="external-link" class="icon-inline"></i></a>
-                <a href="/admin/attractions/<%= a.id %>/edit" title="რედაქტირება" style="color:var(--color-primary);"><i data-lucide="pencil" class="icon-inline"></i></a>
-                <button type="button" class="btn-delete-trigger" data-id="<%= a.id %>" data-title="<%= a.name.replace(/\"/g,'&quot;') %>" title="წაშლა" style="background:none;border:none;cursor:pointer;padding:0;color:#dc2626;"><i data-lucide="trash-2" class="icon-inline"></i></button>
+            <td class="td-actions" data-label="">
+              <div class="admin-card-actions">
+                <a href="/admin/attractions/<%= a.id %>/edit"
+                   class="admin-action-edit" title="რედაქტირება">
+                  <i data-lucide="pencil" class="icon-inline"></i>
+                  <span class="admin-action-label">რედაქტირება</span>
+                </a>
+                <a href="/attractions/<%= a.slug %>" target="_blank" rel="noopener"
+                   class="admin-action-view" title="ვებსაიტზე ნახვა">
+                  <i data-lucide="external-link" class="icon-inline"></i>
+                </a>
+                <button type="button" class="btn-delete-trigger admin-action-delete"
+                        data-id="<%= a.id %>" data-title="<%= a.name.replace(/\"/g,'&quot;') %>"
+                        title="წაშლა">
+                  <i data-lucide="trash-2" class="icon-inline"></i>
+                  <span class="admin-action-label">წაშლა</span>
+                </button>
               </div>
             </td>
           </tr>
@@ -58,15 +140,21 @@
 
     <% if (totalPages > 1) { %>
       <div class="admin-pagination">
-        <% if (page > 1) { %><a href="/admin/attractions?page=<%= page-1 %>&search=<%= encodeURIComponent(search) %>&category=<%= encodeURIComponent(category) %>" class="admin-page-btn"><i data-lucide="chevron-left" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled"><i data-lucide="chevron-left" class="icon-inline"></i></span><% } %>
-        <% for (let p = 1; p <= totalPages; p++) { %><a href="/admin/attractions?page=<%= p %>&search=<%= encodeURIComponent(search) %>&category=<%= encodeURIComponent(category) %>" class="admin-page-btn <%= p === page ? 'active' : '' %>"><%= p %></a><% } %>
-        <% if (page < totalPages) { %><a href="/admin/attractions?page=<%= page+1 %>&search=<%= encodeURIComponent(search) %>&category=<%= encodeURIComponent(category) %>" class="admin-page-btn"><i data-lucide="chevron-right" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled"><i data-lucide="chevron-right" class="icon-inline"></i></span><% } %>
+        <% if (page > 1) { %><a href="/admin/attractions?page=<%= page-1 %>&search=<%= encodeURIComponent(search) %>&category=<%= encodeURIComponent(category) %>" class="admin-page-btn admin-page-prev"><i data-lucide="chevron-left" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled admin-page-prev"><i data-lucide="chevron-left" class="icon-inline"></i></span><% } %>
+        <% for (let p = 1; p <= totalPages; p++) { %><a href="/admin/attractions?page=<%= p %>&search=<%= encodeURIComponent(search) %>&category=<%= encodeURIComponent(category) %>" class="admin-page-btn admin-page-num <%= p === page ? 'active' : '' %>"><%= p %></a><% } %>
+        <span class="admin-page-info"><%= page %> / <%= totalPages %></span>
+        <% if (page < totalPages) { %><a href="/admin/attractions?page=<%= page+1 %>&search=<%= encodeURIComponent(search) %>&category=<%= encodeURIComponent(category) %>" class="admin-page-btn admin-page-next"><i data-lucide="chevron-right" class="icon-inline"></i></a><% } else { %><span class="admin-page-btn disabled admin-page-next"><i data-lucide="chevron-right" class="icon-inline"></i></span><% } %>
       </div>
     <% } %>
   <% } else { %>
     <div class="empty-state" style="padding:4rem 2rem;"><div class="empty-state-icon"><i data-lucide="map-pin"></i></div><p><% if (search || category) { %>ფილტრის შედეგები ცარიელია.<% } else { %>ღირსშესანიშნაობები ჯერ არ დამატებულა.<% } %></p></div>
   <% } %>
 </div>
+
+<!-- FAB (mobile only) -->
+<a href="/admin/attractions/create" class="admin-fab" aria-label="ობიექტის დამატება">
+  <i data-lucide="plus"></i>
+</a>
 
 <!-- Delete modal -->
 <div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">

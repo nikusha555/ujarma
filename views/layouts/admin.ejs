@@ -20,6 +20,8 @@
 
   <!-- Custom Styles -->
   <link rel="stylesheet" href="/css/style.css?v=<%= assetVersion %>" />
+  <!-- Mobile Admin UX (overrides only at ≤ 991.98 px) -->
+  <link rel="stylesheet" href="/css/admin-mobile.css?v=<%= assetVersion %>" />
 </head>
 <body class="admin-body">
 
@@ -29,8 +31,10 @@
     <aside class="admin-sidebar" id="adminSidebar">
 
       <div class="admin-logo">
-        <div class="admin-logo-name">უჯარმა</div>
-        <div class="admin-logo-label">ადმინისტრაციის პანელი</div>
+        <div>
+          <div class="admin-logo-name">უჯარმა</div>
+          <div class="admin-logo-label">ადმინისტრაციის პანელი</div>
+        </div>
         <!-- Close button: visible only on mobile/tablet -->
         <button id="adminSidebarClose"
                 class="admin-sidebar-close"

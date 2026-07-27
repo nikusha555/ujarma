@@ -1,0 +1,860 @@
+/*
+ * admin-mobile.css — Premium Mobile Admin UX
+ * ============================================
+ * ALL styles here are scoped to ≤ 991.98 px unless noted.
+ * Desktop layout (≥ 992 px) is completely untouched.
+ * Version: 1.0.0
+ */
+
+
+/* ═══════════════════════════════════════════════════════
+   1.  SIDEBAR — Enhanced mobile drawer
+═══════════════════════════════════════════════════════ */
+
+/* Desktop: close button must be invisible */
+.admin-sidebar-close { display: none; }
+
+@media (max-width: 991.98px) {
+  /* Wider drawer, spring animation */
+  .admin-sidebar {
+    width: 280px;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform;
+  }
+
+  /* Logo row: flex between text and close btn */
+  .admin-logo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 1.25rem 1rem 1.25rem 1.5rem;
+  }
+
+  /* Close button */
+  .admin-sidebar-close {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: rgba(255,255,255,0.75);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+    align-self: center;
+  }
+  .admin-sidebar-close:hover  { background: rgba(255,255,255,0.18); color: #fff; }
+  .admin-sidebar-close:focus-visible {
+    outline: 2px solid var(--gold-400);
+    outline-offset: 2px;
+  }
+  .admin-sidebar-close i,
+  .admin-sidebar-close svg { width: 1.125rem; height: 1.125rem; }
+
+  /* Nav links — bigger touch targets */
+  .admin-nav-link {
+    padding: 0.875rem 1.5rem !important;
+    min-height: 52px;
+    gap: 1rem;
+    font-size: 0.9375rem;
+  }
+  .admin-nav-link i,
+  .admin-nav-link svg { width: 1.125rem !important; height: 1.125rem !important; }
+
+  /* Logout — bigger touch target */
+  .admin-logout-btn { min-height: 52px; font-size: 0.9rem; }
+
+  /* Improved backdrop */
+  .admin-sidebar-backdrop {
+    backdrop-filter: blur(2px);
+    background: rgba(6,13,26,0.62);
+    transition: opacity 0.28s ease;
+  }
+
+  /* Safe-area padding at bottom */
+  .admin-sidebar-footer {
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   2.  TOPBAR — compact on mobile
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+  .admin-topbar {
+    height: 52px;
+    padding: 0 1rem !important;
+  }
+  .admin-topbar-title { font-size: 0.9375rem; }
+
+  /* Hamburger */
+  #adminSidebarToggle {
+    width: 40px;
+    height: 40px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--gray-50);
+    flex-shrink: 0;
+    color: var(--color-primary);
+  }
+  #adminSidebarToggle i,
+  #adminSidebarToggle svg { width: 1.25rem !important; height: 1.25rem !important; }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   3.  CONTENT AREA — spacing & page header
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+  .admin-content { padding: 1rem; }
+
+  .admin-page-header {
+    margin-bottom: 1.125rem;
+    align-items: flex-start;
+  }
+  .admin-page-title { font-size: 1.375rem; line-height: 1.25; }
+
+  /* Desktop create button is hidden on mobile — FAB replaces it */
+  .admin-desktop-create-btn { display: none !important; }
+
+  /* Flash & error banners */
+  .admin-flash-success,
+  .admin-error-list { margin-bottom: 1rem; }
+}
+
+@media (max-width: 575.98px) {
+  .admin-content  { padding: 0.875rem; }
+  .admin-page-title { font-size: 1.25rem; }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   4.  MOBILE SEARCH BAR  (replaces desktop filter bar)
+═══════════════════════════════════════════════════════ */
+
+/* Hidden on desktop */
+.admin-mobile-search-bar,
+.admin-results-count { display: none; }
+
+@media (max-width: 991.98px) {
+  /* Hide the desktop filter row entirely */
+  .admin-filters { display: none !important; }
+
+  /* Mobile search bar */
+  .admin-mobile-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .admin-mobile-search-bar .admin-filter-input {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    padding: 0 0.875rem;
+    font-size: 1rem;   /* ≥ 16 px prevents iOS auto-zoom */
+    border-radius: var(--radius-md);
+    border-width: 1.5px;
+  }
+  .admin-mobile-search-bar .admin-filter-input:focus {
+    outline: none;
+    border-color: var(--navy-600);
+    box-shadow: 0 0 0 3px rgba(27,58,107,0.1);
+  }
+
+  /* Filter toggle button */
+  .admin-mobile-filter-toggle {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--white);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .admin-mobile-filter-toggle:hover,
+  .admin-mobile-filter-toggle.has-filter {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  .admin-mobile-filter-toggle i,
+  .admin-mobile-filter-toggle svg { width: 1.125rem; height: 1.125rem; }
+
+  /* Active-filter indicator dot */
+  .admin-filter-active-dot {
+    position: absolute;
+    top: 7px; right: 7px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid var(--white);
+    pointer-events: none;
+  }
+
+  /* Search-submit button */
+  .admin-mobile-search-submit {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--color-primary);
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .admin-mobile-search-submit:hover { background: var(--navy-700); }
+  .admin-mobile-search-submit i,
+  .admin-mobile-search-submit svg { width: 1.125rem; height: 1.125rem; }
+
+  /* Results count strip */
+  .admin-results-count {
+    display: block;
+    padding: 0.4375rem 1rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   5.  FILTER BOTTOM SHEET
+═══════════════════════════════════════════════════════ */
+
+/* Sheet only appears on mobile */
+.admin-filter-sheet {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+}
+
+@media (max-width: 991.98px) {
+  .admin-filter-sheet.open { display: block; }
+}
+
+/* Backdrop */
+.admin-filter-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6,13,26,0.5);
+  backdrop-filter: blur(2px);
+  animation: adminFadeIn 0.22s ease;
+}
+
+/* Drawer panel */
+.admin-filter-sheet-panel {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: var(--white);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -6px 32px rgba(0,0,0,0.14);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.admin-filter-sheet.open .admin-filter-sheet-panel { transform: translateY(0); }
+
+/* Drag handle */
+.admin-filter-sheet-handle {
+  width: 40px; height: 4px;
+  border-radius: 2px;
+  background: var(--gray-300);
+  margin: 0.875rem auto 0;
+}
+
+/* Sheet header */
+.admin-filter-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.875rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.admin-filter-sheet-title {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+.admin-filter-sheet-close-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.admin-filter-sheet-close-btn:hover { background: var(--gray-200); }
+.admin-filter-sheet-close-btn i,
+.admin-filter-sheet-close-btn svg { width: 1rem; height: 1rem; }
+
+/* Sheet body */
+.admin-filter-sheet-body { padding: 1.25rem; }
+.admin-filter-sheet-body .admin-label {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.admin-filter-sheet-body .admin-select {
+  font-size: 1rem;   /* ≥ 16 px prevents iOS zoom */
+  height: 48px;
+  border-radius: var(--radius-md);
+  width: 100%;
+}
+
+/* Sheet footer */
+.admin-filter-sheet-footer {
+  padding: 1rem 1.25rem;
+  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+.admin-filter-sheet-footer .btn-primary-custom {
+  flex: 1;
+  text-align: center;
+  padding: 0.875rem;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-md);
+  display: block;
+}
+.admin-filter-clear-btn {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: 0.5rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.admin-filter-clear-btn:hover { color: var(--color-text); }
+
+@keyframes adminFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+/* ═══════════════════════════════════════════════════════
+   6.  TABLE → MOBILE CARDS
+═══════════════════════════════════════════════════════ */
+
+/* Desktop: hide mobile meta strip */
+@media (min-width: 992px) {
+  .td-mobile-meta { display: none !important; }
+}
+
+@media (max-width: 991.98px) {
+  /* Disable horizontal scroll */
+  .admin-table-wrap { overflow-x: visible !important; }
+
+  /* Table: flatten to block */
+  .admin-table          { min-width: 0 !important; display: block; }
+  .admin-table thead    { display: none; }
+  .admin-table tbody    { display: block; padding: 0.75rem; }
+
+  /* Each row = card */
+  .admin-table tbody tr {
+    display: block;
+    background: var(--white);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    overflow: hidden;
+    transition: box-shadow 0.18s;
+  }
+  .admin-table tbody tr:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.09), 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .admin-table tbody tr:hover td { background: transparent !important; }
+
+  /* All td hidden by default */
+  .admin-table td {
+    display: none;
+    border-bottom: none !important;
+    padding: 0;
+    vertical-align: top;
+  }
+
+  /* ── Title cell ── */
+  .admin-table td.td-title {
+    display: block;
+    padding: 1rem 1rem 0.75rem;
+    border-bottom: 1px solid var(--color-border) !important;
+  }
+  .admin-table td.td-title .admin-cell-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    white-space: normal   !important;
+    overflow: visible     !important;
+    text-overflow: unset  !important;
+    max-width: 100%       !important;
+    line-height: 1.4;
+    margin-bottom: 0;
+  }
+
+  /* Mobile meta strip: status pill + category + date */
+  .td-mobile-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+  }
+  .td-mobile-meta .meta-sep {
+    color: var(--gray-300);
+    font-size: 0.75rem;
+    user-select: none;
+  }
+  .td-mobile-meta .meta-text {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+  .td-mobile-meta .meta-slug {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    font-family: 'Courier New', monospace;
+    background: var(--gray-50);
+    border-radius: 3px;
+    padding: 0 4px;
+  }
+
+  /* ── Actions cell ── */
+  .admin-table td.td-actions {
+    display: block !important;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--color-border) !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   7.  ACTION BUTTONS
+═══════════════════════════════════════════════════════ */
+
+.admin-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* ── Desktop: preserve original icon-only look ── */
+@media (min-width: 992px) {
+  .admin-action-edit   { color: var(--color-primary); text-decoration: none; }
+  .admin-action-view   { color: var(--color-text-muted); text-decoration: none; }
+  .admin-action-delete {
+    background: none; border: none; cursor: pointer;
+    padding: 0; color: #dc2626;
+  }
+  .admin-action-label  { display: none; }
+}
+
+/* ── Mobile: full-width labelled buttons ── */
+@media (max-width: 991.98px) {
+  .admin-action-edit,
+  .admin-action-view,
+  .admin-action-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    height: 40px;
+    padding: 0 0.875rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    min-width: 44px;
+    white-space: nowrap;
+  }
+  .admin-action-edit   i, .admin-action-edit   svg,
+  .admin-action-view   i, .admin-action-view   svg,
+  .admin-action-delete i, .admin-action-delete svg {
+    width: 0.875rem; height: 0.875rem;
+  }
+
+  /* Edit — primary outlined */
+  .admin-action-edit {
+    flex: 1;
+    background: var(--gray-50);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-primary) !important;
+  }
+  .admin-action-edit:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--white) !important;
+  }
+
+  /* View — subtle */
+  .admin-action-view {
+    flex: 0 0 auto;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text-muted) !important;
+  }
+  .admin-action-view:hover {
+    border-color: var(--gray-500);
+    color: var(--color-text) !important;
+  }
+
+  /* Delete — danger */
+  .admin-action-delete {
+    flex: 0 0 auto;
+    background: transparent;
+    border: 1.5px solid #fca5a5;
+    color: #dc2626 !important;
+    padding: 0 0.75rem;
+  }
+  .admin-action-delete:hover { background: #fef2f2; border-color: #f87171; }
+
+  /* Show labels on mobile */
+  .admin-action-label { display: inline; font-size: 0.8125rem; font-weight: 500; }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   8.  BADGES — compact modern pill with status dot
+═══════════════════════════════════════════════════════ */
+
+/* These apply on both mobile and desktop */
+.badge-published {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  font-size: 0.6875rem;
+  padding: 0.2rem 0.5625rem;
+}
+.badge-published::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #16a34a;
+  flex-shrink: 0;
+}
+
+.badge-draft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  font-size: 0.6875rem;
+  padding: 0.2rem 0.5625rem;
+}
+.badge-draft::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gray-400);
+  flex-shrink: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   9.  FLOATING ACTION BUTTON (FAB)
+═══════════════════════════════════════════════════════ */
+
+/* Always hidden on desktop */
+.admin-fab { display: none !important; }
+
+@media (max-width: 991.98px) {
+  .admin-fab {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    right:  calc(1.5rem + env(safe-area-inset-right, 0px));
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--navy-700);
+    color: var(--white) !important;
+    box-shadow:
+      0 4px 16px rgba(10,22,40,0.35),
+      0 2px 6px  rgba(10,22,40,0.2);
+    text-decoration: none !important;
+    z-index: 400;
+    transition:
+      transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.2s,
+      opacity 0.2s;
+    will-change: transform;
+  }
+  .admin-fab:hover,
+  .admin-fab:focus {
+    transform: scale(1.08);
+    box-shadow:
+      0 8px 24px rgba(10,22,40,0.42),
+      0 4px 10px rgba(10,22,40,0.25);
+    color: var(--white) !important;
+    outline: none;
+  }
+  .admin-fab:focus-visible {
+    outline: 3px solid var(--gold-400);
+    outline-offset: 3px;
+  }
+  .admin-fab i,
+  .admin-fab svg { width: 1.5rem !important; height: 1.5rem !important; }
+
+  /* Hides during downward scroll */
+  .admin-fab.fab-hidden {
+    transform: translateY(80px);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   10. PAGINATION — mobile friendly
+═══════════════════════════════════════════════════════ */
+
+/* Page-info text: only mobile */
+.admin-page-info { display: none; }
+
+@media (max-width: 991.98px) {
+  .admin-pagination {
+    padding: 1rem;
+    justify-content: center;
+    gap: 0.375rem;
+    flex-wrap: nowrap;
+  }
+
+  /* Hide numbered page buttons */
+  .admin-page-num { display: none !important; }
+
+  /* Show page info */
+  .admin-page-info {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    padding: 0 0.5rem;
+    white-space: nowrap;
+  }
+
+  /* Prev / Next — bigger touch target */
+  .admin-page-prev,
+  .admin-page-next {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   11. FORMS — iOS zoom prevention + better touch
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+  /* font-size ≥ 16 px prevents iOS auto-zoom */
+  .admin-input,
+  .admin-select,
+  .admin-textarea { font-size: 1rem !important; }
+
+  /* Comfortable touch height */
+  .admin-input,
+  .admin-select {
+    height: 48px;
+    padding: 0 1rem;
+  }
+
+  /* Textarea */
+  .admin-textarea {
+    padding: 0.875rem 1rem;
+    min-height: 160px;
+  }
+
+  /* File input */
+  .admin-input[type="file"] {
+    height: auto !important;
+    padding: 0.875rem 1rem;
+    line-height: 1.5;
+  }
+
+  /* Checkboxes */
+  .admin-check-row {
+    min-height: 48px;
+    padding: 0.375rem 0;
+  }
+  .admin-check-row input[type="checkbox"] {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .admin-check-row label {
+    font-size: 0.9375rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Form card body */
+  .admin-form-card-body { padding: 1.25rem; }
+
+  /* Submit button */
+  .btn-primary-custom.w-100 {
+    padding: 1rem !important;
+    font-size: 1rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  /* Back link in page header */
+  .admin-page-header > a {
+    min-height: 44px;
+    display: inline-flex !important;
+    align-items: center;
+  }
+
+  /* Reduce form section gap */
+  .row.g-4 { --bs-gutter-y: 1rem; }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   12. DASHBOARD — compact stat cards
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+  .admin-stat-card {
+    padding: 1.25rem;
+    gap: 1rem;
+    border-radius: var(--radius-md);
+  }
+  .admin-stat-icon  { width: 44px; height: 44px; font-size: 1.125rem; }
+  .admin-stat-number { font-size: 1.75rem; }
+
+  /* Quick links */
+  .admin-quick-link {
+    min-height: 48px;
+    display: flex !important;
+    align-items: center;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   13. DELETE MODAL — bottom sheet on small phones
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 575.98px) {
+  .admin-modal-overlay { align-items: flex-end !important; }
+  .admin-modal {
+    width:      100% !important;
+    max-width:  100% !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding:    1.5rem 1.25rem !important;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)) !important;
+    margin:     0 !important;
+  }
+  .admin-modal-actions {
+    flex-direction: column-reverse;
+    gap: 0.5rem !important;
+  }
+  .admin-modal-actions > *        { width: 100%; }
+  .admin-modal-actions form       { width: 100%; }
+  .admin-modal-actions form button,
+  .admin-modal-actions .admin-page-btn {
+    width:       100% !important;
+    padding:     0.9rem 1rem !important;
+    font-size:   1rem !important;
+    text-align:  center;
+    justify-content: center;
+    border-radius: var(--radius-md) !important;
+    min-height:  48px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   14. GALLERY GRID — mobile adjustments
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+  /* Gallery grid */
+  .admin-gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    padding: 0.875rem !important;
+  }
+
+  /* Gallery card action buttons — bigger touch targets */
+  .admin-gallery-card-actions {
+    padding: 0.625rem 0.875rem !important;
+    gap: 0.625rem !important;
+  }
+  .admin-gallery-card-actions a,
+  .admin-gallery-card-actions button {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-50);
+    border: 1px solid var(--color-border);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .admin-gallery-card-actions a:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--white) !important;
+  }
+  .admin-gallery-card-actions button {
+    color: #dc2626;
+    cursor: pointer;
+  }
+  .admin-gallery-card-actions button:hover {
+    background: #fef2f2;
+    border-color: #fca5a5;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   15. EMPTY STATE — reduce padding on mobile
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+  .empty-state { padding: 3rem 1.5rem !important; }
+}
