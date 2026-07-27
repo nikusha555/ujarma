@@ -35,15 +35,6 @@
             <label for="title" class="admin-label">სახელწოდება <span class="req">*</span></label>
             <input type="text" id="title" name="title" class="admin-input" value="<%= formData.title || '' %>" placeholder="ფოტოს სახელწოდება…" required />
           </div>
-          <div class="admin-field">
-            <label for="category_id" class="admin-label">კატეგორია</label>
-            <select id="category_id" name="category_id" class="admin-select">
-              <option value="">— არ არის არჩეული —</option>
-              <% categories.forEach(function(cat) { %>
-                <option value="<%= cat.id %>" <%= formData.category_id == cat.id ? 'selected' : '' %>><%= cat.name %></option>
-              <% }) %>
-            </select>
-          </div>
         </div>
       </div>
 
