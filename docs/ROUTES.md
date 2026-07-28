@@ -118,7 +118,7 @@ All public routes are registered in `routes/index.js` and mounted at `/` in `app
 
 ---
 
-### Contact — Display Form
+### Contact
 
 | Field | Value |
 |---|---|
@@ -128,24 +128,8 @@ All public routes are registered in `routes/index.js` and mounted at `/` in `app
 | **View** | `views/pages/contact.ejs` |
 | **Layout** | `views/layouts/main.ejs` |
 | **Auth Required** | No |
-| **Query Params** | `success=true` (optional) — shows success message after redirect |
 
----
-
-### Contact — Submit Form
-
-| Field | Value |
-|---|---|
-| **Method** | `POST` |
-| **URL** | `/contact` |
-| **Controller** | `controllers/contactController.js` → `postContact` |
-| **View** | `views/pages/contact.ejs` (on validation failure) |
-| **Layout** | `views/layouts/main.ejs` |
-| **Auth Required** | No |
-| **Body Params** | `name`, `email`, `subject` (optional), `message` |
-| **Success Redirect** | `GET /contact?success=true` |
-
-**Description:** Validates name, email (format), and message. Re-renders the form with an error message on failure. On success, redirects with `?success=true` (Post-Redirect-Get pattern prevents duplicate submissions).
+**Description:** Static informational page showing the village administration's address, phone, email, and working hours.
 
 ---
 

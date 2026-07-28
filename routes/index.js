@@ -10,7 +10,7 @@ import { getNews, getNewsArticle }                          from '../controllers
 import { getAttractions, getAttractionDetail }              from '../controllers/attractionsController.js';
 import { getGallery }                                       from '../controllers/galleryController.js';
 import { getAbout }                                         from '../controllers/aboutController.js';
-import { getContact, postContact }                          from '../controllers/contactController.js';
+import { getContact }                                       from '../controllers/contactController.js';
 
 const router = Router();
 
@@ -32,7 +32,6 @@ router.get('/gallery', getGallery);
 router.get('/about', getAbout);
 
 // Contact
-router.get('/contact',  getContact);
-router.post('/contact', postContact);
+router.get('/contact', getContact);
 
 export default router;

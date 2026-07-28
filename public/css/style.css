@@ -900,6 +900,56 @@ p { margin-top: 0; margin-bottom: 1.25rem; }
   margin-bottom: 0;
 }
 
+/* Contact page — intro copy */
+.contact-intro-text {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Contact page — information cards */
+.contact-card {
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  height: 100%;
+  text-align: center;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.contact-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+.contact-card-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--gold-100);
+  color: var(--gold-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+.contact-card-icon-wrap svg { width: 1.5rem; height: 1.5rem; }
+.contact-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 0.625rem;
+}
+.contact-card-text {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+}
+
 
 /* ── 14. Page Banner (Inner Pages) ────────────────────── */
 .page-banner {

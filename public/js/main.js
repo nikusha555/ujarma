@@ -5,7 +5,6 @@
  *  - Navbar scroll shadow
  *  - Smooth scroll on anchor links
  *  - Gallery lightbox (basic)
- *  - Contact form feedback
  *  - Admin sidebar mobile toggle
  */
 
