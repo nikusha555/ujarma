@@ -31,18 +31,23 @@ export const errorHandler = (err, req, res, next) => { // eslint-disable-line no
     if (statusCode === 500) console.error(err.stack);
   }
 
+  // Georgian defaults — matches the site's server-rendered baseline language.
+  // `messageKey` lets the client-side i18n engine translate this on switch.
   const messages = {
-    400: 'The request could not be understood.',
-    403: 'You do not have permission to access this page.',
-    404: 'The page you are looking for could not be found.',
-    500: 'An unexpected error occurred. Please try again later.',
+    400: 'მოთხოვნა ვერ იქნა გაგებული.',
+    403: 'წვდომა ამ გვერდზე შეზღუდულია.',
+    404: 'გვერდი, რომელსაც ეძებთ, ვერ მოიძებნა.',
+    500: 'მოულოდნელი შეცდომა მოხდა. გთხოვთ სცადოთ მოგვიანებით.',
   };
+  const messageKey = `error.${messages[statusCode] ? statusCode : 500}Message`;
 
   res.status(statusCode).render('pages/error', {
     layout:     isAdminRoute ? 'layouts/admin' : 'layouts/main',
-    title:      `${statusCode} — Ujarma`,
+    title:      `${statusCode} — უჯარმა`,
+    titleKey:   'error.pageTitle',
     statusCode,
     message:    messages[statusCode] || messages[500],
+    messageKey,
     detail:     isDevelopment ? err.message : null,
   });
 };

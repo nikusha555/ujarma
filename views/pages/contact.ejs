@@ -1,15 +1,15 @@
 <%# pages/contact.ejs — კონტაქტის გვერდი -%>
 
-<section class="page-banner" aria-label="გვერდის ერთაური">
+<section class="page-banner" aria-label="გვერდის ბანერი" data-i18n-aria-label="common.pageBannerLabel">
   <div class="container page-banner-content">
-    <nav aria-label="ნავიგაცია">
+    <nav aria-label="ნავიგაცია" data-i18n-aria-label="common.breadcrumbLabel">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
-        <li class="breadcrumb-item active" aria-current="page">კონტაქტი</li>
+        <li class="breadcrumb-item"><a href="/" data-i18n="breadcrumb.home">მთავარი</a></li>
+        <li class="breadcrumb-item active" aria-current="page" data-i18n="breadcrumb.contact">კონტაქტი</li>
       </ol>
     </nav>
-    <h1 class="page-banner-title">დაგვიკავშირდით</h1>
-    <p class="page-banner-subtitle">უჯარმის სოფლის ადმინისტრაციასთან დაკავშირდებით</p>
+    <h1 class="page-banner-title" data-i18n="contact.bannerTitle">დაგვიკავშირდეთ</h1>
+    <p class="page-banner-subtitle" data-i18n="contact.bannerSubtitle">უჯარმის სოფლის ადმინისტრაციასთან დაკავშირდებით</p>
   </div>
 </section>
 
@@ -20,9 +20,9 @@
     <!-- ── Intro ────────────────────────────────────── -->
     <div class="row justify-content-center text-center mb-5 pb-2">
       <div class="col-lg-8">
-        <div class="section-label" style="justify-content:center;">ადმინისტრაცია</div>
-        <h2 class="mb-3">დაგვიკავშირდით</h2>
-        <p class="contact-intro-text">
+        <div class="section-label" style="justify-content:center;" data-i18n="contact.adminLabel">ადმინისტრაცია</div>
+        <h2 class="mb-3" data-i18n="contact.heading">დაგვიკავშირდეთ</h2>
+        <p class="contact-intro-text" data-i18n="contact.intro">
           უჯარმის სოფლის ადმინისტრაცია ღიაა ყველა მოსახლისთვის.
           გაქვთ კითხვა ინფრასტრუქტურის, საკადასტრო საკითხის,
           ტურისტული ინფორმაციის ან სოფლის ცხოვრებასთან
@@ -37,8 +37,8 @@
       <div class="col-lg-3 col-md-6">
         <div class="contact-card">
           <div class="contact-card-icon-wrap"><i data-lucide="map-pin"></i></div>
-          <h3 class="contact-card-title">მისამართი</h3>
-          <p class="contact-card-text">
+          <h3 class="contact-card-title" data-i18n="contact.addressTitle">მისამართი</h3>
+          <p class="contact-card-text" data-i18n-html="contact.addressText">
             უჯარმის სოფელი<br />
             საგარეჯოს მუნიციპალიტეტი<br />
             კახეთის რეგიონი, საქართველო
@@ -49,7 +49,7 @@
       <div class="col-lg-3 col-md-6">
         <div class="contact-card">
           <div class="contact-card-icon-wrap"><i data-lucide="phone"></i></div>
-          <h3 class="contact-card-title">ტელეფონი</h3>
+          <h3 class="contact-card-title" data-i18n="contact.phoneTitle">ტელეფონი</h3>
           <p class="contact-card-text">+995 (XXX) XXX-XXX</p>
         </div>
       </div>
@@ -57,7 +57,7 @@
       <div class="col-lg-3 col-md-6">
         <div class="contact-card">
           <div class="contact-card-icon-wrap"><i data-lucide="mail"></i></div>
-          <h3 class="contact-card-title">ელ.ფოსტა</h3>
+          <h3 class="contact-card-title" data-i18n="contact.emailTitle">ელ.ფოსტა</h3>
           <p class="contact-card-text">info@ujarma.ge</p>
         </div>
       </div>
@@ -65,8 +65,8 @@
       <div class="col-lg-3 col-md-6">
         <div class="contact-card">
           <div class="contact-card-icon-wrap"><i data-lucide="clock"></i></div>
-          <h3 class="contact-card-title">სამუშაო საათები</h3>
-          <p class="contact-card-text">
+          <h3 class="contact-card-title" data-i18n="contact.workingHoursTitle">სამუშაო საათები</h3>
+          <p class="contact-card-text" data-i18n-html="contact.workingHoursText">
             ორშ – პარ: 09:00 – 18:00<br />
             შაბათი: 10:00 – 14:00<br />
             კვირა: დახურულია

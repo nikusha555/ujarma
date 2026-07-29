@@ -1,10 +1,10 @@
 ﻿<%# pages/attractions.ejs — ღირსშესანიშნაობების გვერდი -%>
 
-<section class="page-banner" aria-label="გვერდის ერთაური">
+<section class="page-banner" aria-label="გვერდის ბანერი" data-i18n-aria-label="common.pageBannerLabel">
   <div class="container page-banner-content">
-    <nav aria-label="ნავიგაცია"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">მთავარი</a></li><li class="breadcrumb-item active">ღირსშესანიშნაობები</li></ol></nav>
-    <h1 class="page-banner-title">ღირსშესანიშნაობები</h1>
-    <p class="page-banner-subtitle">აიკვლეთ ისტორიული ძეგლები, ფასეული სილარზე და უჯარმის კულტურული მემკვიდრეობა</p>
+    <nav aria-label="ნავიგაცია" data-i18n-aria-label="common.breadcrumbLabel"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/" data-i18n="breadcrumb.home">მთავარი</a></li><li class="breadcrumb-item active" aria-current="page" data-i18n="breadcrumb.attractions">ღირსშესანიშნაობები</li></ol></nav>
+    <h1 class="page-banner-title" data-i18n="attractions.bannerTitle">ღირსშესანიშნაობები</h1>
+    <p class="page-banner-subtitle" data-i18n="attractions.bannerSubtitle">აიკვლეთ ისტორიული ძეგლები, ფასეული ადგილები და უჯარმის კულტურული მემკვიდრეობა</p>
   </div>
 </section>
 
@@ -13,7 +13,7 @@
 
     <% if (categories && categories.length > 0) { %>
       <div class="d-flex flex-wrap gap-2 mb-5">
-        <a href="/attractions" class="gallery-filter-btn <%= !activeCategory ? 'active' : '' %>">ყველა</a>
+        <a href="/attractions" class="gallery-filter-btn <%= !activeCategory ? 'active' : '' %>" data-i18n="attractions.allFilter">ყველა</a>
         <% categories.forEach(function(cat) { %>
           <a href="/attractions?category=<%= encodeURIComponent(cat) %>" class="gallery-filter-btn <%= activeCategory === cat ? 'active' : '' %>"><%= cat %></a>
         <% }) %>
@@ -35,7 +35,7 @@
                 <% if (attr.category) { %><span class="content-card-category"><%= attr.category %></span><% } %>
                 <h2 class="content-card-title" style="font-size:1.125rem;"><a href="/attractions/<%= attr.slug %>"><%= attr.name %></a></h2>
                 <p class="content-card-excerpt flex-grow-1"><%= attr.description %></p>
-                <a href="/attractions/<%= attr.slug %>" class="content-card-link mt-auto">დეტალები <i data-lucide="arrow-right" class="icon-inline"></i></a>
+                <a href="/attractions/<%= attr.slug %>" class="content-card-link mt-auto"><span data-i18n="attractions.details">დეტალები</span> <i data-lucide="arrow-right" class="icon-inline"></i></a>
               </div>
             </div>
           </div>
@@ -44,8 +44,15 @@
     <% } else { %>
       <div class="empty-state" style="padding:6rem 2rem;">
         <div class="empty-state-icon"><i data-lucide="map-pin"></i></div>
-        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">ღირსშესანიშნაობები მალე დაემატება</h3>
-        <p><% if (activeCategory) { %>კატეგორიაში “<%= activeCategory %>” არც გაიყვნება. <a href="/attractions">ყველას ნახვა</a><% } else { %>ადგილობრივი როგორც გამოყვანილი ადგილობრივები მალე გამოფინდება.<% } %></p>
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;" data-i18n="attractions.noAttrTitle">ღირსშესანიშნაობები მალე დაემატება</h3>
+        <p>
+          <% if (activeCategory) { %>
+            <span data-i18n="attractions.noResultsPrefix">კატეგორიაში „</span><%= activeCategory %><span data-i18n="attractions.noResultsSuffix">" ვერაფერი ღირსშესანიშნაობა ვერ მოიძებნა.</span>
+            <a href="/attractions" data-i18n="attractions.viewAll">ყველას ნახვა</a>
+          <% } else { %>
+            <span data-i18n="attractions.noAttrDesc">ადგილობრივი ღირსშესანიშნაობები მალე დაემატება ამ გვერდზე.</span>
+          <% } %>
+        </p>
       </div>
     <% } %>
 

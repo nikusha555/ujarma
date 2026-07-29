@@ -3,46 +3,39 @@
   res.locals: siteName, siteTagline, currentYear
 -%>
 
-<footer class="site-footer" aria-label="საიტის ქვედა ბლოკი">
+<footer class="site-footer" aria-label="საიტის ქვედა ბლოკი" data-i18n-aria-label="footer.footerLabel">
   <div class="container">
     <div class="row g-5">
 
       <!-- ── სვეტი 1: სოფლის შესახებ ────────────── -->
       <div class="col-lg-4 col-md-6">
         <div class="footer-brand-name"><%= siteName.toUpperCase() %></div>
-        <div class="footer-brand-sub">ოფიციალური საინფორმაციო პორტალი</div>
-        <p class="footer-tagline">
-          კახეთის გულში, იორის ნაპირზე — უჯარმა
-          ათასწლოვანი ისტორიისა და ცოცხალი
-          ტრადიციების სოფელია. ეს ოფიციალური
-          პორტალი აერთიანებს ადმინისტრაციულ
-          სერვისებს, სოფლის სიახლეებს
-          და ტურისტულ ინფორმაციას.
-        </p>
+        <div class="footer-brand-sub" data-i18n="footer.officialPortal">ოფიციალური საინფორმაციო პორტალი</div>
+        <p class="footer-tagline" data-i18n="footer.tagline">კახეთის გულში, იორის ნაპირზე — უჯარმა ათასწლოვანი ისტორიისა და ცოცხალი ტრადიციების სოფელია. ეს ოფიციალური პორტალი აერთიანებს ადმინისტრაციულ სერვისებს, სოფლის სიახლეებს და ტურისტულ ინფორმაციას.</p>
       </div>
 
       <!-- ── სვეტი 2: ნავიგაცია ───────────────────── -->
       <div class="col-lg-2 col-md-6 col-sm-6">
-        <h3 class="footer-heading">ნავიგაცია</h3>
+        <h3 class="footer-heading" data-i18n="footer.navigationHeading">ნავიგაცია</h3>
         <ul class="footer-links">
-          <li><a href="/"><i data-lucide="chevron-right" class="icon-inline"></i>მთავარი</a></li>
-          <li><a href="/news"><i data-lucide="chevron-right" class="icon-inline"></i>სიახლეები</a></li>
-          <li><a href="/attractions"><i data-lucide="chevron-right" class="icon-inline"></i>ღირსშესანიშნაობები</a></li>
-          <li><a href="/gallery"><i data-lucide="chevron-right" class="icon-inline"></i>გალერეა</a></li>
-          <li><a href="/about"><i data-lucide="chevron-right" class="icon-inline"></i>უჯარმის შესახებ</a></li>
-          <li><a href="/contact"><i data-lucide="chevron-right" class="icon-inline"></i>კონტაქტი</a></li>
+          <li><a href="/"><i data-lucide="chevron-right" class="icon-inline"></i><span data-i18n="nav.home">მთავარი</span></a></li>
+          <li><a href="/news"><i data-lucide="chevron-right" class="icon-inline"></i><span data-i18n="nav.news">სიახლეები</span></a></li>
+          <li><a href="/attractions"><i data-lucide="chevron-right" class="icon-inline"></i><span data-i18n="nav.attractions">ღირსშესანიშნაობები</span></a></li>
+          <li><a href="/gallery"><i data-lucide="chevron-right" class="icon-inline"></i><span data-i18n="nav.gallery">გალერეა</span></a></li>
+          <li><a href="/about"><i data-lucide="chevron-right" class="icon-inline"></i><span data-i18n="nav.about">უჯარმის შესახებ</span></a></li>
+          <li><a href="/contact"><i data-lucide="chevron-right" class="icon-inline"></i><span data-i18n="nav.contact">კონტაქტი</span></a></li>
         </ul>
       </div>
 
       <!-- ── სვეტი 3: საკონტაქტო ინფორმაცია ────────── -->
       <div class="col-lg-3 col-md-6 col-sm-6">
-        <h3 class="footer-heading">კონტაქტი</h3>
+        <h3 class="footer-heading" data-i18n="footer.contactHeading">კონტაქტი</h3>
 
         <div class="footer-contact-item">
           <i data-lucide="map-pin" class="footer-contact-icon"></i>
-          <span class="footer-contact-text">
-            უჯარმის სოფელი<br />
-            საგარეჯოს მუნიციპალიტეტი<br />
+          <span class="footer-contact-text" data-i18n-html="footer.addressText">
+            უჯარმის სოფელი<br>
+            საგარეჯოს მუნიციპალიტეტი<br>
             კახეთის რეგიონი, საქართველო
           </span>
         </div>
@@ -64,10 +57,10 @@
 
       <!-- ── სვეტი 4: სამუშაო საათები ─────────────── -->
       <div class="col-lg-3 col-md-6">
-        <h3 class="footer-heading">სამუშაო საათები</h3>
+        <h3 class="footer-heading" data-i18n="footer.workingHoursHeading">სამუშაო საათები</h3>
         <ul class="footer-links">
           <li>
-            <span class="footer-contact-text">ორშაბათი – პარასკევი</span>
+            <span class="footer-contact-text" data-i18n="footer.weekdays">ორშაბათი – პარასკევი</span>
           </li>
           <li>
             <span style="font-size:.875rem;color:rgba(255,255,255,.85);font-weight:500;">
@@ -75,7 +68,7 @@
             </span>
           </li>
           <li style="margin-top:.75rem;">
-            <span class="footer-contact-text">შაბათი</span>
+            <span class="footer-contact-text" data-i18n="footer.saturday">შაბათი</span>
           </li>
           <li>
             <span style="font-size:.875rem;color:rgba(255,255,255,.85);font-weight:500;">
@@ -83,7 +76,7 @@
             </span>
           </li>
           <li style="margin-top:.75rem;">
-            <span class="footer-contact-text" style="color:rgba(255,255,255,.4);">
+            <span class="footer-contact-text" style="color:rgba(255,255,255,.4);" data-i18n="footer.sundayClosed">
               კვირა — დახურულია
             </span>
           </li>
@@ -95,11 +88,11 @@
     <!-- ── ქვედა ზოლი ─────────────────────────────── -->
     <div class="footer-bottom">
       <p class="footer-copyright">
-        &copy; <%= currentYear %> <%= siteName %> სოფელი. ყველა უფლება დაცულია.
+        &copy; <%= currentYear %> <%= siteName %> <span data-i18n="footer.copyrightSuffix">სოფელი. ყველა უფლება დაცულია.</span>
       </p>
       <ul class="footer-legal-links">
-        <li><a href="/about">შესახებ</a></li>
-        <li><a href="/contact">კონტაქტი</a></li>
+        <li><a href="/about" data-i18n="footer.linkAbout">შესახებ</a></li>
+        <li><a href="/contact" data-i18n="footer.linkContact">კონტაქტი</a></li>
       </ul>
     </div>
 

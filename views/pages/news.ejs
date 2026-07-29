@@ -1,16 +1,16 @@
 <%# pages/news.ejs — სიახლეების გვერდი -%>
 
 <!-- გვერდის ბანერი -->
-<section class="page-banner" aria-label="გვერდის ერთაური">
+<section class="page-banner" aria-label="გვერდის ბანერი" data-i18n-aria-label="common.pageBannerLabel">
   <div class="container page-banner-content">
-    <nav aria-label="ნავიგაცია">
+    <nav aria-label="ნავიგაცია" data-i18n-aria-label="common.breadcrumbLabel">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
-        <li class="breadcrumb-item active" aria-current="page">სიახლეები</li>
+        <li class="breadcrumb-item"><a href="/" data-i18n="breadcrumb.home">მთავარი</a></li>
+        <li class="breadcrumb-item active" aria-current="page" data-i18n="breadcrumb.news">სიახლეები</li>
       </ol>
     </nav>
-    <h1 class="page-banner-title">სიახლეები და განცხადებები</h1>
-    <p class="page-banner-subtitle">უჯარმის სოფლის ადმინისტრაციის ოფიციალური კომუნიკაციები</p>
+    <h1 class="page-banner-title" data-i18n="news.bannerTitle">სიახლეები და განცხადებები</h1>
+    <p class="page-banner-subtitle" data-i18n="news.bannerSubtitle">უჯარმის სოფლის ადმინისტრაციის ოფიციალური კომუნიკაციები</p>
   </div>
 </section>
 
@@ -36,7 +36,7 @@
               <div class="content-card-body d-flex flex-column">
                 <span class="news-date">
                   <i data-lucide="calendar" class="icon-inline"></i>
-                  <%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'long', year:'numeric' }) %>
+                  <span data-i18n-date="<%= new Date(article.published_at).toISOString() %>" data-i18n-date-style="long"><%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'long', year:'numeric' }) %></span>
                 </span>
                 <h2 class="content-card-title mt-2" style="font-size:1.125rem;">
                   <a href="/news/<%= article.slug %>"><%= article.title %></a>
@@ -45,7 +45,7 @@
                   <p class="content-card-excerpt flex-grow-1"><%= article.summary || article.excerpt %></p>
                 <% } %>
                 <a href="/news/<%= article.slug %>" class="content-card-link mt-auto">
-                  სრულად წაკითხვა <i data-lucide="arrow-right" class="icon-inline"></i>
+                  <span data-i18n="news.readMore">სრულად წაკითხნა</span> <i data-lucide="arrow-right" class="icon-inline"></i>
                 </a>
               </div>
             </article>
@@ -55,10 +55,10 @@
     <% } else { %>
       <div class="empty-state" style="padding:6rem 2rem;">
         <div class="empty-state-icon"><i data-lucide="newspaper"></i></div>
-        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">
-          სტატიები ჯერ არ გამოქვეყნებულა
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;" data-i18n="news.noArticlesTitle">
+          სტატიები ჯერ არ გამოქვეყნულა
         </h3>
-        <p>მალე დაბრუნდით უჯარმის სოფლის ოფიციალური სიახლეებისათვის.</p>
+        <p data-i18n="news.noArticlesDesc">მალე დაბრუნდეთ უჯარმის სოფლის ოფიციალური სიახლეებისათვის.</p>
       </div>
     <% } %>
 

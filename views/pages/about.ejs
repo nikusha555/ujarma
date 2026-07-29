@@ -3,17 +3,17 @@
 <!-- ═══════════════════════════════════════════════════════
      HERO — full-height immersive banner
 ════════════════════════════════════════════════════════ -->
-<section class="about-hero" aria-label="გვერდის სათაური">
+<section class="about-hero" aria-label="გვერდის ბანერი" data-i18n-aria-label="common.pageBannerLabel">
   <!-- SVG dot-grid texture (same as site hero) -->
   <div class="about-hero-texture" aria-hidden="true"></div>
 
   <div class="about-hero-content">
     <div class="container">
       <!-- Breadcrumb -->
-      <nav aria-label="ნავიგაცია" class="about-hero-breadcrumb">
+      <nav aria-label="ნავიგაცია" class="about-hero-breadcrumb" data-i18n-aria-label="common.breadcrumbLabel">
         <ol class="breadcrumb mb-0">
-          <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
-          <li class="breadcrumb-item active" aria-current="page" style="color:rgba(255,255,255,.55);">უჯარმის შესახებ</li>
+          <li class="breadcrumb-item"><a href="/" data-i18n="breadcrumb.home">მთავარი</a></li>
+          <li class="breadcrumb-item active" aria-current="page" style="color:rgba(255,255,255,.55);" data-i18n="breadcrumb.about">უჯარმის შესახებ</li>
         </ol>
       </nav>
 
@@ -29,9 +29,9 @@
         </svg>
       </div>
 
-      <div class="section-label about-hero-label">კახეთი · საქართველო</div>
+      <div class="section-label about-hero-label" data-i18n="about.heroLabel">კახეთი · საქართველო</div>
       <h1 class="about-hero-title">უჯარმა</h1>
-      <p class="about-hero-subtitle">ისტორია, კულტურა, ბუნება და თანამედროვე ცხოვრება</p>
+      <p class="about-hero-subtitle" data-i18n="about.heroSubtitle">ისტორია, კულტურა, ბუნება და თანამედროვე ცხოვრება</p>
 
       <!-- Separator -->
       <div class="hero-separator" aria-hidden="true" style="justify-content:center;margin:1.5rem 0 0;">
@@ -53,24 +53,24 @@
   <div class="container">
     <div class="row align-items-center g-5">
       <div class="col-lg-6">
-        <div class="section-label">სოფელი</div>
-        <h2 class="about-section-heading">ძველი სამეფოს გული — უჯარმა</h2>
+        <div class="section-label" data-i18n="about.villageLabel">სოფელი</div>
+        <h2 class="about-section-heading" data-i18n="about.introHeading">ძველი სამეფოს გული — უჯარმა</h2>
 
-        <p class="about-lead-text">
+        <p class="about-lead-text" data-i18n="about.introPara1">
           უჯარმა საქართველოს ერთ-ერთი ყველაზე სახელოვანი ისტორიული სოფელია,
           რომელიც საგარეჯოს მუნიციპალიტეტში, კახეთის რეგიონში მდებარეობს.
           სოფელი განთქმულია უჯარმის ციხე-სიმაგრით — ადრეული შუა საუკუნეების
           ერთ-ერთი ყველაზე მნიშვნელოვანი სამეფო რეზიდენციით სამხრეთ კავკასიაში.
         </p>
 
-        <p class="about-body-text">
+        <p class="about-body-text" data-i18n="about.introPara2">
           ადრეული ქრისტიანული საქართველოს ეპოქიდან მოყოლებული, უჯარმამ
           განსაკუთრებული ადგილი დაიკავა ქართული სახელმწიფოებრიობის ისტორიაში.
           V საუკუნეში, ვახტანგ გორგასლის მეფობის დროს, უჯარმა მეფის ერთ-ერთ
           საყვარელ რეზიდენციად იქცა.
         </p>
 
-        <p class="about-body-text">
+        <p class="about-body-text" data-i18n="about.introPara3">
           საუკუნეთა განმავლობაში უჯარმამ შეინარჩუნა სასოფლო-სამეურნეო
           ხასიათი, მჭიდრო კავშირი მიწასა და ვაზის კულტურასთან. დღეს სოფელი
           ისეთი ადგილია, სადაც ისტორია ცოცხლობს ყოველ ქვასა და ლანდშაფტში.
@@ -83,33 +83,33 @@
           <div class="col-6">
             <div class="about-stat-card">
               <i data-lucide="map-pin" class="about-stat-icon"></i>
-              <div class="about-stat-label">მდებარეობა</div>
-              <div class="about-stat-value">საგარეჯო, კახეთი</div>
-              <div class="about-stat-sub">60 კმ თბილისიდან</div>
+              <div class="about-stat-label" data-i18n="about.statLocationLabel">მდებარეობა</div>
+              <div class="about-stat-value" data-i18n="about.statLocationValue">საგარეჯო, კახეთი</div>
+              <div class="about-stat-sub" data-i18n="about.statLocationSub">60 კმ თბილისიდან</div>
             </div>
           </div>
           <div class="col-6">
             <div class="about-stat-card">
               <i data-lucide="landmark" class="about-stat-icon"></i>
-              <div class="about-stat-label">ძეგლი</div>
-              <div class="about-stat-value">III–VII სს.</div>
-              <div class="about-stat-sub">ეროვნული მემკვიდრეობა</div>
+              <div class="about-stat-label" data-i18n="about.statMonumentLabel">ძეგლი</div>
+              <div class="about-stat-value" data-i18n="about.statMonumentValue">III–VII სს.</div>
+              <div class="about-stat-sub" data-i18n="about.statMonumentSub">ეროვნული მემკვიდრეობა</div>
             </div>
           </div>
           <div class="col-6">
             <div class="about-stat-card about-stat-card--accent">
               <i data-lucide="crown" class="about-stat-icon"></i>
-              <div class="about-stat-label">სამეფო რეზიდენცია</div>
-              <div class="about-stat-value">ვახტანგ გორგასალი</div>
-              <div class="about-stat-sub">V საუკუნე</div>
+              <div class="about-stat-label" data-i18n="about.statRoyalResLabel">სამეფო რეზიდენცია</div>
+              <div class="about-stat-value" data-i18n="about.statRoyalResValue">ვახტანგ გორგასალი</div>
+              <div class="about-stat-sub" data-i18n="about.statRoyalResSub">V საუკუნე</div>
             </div>
           </div>
           <div class="col-6">
             <div class="about-stat-card">
               <i data-lucide="grape" class="about-stat-icon"></i>
-              <div class="about-stat-label">რეგიონი</div>
-              <div class="about-stat-value">კახეთი</div>
-              <div class="about-stat-sub">ღვინის სამშობლო</div>
+              <div class="about-stat-label" data-i18n="about.statRegionLabel">რეგიონი</div>
+              <div class="about-stat-value" data-i18n="about.statRegionValue">კახეთი</div>
+              <div class="about-stat-sub" data-i18n="about.statRegionSub">ღვინის სამშობლო</div>
             </div>
           </div>
         </div>
@@ -131,33 +131,33 @@
         <div class="about-timeline">
           <div class="about-timeline-item">
             <div class="about-timeline-dot"></div>
-            <div class="about-timeline-year">III–IV სს.</div>
-            <div class="about-timeline-desc">პირველი ნახსენები „ქართლის ცხოვრებაში"</div>
+          <div class="about-timeline-year" data-i18n="about.timelineItem1Year">III–IV სს.</div>
+            <div class="about-timeline-desc" data-i18n="about.timelineItem1Desc">პირველი ნახსენები „ქართლის ცხოვრებიში“</div>
           </div>
           <div class="about-timeline-item">
             <div class="about-timeline-dot about-timeline-dot--gold"></div>
-            <div class="about-timeline-year">V საუკუნე</div>
-            <div class="about-timeline-desc">ვახტანგ გორგასლის სამეფო რეზიდენცია</div>
+            <div class="about-timeline-year" data-i18n="about.timelineItem2Year">V საუკუნე</div>
+            <div class="about-timeline-desc" data-i18n="about.timelineItem2Desc">ვახტანგ გორგასლის სამეფო რეზიდენცია</div>
           </div>
           <div class="about-timeline-item">
             <div class="about-timeline-dot"></div>
-            <div class="about-timeline-year">VI–VII სს.</div>
-            <div class="about-timeline-desc">სტრატეგიული სამხედრო ობიექტი</div>
+            <div class="about-timeline-year" data-i18n="about.timelineItem3Year">VI–VII სს.</div>
+            <div class="about-timeline-desc" data-i18n="about.timelineItem3Desc">სტრატეგიული სამხედრო ობიექტი</div>
           </div>
           <div class="about-timeline-item">
             <div class="about-timeline-dot"></div>
-            <div class="about-timeline-year">დღეს</div>
-            <div class="about-timeline-desc">ეროვნული კულტურული მემკვიდრეობა</div>
+            <div class="about-timeline-year" data-i18n="about.timelineItem4Year">დღეს</div>
+            <div class="about-timeline-desc" data-i18n="about.timelineItem4Desc">ეროვნული კულტურული მემკვიდრეობა</div>
           </div>
         </div>
       </div>
 
       <!-- Text column -->
       <div class="col-lg-8">
-        <div class="section-label">ისტორია</div>
-        <h2 class="about-section-heading">მრავალსაუკუნოვანი ისტორია</h2>
+        <div class="section-label" data-i18n="about.historyLabel">ისტორია</div>
+        <h2 class="about-section-heading" data-i18n="about.historyHeading">მრავალსაუკუნოვანი ისტორია</h2>
 
-        <p class="about-body-text">
+        <p class="about-body-text" data-i18n="about.historyPara1">
           უჯარმის პირველი ნახსენებები ძველ ქართულ წყაროებში III–IV საუკუნეებს
           განეკუთვნება. ძველი სახელი „უჯარმა" ვახუშტი ბაგრატიონის ნაშრომებსა
           და „ქართლის ცხოვრებაში" მოხსენიებულია, როგორც კახეთის ერთ-ერთი
@@ -165,13 +165,13 @@
         </p>
 
         <!-- Highlighted quote -->
-        <blockquote class="about-blockquote">
+        <blockquote class="about-blockquote" data-i18n="about.historyQuote">
           V საუკუნეში, ვახტანგ გორგასლის მეფობის პერიოდში, უჯარმა
           სამეფო კარის ფავორიტ ადგილად გადაიქცა. მეფე-მეომარი ხშირად
           ამ ციხე-სიმაგრეში ბნავდა კახეთის კამპანიების განმავლობაში.
         </blockquote>
 
-        <p class="about-body-text">
+        <p class="about-body-text" data-i18n="about.historyPara2">
           VI–VII საუკუნეებში, ქართლ-კახეთის სამეფოს განვითარების ეტაპზე,
           უჯარმამ საბოლოოდ განიმტკიცა მდგომარეობა როგორც სტრატეგიულ-სამხედრო
           ობიექტმა — კახეთის სამხრეთ ჭიშკართან. ციხის ქვეშ გამავალი გზა
@@ -179,7 +179,7 @@
           წარმოადგენდა.
         </p>
 
-        <p class="about-body-text">
+        <p class="about-body-text" data-i18n="about.historyPara3">
           შუა საუკუნეებში, ქვეყანაში სხვადასხვა დაპყრობების ფონზე,
           უჯარმამ ნაწილობრივ დაკარგა ყოფილი ბრწყინვალება, თუმცა
           სოფელი გადარჩა. დღეს ციხის ნანგრევები ეროვნული კულტურული
@@ -200,17 +200,17 @@
     <div class="row align-items-center g-5">
 
       <div class="col-lg-5">
-        <div class="section-label">გეოგრაფია</div>
-        <h2 class="about-section-heading">ბუნება და განლაგება</h2>
+        <div class="section-label" data-i18n="about.geographyLabel">გეოგრაფია</div>
+        <h2 class="about-section-heading" data-i18n="about.geographyHeading">ბუნება და განლაგება</h2>
 
-        <p class="about-body-text">
+        <p class="about-body-text" data-i18n="about.geoPara1">
           უჯარმა გეოგრაფიულად კახეთის ვაკე-მთიანი ზოლის
           ჩრდილო-დასავლეთ კიდეზე მდებარეობს, საგარეჯოს
           მუნიციპალიტეტში. სოფლის ახლოს გაედინება იორი —
           ქართლ-კახეთის ერთ-ერთი მთავარი მდინარე.
         </p>
 
-        <p class="about-body-text">
+        <p class="about-body-text" data-i18n="about.geoPara2">
           ადგილი ზღვის დონიდან 400–600 მეტრის სიმაღლეზეა.
           სოფლიდან 60–65 კმ-ია თბილისამდე, ხოლო
           საგარეჯო — 25 კმ-ის მოშორებით.
@@ -222,29 +222,29 @@
           <div class="col-sm-6">
             <div class="about-geo-card">
               <i data-lucide="waves" class="about-geo-icon"></i>
-              <div class="about-geo-title">იორის ხეობა</div>
-              <div class="about-geo-text">კახეთის ერთ-ერთი ყველაზე ლამაზი ბუნებრივი ლანდშაფტი, გასაოცარი პანორამული ხედებით</div>
+              <div class="about-geo-title" data-i18n="about.geoCard1Title">იორის ხეობა</div>
+              <div class="about-geo-text" data-i18n="about.geoCard1Text">კახეთის ერთ-ერთი ყველაზე ლამაზი ბუნებრივი ლანდშაფტი, გასაოცარი პანორამული ხედებით</div>
             </div>
           </div>
           <div class="col-sm-6">
             <div class="about-geo-card">
               <i data-lucide="mountain" class="about-geo-icon"></i>
-              <div class="about-geo-title">სიმაღლე 400–600 მ</div>
-              <div class="about-geo-text">ზღვის დონიდან — ვაზის მოყვანის საუკეთესო ბუნებრივი პირობები</div>
+              <div class="about-geo-title" data-i18n="about.geoCard2Title">სიმაღლე 400–600 მ</div>
+              <div class="about-geo-text" data-i18n="about.geoCard2Text">ზღვის დონიდან — ვაზის მოყვანის საუკეთესო ბუნებრივი პირობები</div>
             </div>
           </div>
           <div class="col-sm-6">
             <div class="about-geo-card">
               <i data-lucide="sun" class="about-geo-icon"></i>
-              <div class="about-geo-title">კახური კლიმატი</div>
-              <div class="about-geo-text">ნახევრად-მშრალი: ცხელი ზაფხული, რბილი ზამთარი, ოქრო შემოდგომა</div>
+              <div class="about-geo-title" data-i18n="about.geoCard3Title">კახური კლიმატი</div>
+              <div class="about-geo-text" data-i18n="about.geoCard3Text">ნახევრად-მშრალი: ცხელი ზაფხული, რბილი ზამთარი, ოქროვანი შემოდგომა</div>
             </div>
           </div>
           <div class="col-sm-6">
             <div class="about-geo-card">
               <i data-lucide="route" class="about-geo-icon"></i>
-              <div class="about-geo-title">60 კმ თბილისიდან</div>
-              <div class="about-geo-text">ავტომობილით 1 საათის სავალი — იდეალური ერთდღიანი ექსკურსია</div>
+              <div class="about-geo-title" data-i18n="about.geoCard4Title">60 კმ თბილისიდან</div>
+              <div class="about-geo-text" data-i18n="about.geoCard4Text">ავტომობილით 1 საათის სავალი — იდეალური ერთდღიანი ექსკურსია</div>
             </div>
           </div>
         </div>
@@ -262,9 +262,9 @@
   <div class="container">
     <div class="row justify-content-center mb-5">
       <div class="col-lg-7 text-center">
-        <div class="section-label" style="justify-content:center;">კულტურა</div>
-        <h2 class="about-section-heading mb-2">ტრადიციები და ცხოვრების წესი</h2>
-        <p class="about-body-text" style="color:var(--color-text-secondary);">
+        <div class="section-label" style="justify-content:center;" data-i18n="about.cultureLabel">კულტურა</div>
+        <h2 class="about-section-heading mb-2" data-i18n="about.cultureHeading">ტრადიციები და ცხოვრების წესი</h2>
+        <p class="about-body-text" style="color:var(--color-text-secondary);" data-i18n="about.culturePara">
           კახეთი არის არა მხოლოდ საქართველოს ღვინის სამშობლო, არამედ
           ქართული ტრადიციული კულტურის ერთ-ერთი მდიდარი კერა.
         </p>
@@ -277,8 +277,8 @@
           <div class="about-culture-icon-wrap">
             <i data-lucide="wine" class="about-culture-icon"></i>
           </div>
-          <h3 class="about-culture-title">ქვევრის ღვინო</h3>
-          <p class="about-culture-text">
+          <h3 class="about-culture-title" data-i18n="about.cultureCard1Title">ქვევრის ღვინო</h3>
+          <p class="about-culture-text" data-i18n="about.cultureCard1Text">
             უჯარმისა და მიმდებარე სოფლების მოსახლეობა ინარჩუნებს
             მრავალსაუკუნოვან ყოფა-ცხოვრების წესს: ქვევრის ღვინოს
             დაყენებას — ტრადიციას, რომელიც UNESCO-ს არამატერიალური
@@ -291,8 +291,8 @@
           <div class="about-culture-icon-wrap about-culture-icon-wrap--gold">
             <i data-lucide="wheat" class="about-culture-icon about-culture-icon--white"></i>
           </div>
-          <h3 class="about-culture-title">რთველი</h3>
-          <p class="about-culture-text">
+          <h3 class="about-culture-title" data-i18n="about.cultureCard2Title">რთველი</h3>
+          <p class="about-culture-text" data-i18n="about.cultureCard2Text">
             სოფლის კალენდარი ვაზის ციკლს მიჰყვება. ზაფხულის
             ბოლოს რთველი — ყველაზე მხიარული და ოჯახური
             დღესასწაული — ახლაც ისევე ხალისიანად იმართება,
@@ -305,8 +305,8 @@
           <div class="about-culture-icon-wrap">
             <i data-lucide="church" class="about-culture-icon"></i>
           </div>
-          <h3 class="about-culture-title">კომუნიტარული სიახლოვე</h3>
-          <p class="about-culture-text">
+          <h3 class="about-culture-title" data-i18n="about.cultureCard3Title">კომუნიტარული სიახლოვე</h3>
+          <p class="about-culture-text" data-i18n="about.cultureCard3Text">
             უჯარმის სკოლა, კულტურის სახლი და ადგილობრივი ეკლესია
             სოფლის სოციალური ცხოვრების ღერძია. ყოველწლიური
             ამბობ-ლოცვები და ისტორიული დღესასწაულები ქმნის
@@ -327,53 +327,87 @@
 
     <div class="row align-items-end mb-5 g-3">
       <div class="col-lg-7">
-        <div class="section-label">ტურიზმი</div>
-        <h2 class="about-section-heading mb-1">უჯარმა — ისტორიული ტურიზმის მიმართულება</h2>
-        <p class="about-body-text" style="color:var(--color-text-secondary);margin-bottom:0;">
+        <div class="section-label" data-i18n="about.tourismLabel">ტურიზმი</div>
+        <h2 class="about-section-heading mb-1" data-i18n="about.tourismHeading">უჯარმა — ისტორიული ტურიზმის მიმართულება</h2>
+        <p class="about-body-text" style="color:var(--color-text-secondary);margin-bottom:0;" data-i18n="about.tourismPara">
           კახეთის ტურისტული მარშრუტების ერთ-ერთ მნიშვნელოვან გაჩერებად ქცეული,
           უჯარმა ყოველწლიურად ათასობით ვიზიტორს იღებს.
         </p>
       </div>
       <div class="col-lg-5 text-lg-end">
-        <a href="/attractions" class="btn-primary-custom">ყველა ღირსშესანიშნაობა</a>
+        <a href="/attractions" class="btn-primary-custom" data-i18n="about.tourismViewAll">ყველა ღირსშესანიშნაობა</a>
       </div>
     </div>
 
-    <!-- Tourism highlights grid -->
+    <!-- Tourism highlights grid — static items with data-i18n -->
     <div class="row g-3">
-      <% const tourItems = [
-        { icon:'landmark',    title:'ციხე-სიმაგრე',       desc:'III–VII სს. ეროვნული ძეგლის მოპირდაპირე კლდოვანი ბორცვი' },
-        { icon:'eye',         title:'პანორამული ხედები',  desc:'იორის ხეობის გასაოცარი ბუნებრივი სილამაზე' },
-        { icon:'wine',        title:'ღვინის დეგუსტაცია',  desc:'ადგილობრივი ოჯახური მარნები, კახური ქვევრის ღვინო' },
-        { icon:'utensils',    title:'ქართული სამზარეულო', desc:'ადგილობრივი ოჯახების ტრადიციული კახური სუფრა' },
-        { icon:'footprints',  title:'ისტორიული ბილიკი',   desc:'ვახტანგ გორგასლის ბილიკი — 2-3 სთ. ტრეილი' },
-        { icon:'camera',      title:'ფოტოგრაფია',         desc:'იდეალური ადგილი — განსაკუთრებით გამთენიისას' },
-      ]; %>
-      <% tourItems.forEach(function(item) { %>
-        <div class="col-lg-4 col-md-6">
-          <div class="about-tour-card">
-            <div class="about-tour-icon-wrap">
-              <i data-lucide="<%= item.icon %>"></i>
-            </div>
-            <div>
-              <div class="about-tour-title"><%= item.title %></div>
-              <div class="about-tour-desc"><%= item.desc %></div>
-            </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="about-tour-card">
+          <div class="about-tour-icon-wrap"><i data-lucide="landmark"></i></div>
+          <div>
+            <div class="about-tour-title" data-i18n="about.tourismItem1Title">ციხე-სიმაგრე</div>
+            <div class="about-tour-desc" data-i18n="about.tourismItem1Desc">III–VII სს. ეროვნული ძეგლის მოპირდაპირე კლდოვანი ბორცვი</div>
           </div>
         </div>
-      <% }); %>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="about-tour-card">
+          <div class="about-tour-icon-wrap"><i data-lucide="eye"></i></div>
+          <div>
+            <div class="about-tour-title" data-i18n="about.tourismItem2Title">პანორამული ხედები</div>
+            <div class="about-tour-desc" data-i18n="about.tourismItem2Desc">იორის ხეობის გასაოცარი ბუნებრივი სილამაზე</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="about-tour-card">
+          <div class="about-tour-icon-wrap"><i data-lucide="wine"></i></div>
+          <div>
+            <div class="about-tour-title" data-i18n="about.tourismItem3Title">ღვინის დეგუსტაცია</div>
+            <div class="about-tour-desc" data-i18n="about.tourismItem3Desc">ადგილობრივი ოჯახური მარნები, კახური ქვევრის ღვინო</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="about-tour-card">
+          <div class="about-tour-icon-wrap"><i data-lucide="utensils"></i></div>
+          <div>
+            <div class="about-tour-title" data-i18n="about.tourismItem4Title">ქართული სამზარეულო</div>
+            <div class="about-tour-desc" data-i18n="about.tourismItem4Desc">ადგილობრივი ოჯახების ტრადიციული კახური სუფრა</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="about-tour-card">
+          <div class="about-tour-icon-wrap"><i data-lucide="footprints"></i></div>
+          <div>
+            <div class="about-tour-title" data-i18n="about.tourismItem5Title">ისტორიული ბილიკი</div>
+            <div class="about-tour-desc" data-i18n="about.tourismItem5Desc">ვახტანგ გორგასლის ბილიკი — 2–3 სთ. ტრეილი</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="about-tour-card">
+          <div class="about-tour-icon-wrap"><i data-lucide="camera"></i></div>
+          <div>
+            <div class="about-tour-title" data-i18n="about.tourismItem6Title">ფოტოგრაფია</div>
+            <div class="about-tour-desc" data-i18n="about.tourismItem6Desc">იდეალური ადგილი — განსაკუთრებით გამთენიისას</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Sub-text + CTA -->
     <div class="row justify-content-center mt-5">
       <div class="col-lg-8 text-center">
-        <p class="about-body-text" style="color:var(--color-text-secondary);margin-bottom:1.5rem;">
+        <p class="about-body-text" style="color:var(--color-text-secondary);margin-bottom:1.5rem;" data-i18n="about.tourismSubtext">
           ტურისტული ინფრასტრუქტურის გაუმჯობესება სოფლის ადმინისტრაციის
-          ერთ-ერთი მთავარი პრიორიტეტია. მუშავდება გეგმები სტუმართმოყვარეობის
+          ერთ-ერთი მთავარი პრიორიტეტია. მუშავდება გეგმები სტუმართმოყვარებობის
           ობიექტების და ისტორიული მარშრუტების მოწყობის შესახებ.
         </p>
         <a href="/contact"
-           style="font-size:.8125rem;font-weight:600;letter-spacing:.06em;color:var(--color-text-muted);display:inline-flex;align-items:center;gap:.5rem;">
+           style="font-size:.8125rem;font-weight:600;letter-spacing:.06em;color:var(--color-text-muted);display:inline-flex;align-items:center;gap:.5rem;"
+           data-i18n="about.tourismInfoLink">
           სამოგზაურო ინფორმაცია
           <i data-lucide="arrow-right" class="icon-inline"></i>
         </a>
@@ -392,26 +426,26 @@
   <div class="container" style="position:relative;z-index:1;">
     <div class="row align-items-center g-5">
       <div class="col-lg-7">
-        <div class="section-label" style="color:var(--gold-300);">ადმინისტრაცია</div>
-        <h2 class="about-section-heading" style="color:var(--white);">სოფლის მმართველობა</h2>
-        <p style="color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1.25rem;">
+        <div class="section-label" style="color:var(--gold-300);" data-i18n="about.adminLabel">ადმინისტრაცია</div>
+        <h2 class="about-section-heading" style="color:var(--white);" data-i18n="about.adminHeading">სოფლის მმართველობა</h2>
+        <p style="color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1.25rem;" data-i18n="about.adminPara">
           უჯარმის სოფლის ადმინისტრაცია პასუხისმგებელია ადგილობრივი
           ინფრასტრუქტურის მართვაზე, საჯარო სერვისების მიწოდებაზე,
           ბუნებრივი და კულტურული მემკვიდრეობის დაცვაზე.
         </p>
-        <p style="color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1.75rem;">
+        <p style="color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1.75rem;" data-i18n="about.adminPara2">
           ადმინისტრაცია მუშაობს საქართველოს კანონმდებლობის შესაბამისად,
           სრული გამჭვირვალობისა და ანგარიშვალდებულების პრინციპებზე
           დაყრდნობით.
         </p>
-        <p style="color:rgba(255,255,255,.55);font-style:italic;font-size:.9375rem;border-left:2px solid var(--gold-500);padding-left:1rem;margin-bottom:2rem;">
+        <p style="color:rgba(255,255,255,.55);font-style:italic;font-size:.9375rem;border-left:2px solid var(--gold-500);padding-left:1rem;margin-bottom:2rem;" data-i18n="about.adminQuote">
           „ჩვენი მიზანია სოფელი, სადაც ისტორიული მემკვიდრეობა პატივდება,
           ახალგაზრდობა ბრუნდება და ყოველი მოსახლე სიამაყით ამბობს:
           ეს ჩემი სოფელია."
         </p>
         <div class="d-flex gap-3 flex-wrap">
-          <a href="/contact" class="btn-gold">ადმინისტრაციასთან კავშირი</a>
-          <a href="/news" class="btn-outline-light-custom">ოფიციალური სიახლეები</a>
+          <a href="/contact" class="btn-gold" data-i18n="about.contactAdminBtn">ადმინისტრაციასთან კავშირი</a>
+          <a href="/news" class="btn-outline-light-custom" data-i18n="about.newsLinkBtn">ოფიციალური სიახლეები</a>
         </div>
       </div>
       <div class="col-lg-5 d-none d-lg-flex justify-content-center">
@@ -440,47 +474,29 @@
       <div class="col-lg-9">
 
         <div class="text-center mb-5">
-          <div class="section-label" style="justify-content:center;">ხშირად დასმული კითხვები</div>
-          <h2 class="about-section-heading mb-0">FAQ</h2>
+          <div class="section-label" style="justify-content:center;" data-i18n="about.faqSectionLabel">ხშირად დასმული კითხვები</div>
+          <h2 class="about-section-heading mb-0" data-i18n="about.faqSectionTitle">FAQ</h2>
         </div>
 
         <% const faqs = [
-          {
-            q: 'სად მდებარეობს უჯარმა?',
-            a: 'უჯარმა მდებარეობს საქართველოს კახეთის რეგიონში, საგარეჯოს მუნიციპალიტეტში, თბილისიდან დაახლოებით 60–65 კილომეტრის დაშორებით. ავტომობილით მგზავრობა დედაქალაქიდან ერთ საათამდე მიდის.'
-          },
-          {
-            q: 'როდის იყო აშენებული უჯარმის ციხე-სიმაგრე?',
-            a: 'უჯარმის ციხე-სიმაგრის პირველი ნაგებობები III–IV საუკუნეებს განეკუთვნება. ციხემ განსაკუთრებული სიდიადე V საუკუნეში მიაღწია, ვახტანგ გორგასლის მეფობის ხანაში, როდესაც ის სამეფო კარის ერთ-ერთ ოფიციალურ რეზიდენციად ჩამოყალიბდა.'
-          },
-          {
-            q: 'შეიძლება თუ არა ციხის მონახულება?',
-            a: 'დიახ, ციხე-სიმაგრის ტერიტორია ღიაა ვიზიტორებისათვის. ვინაიდან ეს კულტურული მემკვიდრეობის ობიექტია, გთხოვთ, დაიცვათ გარემო და გაიაროთ ნებისმიერი ორგანიზებული ექსკურსია ადგილობრივი გიდის ხელმძღვანელობით. დამატებითი ინფორმაციისთვის დაუკავშირდით სოფლის ადმინისტრაციას.'
-          },
-          {
-            q: 'კახური ღვინოს სად შეიძლება დეგუსტაცია?',
-            a: 'უჯარმის მიმდებარე ტერიტორიაზე რამდენიმე ოჯახური მარანია, სადაც ადგილობრივი ოჯახები ტრადიციული კახური ღვინის, მათ შორის ქვევრის ღვინის, დეგუსტაციას სთავაზობენ ვიზიტორებს. სოფლის ადმინისტრაციაში შეგიძლიათ მიიღოთ განახლებული სია ადგილობრივ ღვინის მწარმოებლებზე.'
-          },
-          {
-            q: 'სოფელში სასტუმრო ან სახლ-სასტუმრო არსებობს?',
-            a: 'სოფელი და მიმდებარე ტერიტორია სვამს ტურისტული ინფრასტრუქტურის გაუმჯობესებას. ამჟამად ყველაზე ხელმისაწვდომი ვარიანტია სახლ-სასტუმრო-ტიპის განთავსება ადგილობრივ ოჯახებთან ან ახლომდებარე საგარეჯოში. სოფლის ადმინისტრაცია განახლებულ ინფორმაციას წარმოადგენს ამ გვერდზე.'
-          },
-          {
-            q: 'რა არის ვიზიტის საუკეთესო დრო?',
-            a: 'კახეთი შესანიშნავია წლის სამ სეზონზე. გაზაფხული (მარტი–მაისი) — ბუნება ყვავის, ჰავა რბილია. ზაფხული (ივნისი–აგვისტო) — მზიანი, ცხელი, ვენახები ხილით. შემოდგომა (სექტემბერი–ოქტომბერი) — კახეთის ოქროს სეზონი, რთველი, ეროვნული ტრადიციები.'
-          }
+          { q: 'სად მდებარეობს უჯარმა?', a: 'უჯარმა მდებარეობს საქართველოს კახეთის რეგიონში, საგარეჯოს მუნიციპალიტეტში, თბილისიდან დაახლოებით 60–65 კილომეტრის დაშორებით. ავტომობილით მგზავრობა დედაქალაქიდან ერთ საათამდე მიდის.', key: 'faq1' },
+          { q: 'როდის იყო აშენებული უჯარმის ციხე-სიმაგრე?', a: 'უჯარმის ციხე-სიმაგრის პირველი ნაგებობები III–IV საუკუნეებს განეკუთვნება. ციხემ განსაკუთრებული სიდიადე V საუკუნეში მიაღწია, ვახტანგ გორგასლის მეფობის ხანაში, როდესაც ის სამეფო კარის ერთ-ერთ ოფიციალურ რეზიდენციად ჩამოყალიბდა.', key: 'faq2' },
+          { q: 'შეიძლება თუ არა ციხის მონახულება?', a: 'დიახ, ციხე-სიმაგრის ტერიტორია ღიაა ვიზიტორებისათვის. ვინაიდან ეს კულტურული მემკვიდრეობის ობიექტია, გთხოვთ, დაიცვათ გარემო და გაიაროთ ნებისმიერი ორგანიზებული ექსკურსია ადგილობრივი გიდის ხელმძღვანელობით. დამატებითი ინფორმაციისთვის დაუკავშირდით სოფლის ადმინისტრაციას.', key: 'faq3' },
+          { q: 'კახური ღვინოს სად შეიძლება დეგუსტაცია?', a: 'უჯარმის მიმდებარე ტერიტორიაზე რამდენიმე ოჯახური მარანია, სადაც ადგილობრივი ოჯახები ტრადიციული კახური ღვინის, მათ შორის ქვევრის ღვინის, დეგუსტაციას სთავაზობენ ვიზიტორებს. სოფლის ადმინისტრაციაში შეგიძლიათ მიიღოთ განახლებული სია ადგილობრივ ღვინის მწარმოებლებზე.', key: 'faq4' },
+          { q: 'სოფელში სასტუმრო ან სახლ-სასტუმრო არსებობს?', a: 'სოფელი და მიმდებარე ტერიტორია სვამს ტურისტული ინფრასტრუქტურის გაუმჯობესებას. ამჟამად ყველაზე ხელმისაწვდომი ვარიანტია სახლ-სასტუმრო-ტიპის განთავსება ადგილობრივ ოჯახებთან ან ახლომდებარე საგარეჯოში. სოფლის ადმინისტრაცია განახლებულ ინფორმაციას წარმოადგენს ამ გვერდზე.', key: 'faq5' },
+          { q: 'რა არის ვიზიტის საუკეთესო დრო?', a: 'კახეთი შესანიშნავია წლის სამ სეზონზე. გაზაფხული (მარტი–მაისი) — ბუნება ყვავის, ჰავა რბილია. ზაფხული (ივნისი–აგვისტო) — მზიანი, ცხელი, ვენახები ხილით. შემოდგომა (სექტემბერი–ოქტომბერი) — კახეთის ოქროს სეზონი, რთველი, ეროვნული ტრადიციები.', key: 'faq6' }
         ]; %>
 
         <% faqs.forEach(function(faq, idx) { %>
           <div class="about-faq-item" id="faq-<%= idx %>">
             <details>
               <summary class="about-faq-summary">
-                <span class="about-faq-q"><%= faq.q %></span>
+                <span class="about-faq-q" data-i18n="about.<%= faq.key %>Q"><%= faq.q %></span>
                 <span class="about-faq-chevron" aria-hidden="true">
                   <i data-lucide="chevron-down"></i>
                 </span>
               </summary>
-              <div class="about-faq-answer">
+              <div class="about-faq-answer" data-i18n="about.<%= faq.key %>A">
                 <%= faq.a %>
               </div>
             </details>

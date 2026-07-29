@@ -1,10 +1,10 @@
 ﻿<%# pages/gallery.ejs — ფოტოგალერეა -%>
 
-<section class="page-banner" aria-label="გვერდის ერთაური">
+<section class="page-banner" aria-label="გვერდის ბანერი" data-i18n-aria-label="common.pageBannerLabel">
   <div class="container page-banner-content">
-    <nav aria-label="ნავიგაცია"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">მთავარი</a></li><li class="breadcrumb-item active">გალერეა</li></ol></nav>
-    <h1 class="page-banner-title">ფოტოგალერეა</h1>
-    <p class="page-banner-subtitle">უჯარმის სოფლისა და მის შემოგარედაბის ფოტოსურათები</p>
+    <nav aria-label="ნავიგაცია" data-i18n-aria-label="common.breadcrumbLabel"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/" data-i18n="breadcrumb.home">მთავარი</a></li><li class="breadcrumb-item active" aria-current="page" data-i18n="breadcrumb.gallery">გალერეა</li></ol></nav>
+    <h1 class="page-banner-title" data-i18n="gallery.bannerTitle">ფოტოგალერეა</h1>
+    <p class="page-banner-subtitle" data-i18n="gallery.bannerSubtitle">უჯარმის სოფლისა და მის შემოგარენის ფოტოსურათები</p>
   </div>
 </section>
 
@@ -15,7 +15,7 @@
       <div class="gallery-grid" style="grid-template-columns:repeat(4,1fr);">
         <% items.forEach(function(item) { %>
           <% const gUrl = galleryImgUrl(item.image); %>
-          <div class="gallery-item" data-src="<%= gUrl || '' %>" title="<%= item.title %>" role="button" tabindex="0" aria-label="სურათის ნახვა: <%= item.title %>">
+          <div class="gallery-item" data-src="<%= gUrl || '' %>" title="<%= item.title %>" role="button" tabindex="0" aria-label="<%= item.title %>">
             <% if (gUrl) { %><img src="<%= gUrl %>" alt="<%= item.title %>" loading="lazy" /><% } else { %><div class="gallery-placeholder"><i data-lucide="image"></i></div><% } %>
             <div class="gallery-item-overlay" aria-hidden="true"><i data-lucide="zoom-in"></i></div>
           </div>
@@ -24,8 +24,8 @@
     <% } else { %>
       <div class="empty-state" style="padding:6rem 2rem;">
         <div class="empty-state-icon"><i data-lucide="images"></i></div>
-        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;">გალერეა ცარიელია</h3>
-        <p>გალერეის სურათები გამოჩნდება ადმინისტრაციის მიერ ატვირთვის შემდეგ.</p>
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:.5rem;" data-i18n="gallery.emptyTitle">გალერეა ცარიელია</h3>
+        <p data-i18n="gallery.emptyDesc">გალერეის სურათები გამოჩნდება ადმინისტრაციის მიერ ატვირთვის შემდეგ.</p>
       </div>
     <% } %>
 

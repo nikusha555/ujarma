@@ -3,7 +3,7 @@
 <!-- ═══════════════════════════════════════════════════════
      HERO SECTION
 ════════════════════════════════════════════════════════ -->
-<section class="hero" aria-label="Hero">
+<section class="hero" aria-label="მთავარი ბანერი" data-i18n-aria-label="common.heroLabel">
   <div class="hero-glow"></div>
 
   <div class="hero-content-wrap w-100">
@@ -26,13 +26,13 @@
           </div>
 
           <!-- ადგილობრივი -->
-          <p class="hero-location">კახეთის რეგიონი &middot; საქართველო</p>
+          <p class="hero-location" data-i18n="hero.location">კახეთის რეგიონი &middot; საქართველო</p>
 
           <!-- სოფლის სახელი -->
           <h1 class="hero-title">უჯარმა</h1>
 
           <!-- სუბტიტრი -->
-          <p class="hero-subtitle">უჯარმის ოფიციალური საინფორმაციო პორტალი</p>
+          <p class="hero-subtitle" data-i18n="hero.subtitle">უჯარმის ოფიციალური საინფორმაციო პორტალი</p>
 
           <!-- Gold Ornamental Separator -->
           <div class="hero-separator" aria-hidden="true">
@@ -43,8 +43,8 @@
 
           <!-- CTA ღილაკები -->
           <div class="hero-ctas">
-            <a href="/about" class="btn-hero-primary">გაიცანით უჯარმა</a>
-            <a href="/attractions" class="btn-hero-outline">ღირსშესანიშნაობები</a>
+            <a href="/about" class="btn-hero-primary" data-i18n="hero.ctaExplore">გაიცანით უჯარმა</a>
+            <a href="/attractions" class="btn-hero-outline" data-i18n="nav.attractions">ღირსშესანიშნაობები</a>
           </div>
 
         </div>
@@ -53,8 +53,10 @@
   </div>
 
   <!-- გადახვიაღების ინდიკატორი -->
-  <div class="hero-scroll" id="heroScroll" role="button" tabindex="0" aria-label="შინაარსებული კონტენტზე">
-    <span class="hero-scroll-label">გადაახვიეთ</span>
+  <div class="hero-scroll" id="heroScroll" role="button" tabindex="0"
+       aria-label="შინაარსიან კონტენტზე"
+       data-i18n-aria-label="hero.scrollAriaLabel">
+    <span class="hero-scroll-label" data-i18n="hero.scrollLabel">გადაახვიეთ</span>
     <div class="hero-scroll-line"></div>
   </div>
 
@@ -66,7 +68,7 @@
 <!-- ═══════════════════════════════════════════════════════
      HERITAGE STATISTICS STRIP
 ════════════════════════════════════════════════════════ -->
-<section class="heritage-strip" aria-label="ისტორიული ფაქტები">
+<section class="heritage-strip" aria-label="ისტორიული ფაქტები" data-i18n-aria-label="heritage.sectionLabel">
   <!-- dot-grid texture -->
   <div class="heritage-strip-texture" aria-hidden="true"></div>
 
@@ -79,9 +81,9 @@
           <div class="heritage-card-icon-wrap">
             <i data-lucide="landmark"></i>
           </div>
-          <div class="heritage-card-figure">III–IV სს.</div>
-          <div class="heritage-card-title">უძველესი ისტორია</div>
-          <div class="heritage-card-desc">
+          <div class="heritage-card-figure" data-i18n="heritage.card1Figure">III–IV სს.</div>
+          <div class="heritage-card-title" data-i18n="heritage.card1Title">უძველესი ისტორია</div>
+          <div class="heritage-card-desc" data-i18n="heritage.card1Desc">
             ციხე-სიმაგრის პირველი ნახსენები „ქართლის ცხოვრებაში"
           </div>
           <div class="heritage-card-line" aria-hidden="true"></div>
@@ -94,9 +96,9 @@
           <div class="heritage-card-icon-wrap">
             <i data-lucide="crown"></i>
           </div>
-          <div class="heritage-card-figure">ვახტანგ გორგასალი</div>
-          <div class="heritage-card-title">სამეფო რეზიდენცია</div>
-          <div class="heritage-card-desc">
+          <div class="heritage-card-figure" data-i18n="heritage.card2Figure">ვახტანგ გორგასალი</div>
+          <div class="heritage-card-title" data-i18n="heritage.card2Title">სამეფო რეზიდენცია</div>
+          <div class="heritage-card-desc" data-i18n="heritage.card2Desc">
             V საუკუნის სამეფო კარის ფავორიტი და სტრატეგიული ობიექტი
           </div>
           <div class="heritage-card-line" aria-hidden="true"></div>
@@ -109,9 +111,9 @@
           <div class="heritage-card-icon-wrap">
             <i data-lucide="map-pin"></i>
           </div>
-          <div class="heritage-card-figure">კახეთი</div>
-          <div class="heritage-card-title">საგარეჯოს მუნიციპალიტეტი</div>
-          <div class="heritage-card-desc">
+          <div class="heritage-card-figure" data-i18n="heritage.card3Figure">კახეთი</div>
+          <div class="heritage-card-title" data-i18n="heritage.card3Title">საგარეჯოს მუნიციპალიტეტი</div>
+          <div class="heritage-card-desc" data-i18n="heritage.card3Desc">
             60 კმ თბილისიდან — ღვინის სამშობლოს გულში
           </div>
           <div class="heritage-card-line" aria-hidden="true"></div>
@@ -124,9 +126,9 @@
           <div class="heritage-card-icon-wrap">
             <i data-lucide="shield-check"></i>
           </div>
-          <div class="heritage-card-figure">ეროვნული მნიშვნელობა</div>
-          <div class="heritage-card-title">კულტურული მემკვიდრეობა</div>
-          <div class="heritage-card-desc">
+          <div class="heritage-card-figure" data-i18n="heritage.card4Figure">ეროვნული მნიშვნელობა</div>
+          <div class="heritage-card-title" data-i18n="heritage.card4Title">კულტურული მემკვიდრეობა</div>
+          <div class="heritage-card-desc" data-i18n="heritage.card4Desc">
             სახელმწიფო დაცვის ქვეშ — ეროვნული ძეგლი
           </div>
           <div class="heritage-card-line" aria-hidden="true"></div>
@@ -146,11 +148,11 @@
 
     <div class="section-heading d-flex justify-content-between align-items-end flex-wrap gap-3">
       <div>
-        <div class="section-label">უახლესი სიახლეები</div>
-        <h2 id="news-heading" class="mb-0">ბოლო განცხადებები</h2>
+        <div class="section-label" data-i18n="home.newsLabel">უახლესი სიახლეები</div>
+        <h2 id="news-heading" class="mb-0" data-i18n="home.newsHeading">ბოლო განცხადებები</h2>
       </div>
       <a href="/news" class="section-link">
-        ყველა სიახლე <i data-lucide="arrow-right" class="icon-inline"></i>
+        <span data-i18n="home.viewAllNews">ყველა სიახლეები</span> <i data-lucide="arrow-right" class="icon-inline"></i>
       </a>
     </div>
 
@@ -172,7 +174,7 @@
               <div class="content-card-body d-flex flex-column">
                 <span class="news-date">
                   <i data-lucide="calendar" class="icon-inline"></i>
-                  <%= new Date(article.published_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) %>
+                  <span data-i18n-date="<%= new Date(article.published_at).toISOString() %>" data-i18n-date-style="long"><%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'long', year:'numeric' }) %></span>
                 </span>
                 <h3 class="content-card-title mt-2">
                   <a href="/news/<%= article.slug %>"><%= article.title %></a>
@@ -181,7 +183,7 @@
                   <p class="content-card-excerpt flex-grow-1"><%= article.summary || article.excerpt %></p>
                 <% } %>
                 <a href="/news/<%= article.slug %>" class="content-card-link mt-auto">
-                  სრულად წაკითხვა <i data-lucide="arrow-right" class="icon-inline"></i>
+                  <span data-i18n="home.readMore">სრულად წაკითხნა</span> <i data-lucide="arrow-right" class="icon-inline"></i>
                 </a>
               </div>
             </article>
@@ -191,7 +193,7 @@
     <% } else { %>
       <div class="empty-state">
         <div class="empty-state-icon"><i data-lucide="newspaper"></i></div>
-        <p>სიახლეები და განცხადებები გამოჩნდება გამოქვეყნების შემდეგ.</p>
+        <p data-i18n="home.noNews">სიახლეები და განცხადებები გამოჩნდება გამოქვეყნების შემდეგ.</p>
       </div>
     <% } %>
 
@@ -206,10 +208,10 @@
   <div class="container">
 
     <div class="section-heading text-center section-heading-centered">
-      <div class="section-label">გაიცანით უჯარმა</div>
-      <h2 id="attractions-heading">გამორჩეული ღირსშესანიშნაობები</h2>
-      <p class="lead mx-auto" style="max-width:540px;">
-        აიკვლეთ ისტორიული ძეგლები, ისტორიული ადგილები და ფასეული სილარზე, რომლებიც უჯარმას კულტურული მარშრუთად კის არს განაპირობემად ჩენს.
+      <div class="section-label" data-i18n="home.attractionsLabel">გაიცანით უჯარმა</div>
+      <h2 id="attractions-heading" data-i18n="home.attractionsHeading">გამორჩეული ღირსშესანიშნაობები</h2>
+      <p class="lead mx-auto" style="max-width:540px;" data-i18n="home.attractionsDesc">
+        აიკვლეთ ისტორიული ძეგლები, ისტორიული ადგილები და ფასეული სილამაზე, რომლებიც უჯარმას კულტურულ მარშრუტად ქმნის.
       </p>
     </div>
 
@@ -230,7 +232,7 @@
                 </h3>
                 <p class="attraction-card-desc"><%= attr.description %></p>
                 <a href="/attractions/<%= attr.slug %>" class="content-card-link d-inline-flex mt-3">
-                  დეტალები <i data-lucide="arrow-right" class="icon-inline"></i>
+                  <span data-i18n="home.details">დეტალები</span> <i data-lucide="arrow-right" class="icon-inline"></i>
                 </a>
               </div>
             </div>
@@ -240,12 +242,12 @@
     <% } else { %>
       <div class="empty-state">
         <div class="empty-state-icon"><i data-lucide="map-pin"></i></div>
-        <p>გამორჩეული ღირსშესანიშნაობები დაემატება დამატების შემდეგ.</p>
+        <p data-i18n="home.noAttractions">გამორჩეული ღირსშესანიშნაობები დაემატება დამატების შემდეგ.</p>
       </div>
     <% } %>
 
     <div class="text-center mt-5">
-      <a href="/attractions" class="btn-primary-custom">ყველა ღირსშესანიშნაობება</a>
+      <a href="/attractions" class="btn-primary-custom" data-i18n="home.viewAllAttractions">ყველა ღირსშესანიშნაობება</a>
     </div>
 
   </div>
@@ -260,11 +262,11 @@
 
     <div class="section-heading d-flex justify-content-between align-items-end flex-wrap gap-3">
       <div>
-        <div class="section-label">გალერეა</div>
-        <h2 id="gallery-heading" class="mb-0">უჯარმადან</h2>
+        <div class="section-label" data-i18n="home.galleryLabel">გალერეა</div>
+        <h2 id="gallery-heading" class="mb-0" data-i18n="home.galleryHeading">უჯარმადან</h2>
       </div>
       <a href="/gallery" class="section-link">
-        სრული გალერეა <i data-lucide="arrow-right" class="icon-inline"></i>
+        <span data-i18n="home.viewAllGallery">სრული გალერეა</span> <i data-lucide="arrow-right" class="icon-inline"></i>
       </a>
     </div>
 
@@ -294,7 +296,7 @@
           </div>
         <% } %>
       </div>
-      <p class="text-center mt-3" style="font-size:.875rem;color:var(--color-text-muted);">
+      <p class="text-center mt-3" style="font-size:.875rem;color:var(--color-text-muted);" data-i18n="home.noGalleryImages">
         გალერეის სურათები გამოჩნდება ატვირთვის შემდეგ.
       </p>
     <% } %>
@@ -311,24 +313,19 @@
     <div class="row align-items-center g-5">
 
       <div class="col-lg-6 about-text-col">
-        <div class="section-label">უჯარმის შესახებ</div>
-        <h2 id="about-heading">ისტორიაში ფესვგადგმული სოფელი</h2>
-        <p class="lead">
-          უჯარმა არის ისტორიული დასახლება აღმოსავლელი გეოგრაფიული
-          კახეთის რეგიონში, ღვირსეღად ისტორიული ციხადგორითადა
-          და საქართველოს რანშადერობის ადრეული საუკუნეთასორობის ისტორიაში.
+        <div class="section-label" data-i18n="home.aboutLabel">უჯარმის შესახებ</div>
+        <h2 id="about-heading" data-i18n="home.aboutHeading">ისტორიაში ფესვგადგმული სოფელი</h2>
+        <p class="lead" data-i18n="home.aboutText1">
+          უჯარმა არის ისტორიული დასახლება კახეთის რეგიონში, გამორჩეული ისტორიული ციხე-სიმაგრით და საქართველოს ადრეული სახელმწიფოებრიობის ისტორით.
         </p>
-        <p>
-          კახეთის მ\u10e4ერებიან ბორცებსა და მებახულობაში გადებული, უჯარმა
-          მის კედლებსა და ლანდშაფტში საუკუნეების მეხსობრველად აშკარაბს.
-          სოფელი წარმოადგენს საქართველის კულტურული იდენტობისა და
-          არქიტექტურული ტრადიციის ცკომლივად მოწმო.
+        <p data-i18n="home.aboutText2">
+          კახეთის ბორცებსა და ვენახებში გარშემორტყული, უჯარმა საუკუნეების ისტორიას ინახავს კედლებსა და ლანდშაფტში.
         </p>
         <div class="separator" style="justify-content:flex-start;margin:1.75rem 0;">
           <span class="separator-line"></span>
           <span class="separator-diamond"></span>
         </div>
-        <a href="/about" class="btn-primary-custom">გაიგეთ მეტი უჯარმის შესახებ</a>
+        <a href="/about" class="btn-primary-custom" data-i18n="home.learnMore">გაიგეთ მეტი უჯარმის შესახებ</a>
       </div>
 
       <div class="col-lg-6">
@@ -343,7 +340,7 @@
               <circle cx="60" cy="74" r="8" fill="none" stroke="rgba(197,160,40,0.45)" stroke-width="2"/>
               <circle cx="60" cy="74" r="3"  fill="rgba(197,160,40,0.55)"/>
             </svg>
-            <p style="font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:1rem;">
+            <p style="font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:1rem;" data-i18n="home.villageNamePlaceholder">
               უჯარმის სოფელი
             </p>
           </div>
@@ -358,21 +355,18 @@
 <!-- ═══════════════════════════════════════════════════════
      CONTACT CTA SECTION
 ════════════════════════════════════════════════════════ -->
-<section class="contact-cta" aria-label="Contact call to action">
+<section class="contact-cta" aria-label="დაგვიკავშირდით — მოწოდება" data-i18n-aria-label="home.contactCTAAriaLabel">
   <div class="container" style="position:relative;z-index:1;">
     <div class="row justify-content-center">
       <div class="col-lg-7 col-md-9 text-center">
-        <div class="section-label" style="justify-content:center;color:var(--gold-300);">
+        <div class="section-label" style="justify-content:center;color:var(--gold-300);" data-i18n="home.contactCTALabel">
           გვიკავშირდებოდეთ
         </div>
-        <h2 class="contact-cta-title">ადმინისტრაცია კავშირია თქვენთვის</h2>
-        <p class="contact-cta-sub">
-          გაქვთ კითხვა, წინადადება ან საყოველთაო საკითხი?
-          უჯარმის სოფლის ადმინისტრაცია ანგარიშვალდებულია
-          თქვენს წინაშე და მზადაა გიპასუხოთ
-          ყველა ოფიციალურ საკითხზე.
+        <h2 class="contact-cta-title" data-i18n="home.contactCTATitle">ადმინისტრაცია ღიაა თქვენთვის</h2>
+        <p class="contact-cta-sub" data-i18n="home.contactCTASub">
+          გაქვთ კითხვა, წინადადება ან ოფიციალური საკითხი? უჯარმის სოფლის ადმინისტრაცია ანგარიშვალდებულია თქვენს წინაშე და მზადაა გიპასუხოთ ყველა საკითხზე.
         </p>
-        <a href="/contact" class="btn-gold">დაგვიკავშირდით</a>
+        <a href="/contact" class="btn-gold" data-i18n="home.contactCTABtn">დაგვიკავშირდით</a>
       </div>
     </div>
   </div>

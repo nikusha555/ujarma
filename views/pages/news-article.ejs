@@ -3,14 +3,14 @@
 <!-- ═══════════════════════════════════════════════════════
      PAGE BANNER — სათაური, კატეგორია, თარიღი
 ════════════════════════════════════════════════════════ -->
-<section class="page-banner" aria-label="სტატიის სათაური">
+<section class="page-banner" aria-label="გვერდის ბანერი" data-i18n-aria-label="common.pageBannerLabel">
   <div class="container page-banner-content">
 
     <!-- ── Breadcrumb ─── -->
-    <nav aria-label="ნავიგაცია">
+    <nav aria-label="ნავიგაცია" data-i18n-aria-label="common.breadcrumbLabel">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">მთავარი</a></li>
-        <li class="breadcrumb-item"><a href="/news">სიახლეები</a></li>
+        <li class="breadcrumb-item"><a href="/" data-i18n="breadcrumb.home">მთავარი</a></li>
+        <li class="breadcrumb-item"><a href="/news" data-i18n="breadcrumb.news">სიახლეები</a></li>
         <li class="breadcrumb-item active" aria-current="page"
             style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px;">
           <%= article.title %>
@@ -33,10 +33,10 @@
     <div style="display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:.875rem;align-items:center;">
       <span style="font-size:.8125rem;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:.375rem;">
         <i data-lucide="calendar" class="icon-inline"></i>
-        <%= new Date(article.published_at).toLocaleDateString('ka-GE', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
+        <span data-i18n-date="<%= new Date(article.published_at).toISOString() %>" data-i18n-date-style="full"><%= new Date(article.published_at).toLocaleDateString('ka-GE', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %></span>
       </span>
       <% if (article.is_featured) { %>
-        <span style="font-size:.625rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(197,160,40,.2);color:var(--gold-300);padding:.2rem .7rem;border-radius:999px;">
+        <span style="font-size:.625rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(197,160,40,.2);color:var(--gold-300);padding:.2rem .7rem;border-radius:999px;" data-i18n="newsArticle.featured">
           გამორჩეული
         </span>
       <% } %>
@@ -81,16 +81,17 @@
         <!-- ── Bottom Bar: back link ──────────────────── -->
         <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--color-border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
           <a href="/news" class="section-link">
-            <i data-lucide="arrow-left" class="icon-inline"></i> სიახლეებზე დაბრუნება
+            <i data-lucide="arrow-left" class="icon-inline"></i> <span data-i18n="newsArticle.backToNews">სიახლეებზე დაბრუნება</span>
           </a>
           <!-- Share row (plain links — no external SDK) -->
           <div style="display:flex;gap:.875rem;align-items:center;">
-            <span style="font-size:.75rem;color:var(--color-text-muted);">გაზიარება:</span>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent((typeof siteUrl !== 'undefined' ? siteUrl : '') + '/news/' + article.slug) %>"
+            <span style="font-size:.75rem;color:var(--color-text-muted);" data-i18n="newsArticle.share">გაზიარება:</span>
+              <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent((typeof siteUrl !== 'undefined' ? siteUrl : '') + '/news/' + article.slug) %>"
                target="_blank" rel="noopener"
                style="color:var(--color-text-muted);font-size:.875rem;transition:color .15s;"
                onmouseover="this.style.color='#1877f2'" onmouseout="this.style.color=''"
-               aria-label="Facebook-ზე გაზიარება">
+               aria-label="Facebook-ზე გაზიარება"
+               data-i18n-aria-label="newsArticle.fbShareAriaLabel">
               <i data-lucide="share-2" class="icon-inline"></i>
             </a>
           </div>
@@ -107,7 +108,7 @@
           <!-- Related articles -->
           <% if (relatedArticles && relatedArticles.length > 0) { %>
             <div style="background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.5rem;">
-              <h3 class="article-sidebar-heading">სხვა სიახლეები</h3>
+              <h3 class="article-sidebar-heading" data-i18n="newsArticle.otherNews">სხვა სიახლეები</h3>
 
               <% relatedArticles.forEach(function(rel) { %>
                 <% const relImg = newsImageUrl(rel.featured_image || rel.image); %>
@@ -125,7 +126,7 @@
                   <div style="min-width:0;flex:1;">
                     <div class="related-article-title"><%= rel.title %></div>
                     <div class="related-article-date">
-                      <%= new Date(rel.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %>
+                      <span data-i18n-date="<%= new Date(rel.published_at).toISOString() %>" data-i18n-date-style="short"><%= new Date(rel.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %></span>
                     </div>
                   </div>
                 </a>
@@ -134,18 +135,18 @@
               <a href="/news"
                  class="section-link d-block text-center mt-3"
                  style="font-size:.75rem;">
-                ყველა სიახლე <i data-lucide="arrow-right" class="icon-inline"></i>
+                <span data-i18n="newsArticle.viewAllNews">ყველა სიახლეები</span> <i data-lucide="arrow-right" class="icon-inline"></i>
               </a>
             </div>
           <% } %>
 
           <!-- Article meta card -->
           <div style="background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.25rem;">
-            <h3 class="article-sidebar-heading">სტატიის ინფორმაცია</h3>
+            <h3 class="article-sidebar-heading" data-i18n="newsArticle.articleInfo">სტატიის ინფორმაცია</h3>
 
             <% if (article.category_name) { %>
               <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border);font-size:.875rem;">
-                <span style="color:var(--color-text-muted);">კატეგორია</span>
+                <span style="color:var(--color-text-muted);" data-i18n="newsArticle.category">კატეგორია</span>
                 <span style="font-weight:500;color:var(--color-primary);">
                   <%= article.category_name %>
                 </span>
@@ -153,15 +154,15 @@
             <% } %>
 
             <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border);font-size:.875rem;">
-              <span style="color:var(--color-text-muted);">გამოქვეყნდა</span>
+              <span style="color:var(--color-text-muted);" data-i18n="newsArticle.published">გამოქვეყნდა</span>
               <span style="font-weight:500;color:var(--color-primary);">
-                <%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %>
+                <span data-i18n-date="<%= new Date(article.published_at).toISOString() %>" data-i18n-date-style="short"><%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %></span>
               </span>
             </div>
 
             <div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.875rem;">
-              <span style="color:var(--color-text-muted);">სტატუსი</span>
-              <span class="badge-published">გამოქვეყნებული</span>
+              <span style="color:var(--color-text-muted);" data-i18n="newsArticle.status">სტატუსი</span>
+              <span class="badge-published" data-i18n="newsArticle.publishedStatus">გამოქვეყნებული</span>
             </div>
           </div>
 

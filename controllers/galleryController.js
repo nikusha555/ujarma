@@ -12,6 +12,7 @@ export const getGallery = async (req, res, next) => {
 
     res.render('pages/gallery', {
       title:       'გალერეა — უჯარმა',
+      titleKey:    'gallery.pageTitle',
       description: 'გადიხეთ ფოტოსურათები, რომლებიც ასახავს უჯარმის სოფლის ბუნებრივ სილარზესა და თემთა ცხოვრებას.',
       items,
       galleryImgUrl,

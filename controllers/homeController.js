@@ -27,6 +27,7 @@ export const getHome = async (req, res, next) => {
 
     res.render('pages/home', {
       title:        'უჯარმა — ოფიციალური საინფორმაციო პორტალი',
+      titleKey:     'home.pageTitle',
       description:  'უჯარმის სოფლის ოფიციალური ვებსაიტი. გაიცანით სიახლეები, ღირსშესანიშნაობები, ისტორია და ადმინისტრაციული ინფორმაცია.',
       ogImage:      '/images/og-home.jpg',
       latestNews,

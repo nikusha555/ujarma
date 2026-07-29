@@ -24,6 +24,7 @@ export const getNews = async (req, res, next) => {
 
     res.render('pages/news', {
       title:        'სიახლეები — უჯარმა',
+      titleKey:     'news.pageTitle',
       description:  'უჯარმის სოფლის ადმინისტრაციის უახლესი განცხადებები, გადაწყვეთა და სიახლეები.',
       articles,
       newsImageUrl,

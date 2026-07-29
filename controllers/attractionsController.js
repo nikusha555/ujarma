@@ -19,6 +19,7 @@ export const getAttractions = async (req, res, next) => {
 
     res.render('pages/attractions', {
       title:          'ღირსშესანიშნაობები — უჯარმა',
+      titleKey:       'attractions.pageTitle',
       description:    'აიკვლეთ უჯარმის ისტორიული ძეგლები, ფასეული სილარზე და კულტურული მემკვიდრეობა.',
       attractions:    filtered,
       allAttractions: attractions,

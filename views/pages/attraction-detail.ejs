@@ -1,8 +1,8 @@
 <%# pages/attraction-detail.ejs — ღირსშესანიშნაობის დეტალური -%>
 
-<section class="page-banner" aria-label="გვერდის ერთაური">
+<section class="page-banner" aria-label="გვერდის ბანერი" data-i18n-aria-label="common.pageBannerLabel">
   <div class="container page-banner-content">
-    <nav aria-label="ნავიგაცია"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">მთავარი</a></li><li class="breadcrumb-item"><a href="/attractions">ღირსშესანიშნაობები</a></li><li class="breadcrumb-item active" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= attraction.name %></li></ol></nav>
+    <nav aria-label="ნავიგაცია" data-i18n-aria-label="common.breadcrumbLabel"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/" data-i18n="breadcrumb.home">მთავარი</a></li><li class="breadcrumb-item"><a href="/attractions" data-i18n="breadcrumb.attractions">ღირსშესანიშნაობები</a></li><li class="breadcrumb-item active" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= attraction.name %></li></ol></nav>
     <% if (attraction.category) { %><div class="section-label" style="color:var(--gold-300);"><span style="width:16px;height:1px;background:var(--gold-300);display:inline-block;margin-right:.5rem;"></span><%= attraction.category %></div><% } %>
     <h1 class="page-banner-title"><%= attraction.name %></h1>
   </div>
@@ -21,7 +21,7 @@
         <!-- Related attractions -->
         <% if (related && related.length > 0) { %>
           <hr class="divider mt-5 mb-4" />
-          <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:1.5rem;">სხვა გაჩერები</h3>
+          <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--color-primary);margin-bottom:1.5rem;" data-i18n="attractionDetail.relatedAttractions">სხვა გაჩერები</h3>
           <div class="row g-3">
             <% related.forEach(function(r) { %>
               <% const rImg = attrImgUrl(r.image); %>
@@ -36,19 +36,19 @@
         <% } %>
 
         <div class="mt-5">
-          <a href="/attractions" class="section-link"><i data-lucide="arrow-left" class="icon-inline"></i> ღირსშესანიშნაობებზე დაბრუნება</a>
+          <a href="/attractions" class="section-link"><i data-lucide="arrow-left" class="icon-inline"></i> <span data-i18n="attractionDetail.backToAttractions">ღირსშესანიშნაობებზე დაბრუნება</span></a>
         </div>
       </div>
 
       <div class="col-lg-4">
         <div style="background:var(--gray-50);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.75rem;position:sticky;top:calc(60px + 1.5rem);">
-          <h3 style="font-family:var(--font-sans);font-size:.625rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:1.25rem;">დეტალები</h3>
+          <h3 style="font-family:var(--font-sans);font-size:.625rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:1.25rem;" data-i18n="attractionDetail.detailsLabel">დეტალები</h3>
           <% if (attraction.category) { %>
-            <div class="contact-info-item"><div class="contact-info-icon"><i data-lucide="tag"></i></div><div><div class="contact-info-label">კატეგორია</div><p class="contact-info-value"><%= attraction.category %></p></div></div>
+            <div class="contact-info-item"><div class="contact-info-icon"><i data-lucide="tag"></i></div><div><div class="contact-info-label" data-i18n="attractionDetail.categoryLabel">კატეგორია</div><p class="contact-info-value"><%= attraction.category %></p></div></div>
           <% } %>
-          <div class="contact-info-item"><div class="contact-info-icon"><i data-lucide="map-pin"></i></div><div><div class="contact-info-label">მდებარეობა</div><p class="contact-info-value">უჯარმა, კახეთის რეგიონი, საქართველო</p></div></div>
+          <div class="contact-info-item"><div class="contact-info-icon"><i data-lucide="map-pin"></i></div><div><div class="contact-info-label" data-i18n="attractionDetail.locationLabel">მდებარეობა</div><p class="contact-info-value" data-i18n="attractionDetail.locationValue">უჯარმა, კახეთის რეგიონი, საქართველო</p></div></div>
           <hr class="divider my-3" />
-          <a href="/contact" class="btn-primary-custom w-100 text-center d-block" style="padding:.65rem 1.25rem;font-size:.75rem;">ვიზიტის შესახებ კითხვა</a>
+          <a href="/contact" class="btn-primary-custom w-100 text-center d-block" style="padding:.65rem 1.25rem;font-size:.75rem;" data-i18n="attractionDetail.visitQuestion">ვიზიტის შესახებ კითხვა</a>
         </div>
       </div>
 

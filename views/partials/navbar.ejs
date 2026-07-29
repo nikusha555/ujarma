@@ -1,15 +1,17 @@
 <%#
   partials/navbar.ejs — ძირითადი ნავიგაციის ზოლი
   ─────────────────────────────────────────────────────
-  სრულიად ქართულ ენაზე | Bootstrap 5 collapse | მობილურის მხარდაჭერა
+  Bootstrap 5 collapse | მობილურის მხარდაჭერა | i18n language switcher
   res.locals: currentPath, siteName
 -%>
 
-<nav class="navbar navbar-expand-lg site-navbar" id="siteNavbar" aria-label="ძირითადი ნავიგაცია">
+<nav class="navbar navbar-expand-lg site-navbar" id="siteNavbar"
+     aria-label="ძირითადი ნავიგაცია"
+     data-i18n-aria-label="nav.mainNavLabel">
   <div class="container">
 
     <!-- ── ბრენდი / ლოგო ──────────────────────────── -->
-    <a href="/" class="navbar-brand-wrap" aria-label="<%= siteName %> — მთავარი გვერდი">
+    <a href="/" class="navbar-brand-wrap" aria-label="<%= siteName %> — მთავარი გვერდი" data-i18n-aria-label="nav.homeAriaLabel">
 
       <!-- სოფლის გერბი (SVG) -->
       <div class="brand-emblem" aria-hidden="true">
@@ -28,7 +30,7 @@
       <!-- ბრენდის ტექსტი -->
       <div class="brand-text">
         <span class="brand-name"><%= siteName.toUpperCase() %></span>
-        <span class="brand-subtitle">ოფიციალური პორტალი</span>
+        <span class="brand-subtitle" data-i18n="site.officialPortal">ოფიციალური პორტალი</span>
       </div>
 
     </a>
@@ -40,7 +42,8 @@
             data-bs-target="#navbarContent"
             aria-controls="navbarContent"
             aria-expanded="false"
-            aria-label="მენიუს გახსნა">
+            aria-label="მენიუს გახსნა"
+            data-i18n-aria-label="nav.openMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -52,7 +55,7 @@
           <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>"
              href="/"
              aria-current="<%= currentPath === '/' ? 'page' : 'false' %>">
-            მთავარი
+            <span data-i18n="nav.home">მთავარი</span>
           </a>
         </li>
 
@@ -60,7 +63,7 @@
           <a class="nav-link <%= currentPath.startsWith('/news') ? 'active' : '' %>"
              href="/news"
              aria-current="<%= currentPath.startsWith('/news') ? 'page' : 'false' %>">
-            სიახლეები
+            <span data-i18n="nav.news">სიახლეები</span>
           </a>
         </li>
 
@@ -68,7 +71,7 @@
           <a class="nav-link <%= currentPath.startsWith('/attractions') ? 'active' : '' %>"
              href="/attractions"
              aria-current="<%= currentPath.startsWith('/attractions') ? 'page' : 'false' %>">
-            ღირსშესანიშნაობები
+            <span data-i18n="nav.attractions">ღირსშესანიშნაობები</span>
           </a>
         </li>
 
@@ -76,7 +79,7 @@
           <a class="nav-link <%= currentPath.startsWith('/gallery') ? 'active' : '' %>"
              href="/gallery"
              aria-current="<%= currentPath.startsWith('/gallery') ? 'page' : 'false' %>">
-            გალერეა
+            <span data-i18n="nav.gallery">გალერეა</span>
           </a>
         </li>
 
@@ -84,15 +87,47 @@
           <a class="nav-link <%= currentPath.startsWith('/about') ? 'active' : '' %>"
              href="/about"
              aria-current="<%= currentPath.startsWith('/about') ? 'page' : 'false' %>">
-            უჯარმის შესახებ
+            <span data-i18n="nav.about">უჯარმის შესახებ</span>
           </a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link nav-link-contact <%= currentPath.startsWith('/contact') ? 'active' : '' %>"
              href="/contact">
-            კონტაქტი
+            <span data-i18n="nav.contact">კონტაქტი</span>
           </a>
+        </li>
+
+        <!-- ── Language Switcher ───────────────────── -->
+        <li class="nav-item lang-switcher-item">
+          <div class="lang-switcher" role="group"
+               aria-label="ენის არჩევა"
+               data-i18n-aria-label="lang.select">
+            <button class="lang-btn"
+                    data-lang="ka"
+                    aria-pressed="true"
+                    title="ქართული"
+                    type="button">
+              <span class="lang-btn-flag" aria-hidden="true">🇬🇪</span>
+              <span class="lang-btn-label">ქარ</span>
+            </button>
+            <button class="lang-btn"
+                    data-lang="en"
+                    aria-pressed="false"
+                    title="English"
+                    type="button">
+              <span class="lang-btn-flag" aria-hidden="true">🇬🇧</span>
+              <span class="lang-btn-label">Eng</span>
+            </button>
+            <button class="lang-btn"
+                    data-lang="ru"
+                    aria-pressed="false"
+                    title="Русский"
+                    type="button">
+              <span class="lang-btn-flag" aria-hidden="true">🇷🇺</span>
+              <span class="lang-btn-label">Рус</span>
+            </button>
+          </div>
         </li>
 
       </ul>

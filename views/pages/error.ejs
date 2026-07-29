@@ -20,15 +20,15 @@
 
           <h1 style="font-family:var(--font-serif);font-size:clamp(1.5rem,4vw,2rem);color:var(--color-primary);margin-bottom:1rem;">
             <% if (statusCode === 404) { %>
-              გვერდი ვერ მოიძებნა
+              <span data-i18n="error.404">გვერდი ვერ მოიძებნა</span>
             <% } else if (statusCode === 403) { %>
-              წვდომა აკრძალულია
+              <span data-i18n="error.403">წვდომა აკრძალულია</span>
             <% } else { %>
-              შეცდომა მოხდა
+              <span data-i18n="error.generic">შეცდომა მოხდა</span>
             <% } %>
           </h1>
 
-          <p class="lead" style="color:var(--color-text-secondary);max-width:420px;margin:0 auto 1.5rem;">
+          <p class="lead" style="color:var(--color-text-secondary);max-width:420px;margin:0 auto 1.5rem;" data-i18n="<%= messageKey %>">
             <%= message %>
           </p>
 
@@ -41,11 +41,11 @@
 
           <div class="d-flex gap-3 justify-content-center flex-wrap">
             <a href="/" class="btn-primary-custom">
-              <i data-lucide="house" class="icon-inline"></i>მთავარ გვერდზე დაბრუნება
+              <i data-lucide="house" class="icon-inline"></i><span data-i18n="error.backHome">მთავარ გვერდზე დაბრუნება</span>
             </a>
             <a href="/contact"
                style="font-size:.8125rem;font-weight:500;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:.375rem;padding:.75rem 1.5rem;border:1.5px solid var(--color-border-strong);border-radius:var(--radius);">
-              ადმინისტრაციასთან კავშირი
+              <span data-i18n="error.contactAdmin">ადმინისტრაციასთან კავშირი</span>
             </a>
           </div>
 

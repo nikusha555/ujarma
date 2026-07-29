@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ka">
 <head>
   <%- include('../partials/head') %>
+  <!-- i18n locale data — app.locals.i18nLocalesJSON is the primary source
+       (set once at startup in app.js, merged by Express into every render).
+       res.locals.i18nLocalesJSON (set per-request by i18nMiddleware) overrides
+       it if present — same value, higher merge priority, belt-and-suspenders.
+       The typeof guard below is the last-resort fallback so a misconfigured
+       process never throws a ReferenceError and always serves a usable page. -->
+  <script>window.__i18n = <%- typeof i18nLocalesJSON !== 'undefined' ? i18nLocalesJSON : '{}' %>;</script>
 </head>
 <body>
 
@@ -22,6 +29,9 @@
 
   <!-- Lucide Icons -->
   <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- i18n engine — must load before main.js -->
+  <script src="/js/i18n.js?v=<%= assetVersion %>"></script>
 
   <!-- Custom JS -->
   <script src="/js/main.js?v=<%= assetVersion %>"></script>

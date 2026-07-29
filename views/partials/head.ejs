@@ -10,7 +10,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 <!-- ── SEO ────────────────────────────────────────────── -->
-<title><%= typeof title !== 'undefined' ? title : 'Ujarma — Official Information Portal' %></title>
+<!-- data-i18n on <title> works out of the box: the element's textContent
+     IS document.title, so the existing i18n.js [data-i18n] handler updates
+     the browser tab on language switch with no extra client-side code. -->
+<title<% if (typeof titleKey !== 'undefined') { %> data-i18n="<%= titleKey %>"<% } %>><%= typeof title !== 'undefined' ? title : 'Ujarma — Official Information Portal' %></title>
 <meta name="description"
       content="<%= typeof description !== 'undefined' ? description : 'უჯარმის სოფლის ოფიციალური ვებსაიტი — სიახლეები, ღირსშესანიშნაობები და ადმინისტრაციული ინფორმაცია.' %>" />
 <meta name="robots"      content="index, follow" />

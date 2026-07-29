@@ -84,6 +84,7 @@
     img.style.cssText = 'max-width:90vw;max-height:88vh;object-fit:contain;border-radius:4px;';
 
     const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
     closeBtn.innerHTML = '&times;';
     closeBtn.style.cssText = [
       'position:absolute', 'top:1.25rem', 'right:1.5rem',
@@ -97,6 +98,12 @@
 
     const openLightbox = (src) => {
       img.src = src;
+      // Re-read the close label each time so it reflects the language
+      // active at the moment the lightbox opens, even if the user
+      // switched languages earlier in the same page view.
+      const lang   = typeof window.currentLang === 'function' ? window.currentLang() : 'ka';
+      const locale = (window.__i18n && window.__i18n[lang]) || {};
+      closeBtn.setAttribute('aria-label', (locale.common && locale.common.close) || 'დახურვა');
       overlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     };

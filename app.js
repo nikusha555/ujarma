@@ -60,6 +60,11 @@ import adminRouter from './routes/admin.js';
 // Error handling middleware
 import { errorHandler, notFoundHandler } from './middleware/errorMiddleware.js';
 
+// i18n — loads locale JSON files for client-side translations.
+// We import BOTH the default middleware function AND the named `localesJSON`
+// constant so we can set it on app.locals once at startup.
+import i18nMiddleware, { localesJSON as i18nLocalesJSON } from './middleware/i18nMiddleware.js';
+
 // Bootstrap — database creation, table migration, seed data
 import bootstrap from './config/bootstrap.js';
 
@@ -144,6 +149,15 @@ app.set('view engine', 'ejs');
 // deployment to bust the browser cache automatically.
 app.locals.assetVersion = process.env.ASSET_VERSION || PKG_VERSION;
 
+// ─────────────────────────────────────────────────────────────────────────────
+// i18n locale data — set ONCE on app.locals so it is available in every
+// EJS render call (layouts, partials, pages) automatically via Express's
+// app.render() merge, regardless of middleware order or res.locals state.
+// This is the primary source of truth.  The per-request i18nMiddleware below
+// provides a belt-and-suspenders res.locals copy.
+// ─────────────────────────────────────────────────────────────────────────────
+app.locals.i18nLocalesJSON = i18nLocalesJSON;
+
 app.use((req, res, next) => {
   res.locals.currentPath    = req.path;
   res.locals.currentYear    = new Date().getFullYear();
@@ -153,6 +167,11 @@ app.use((req, res, next) => {
   res.locals.isAdmin        = req.session?.isAdmin === true;
   next();
 });
+
+// ─────────────────────────────────────────────
+// i18n — locale data for client-side switching
+// ─────────────────────────────────────────────
+app.use(i18nMiddleware);
 
 // ─────────────────────────────────────────────
 // Application Routes

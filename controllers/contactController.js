@@ -12,6 +12,7 @@ export const getContact = async (req, res, next) => {
   try {
     res.render('pages/contact', {
       title:       'კონტაქტი — უჯარმა',
+      titleKey:    'contact.pageTitle',
       description: 'დაგვიკავშირდით უჯარმის სოფლის ადმინისტრაციასთან. მისამართი, ტელეფონი და სამუშაო საათები.',
     });
   } catch (error) {
