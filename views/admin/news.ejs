@@ -1,4 +1,8 @@
 ﻿<%# admin/news.ejs — სიახლეების სია -%>
+<%# Root wrapper — every NEW mobile rule below is scoped under .admin-news-page
+    so the shared .admin-table / .admin-action-* / .admin-mobile-search-bar
+    styles used by attractions.ejs and gallery.ejs stay completely untouched. -%>
+<div class="admin-news-page">
 
 <div class="admin-page-header">
   <h1 class="admin-page-title">სიახლეების მართვა</h1>
@@ -68,25 +72,27 @@
       </span>
     </div>
 
-    <!-- Mobile search bar -->
+    <!-- Mobile search bar — single pill field with an integrated icon,
+         plus a compact filter button. Submits on the keyboard's
+         search/enter action, so no separate submit button is needed. -->
     <div class="admin-mobile-search-bar">
-      <input type="text"
-             class="admin-filter-input"
-             id="mobileSearchInput"
-             value="<%= search %>"
-             placeholder="სათაურით ძებნა…"
-             autocomplete="off" />
+      <label class="admin-search-input-wrap" for="mobileSearchInput">
+        <i data-lucide="search" class="admin-search-icon" aria-hidden="true"></i>
+        <input type="search"
+               class="admin-filter-input admin-search-input"
+               id="mobileSearchInput"
+               value="<%= search %>"
+               placeholder="მოძებნე სიახლე…"
+               aria-label="სიახლის ძებნა სათაურით"
+               enterkeyhint="search"
+               autocomplete="off" />
+      </label>
       <button type="button"
               class="admin-mobile-filter-toggle <%= categoryId ? 'has-filter' : '' %>"
               id="mobileFilterToggle"
               aria-label="ფილტრები">
         <i data-lucide="sliders-horizontal"></i>
         <% if (categoryId) { %><span class="admin-filter-active-dot"></span><% } %>
-      </button>
-      <button type="submit"
-              class="admin-mobile-search-submit"
-              aria-label="ძებნა">
-        <i data-lucide="search"></i>
       </button>
     </div>
     <div class="admin-results-count">სულ: <%= total %> სტატია</div>
@@ -144,7 +150,22 @@
       </thead>
       <tbody>
         <% articles.forEach(function(article) { %>
+          <% const thumbUrl = newsImageUrl(article.featured_image || article.image); %>
           <tr>
+            <%# td-thumb: mobile-only cover-image cell (hidden on desktop via CSS) %>
+            <td class="td-thumb" data-label="">
+              <% if (thumbUrl) { %>
+                <img src="<%= thumbUrl %>"
+                     alt=""
+                     class="admin-news-thumb"
+                     width="104" height="104"
+                     loading="lazy" />
+              <% } else { %>
+                <div class="admin-news-thumb admin-news-thumb-placeholder" aria-hidden="true">
+                  <i data-lucide="image"></i>
+                </div>
+              <% } %>
+            </td>
             <%# td-title: always visible; contains mobile-meta strip %>
             <td class="td-title" data-label="სათაური">
               <div class="admin-cell-title" style="font-weight:500;color:var(--color-primary);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
@@ -155,20 +176,19 @@
                   გამორჩეული
                 </span>
               <% } %>
-              <%# Mobile-only meta row (hidden on desktop via CSS) %>
+              <%# Mobile-only meta row (hidden on desktop via CSS).
+                  Status + date share one compact line — "● გამოქვეყნებული · 29 ივლ.".
+                  Category is dropped here (kept on desktop's own column) to
+                  keep the card to a single, scannable metadata line. %>
               <div class="td-mobile-meta">
                 <% if (article.is_published) { %>
                   <span class="badge-published">გამოქვეყნებული</span>
                 <% } else { %>
                   <span class="badge-draft">მუსვარი</span>
                 <% } %>
-                <% if (article.category_name) { %>
-                  <span class="meta-sep">·</span>
-                  <span class="meta-text"><%= article.category_name %></span>
-                <% } %>
-                <span class="meta-sep">·</span>
-                <span class="meta-text">
-                  <%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short', year:'numeric' }) %>
+                <span class="meta-sep" aria-hidden="true">·</span>
+                <span class="meta-text meta-date">
+                  <%= new Date(article.published_at).toLocaleDateString('ka-GE', { day:'numeric', month:'short' }) %>
                 </span>
               </div>
             </td>
@@ -185,7 +205,10 @@
                 <span class="badge-draft">მუსვარი</span>
               <% } %>
             </td>
-            <%# td-actions: always visible as card footer %>
+            <%# td-actions: always visible as card footer.
+                Desktop keeps the original 3 inline icon actions untouched.
+                Mobile hides view/delete and routes them through the
+                compact "მეტი" (more) bottom sheet instead. %>
             <td class="td-actions" data-label="">
               <div class="admin-card-actions">
                 <a href="/admin/news/<%= article.id %>/edit"
@@ -208,6 +231,15 @@
                         title="წაშლა">
                   <i data-lucide="trash-2" class="icon-inline"></i>
                   <span class="admin-action-label">წაშლა</span>
+                </button>
+                <button type="button"
+                        class="admin-action-more"
+                        data-id="<%= article.id %>"
+                        data-title="<%= article.title.replace(/\"/g, '&quot;') %>"
+                        data-slug="<%= article.slug %>"
+                        aria-haspopup="dialog"
+                        aria-label="მეტი მოქმედება — <%= article.title.replace(/\"/g, '&quot;') %>">
+                  <i data-lucide="more-vertical"></i>
                 </button>
               </div>
             </td>
@@ -257,9 +289,32 @@
 </div>
 
 <!-- ── FAB (mobile only) ──────────────────────────────── -->
-<a href="/admin/news/create" class="admin-fab" aria-label="სტატიის დამატება">
+<a href="/admin/news/create" class="admin-fab" aria-label="ახალი სიახლის დამატება">
   <i data-lucide="plus"></i>
+  <span class="admin-fab-label">ახალი</span>
 </a>
+
+<!-- ── "More actions" bottom sheet (mobile only) ───────
+     One shared sheet, populated per-card by the ⋮ button.
+     Holds the secondary actions (open on site / delete)
+     so the card footer only needs to show "რედაქტირება". ── -->
+<div class="admin-more-sheet" id="newsMoreSheet" aria-hidden="true">
+  <div class="admin-more-sheet-backdrop"></div>
+  <div class="admin-more-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="newsMoreSheetTitle">
+    <div class="admin-filter-sheet-handle"></div>
+    <div class="admin-more-sheet-title" id="newsMoreSheetTitle"></div>
+    <a href="#" target="_blank" rel="noopener" class="admin-more-sheet-item" id="newsMoreSheetView">
+      <i data-lucide="external-link" class="icon-inline"></i> ვებსაიტზე ნახვა
+    </a>
+    <a href="#" class="admin-more-sheet-item" id="newsMoreSheetEdit">
+      <i data-lucide="pencil" class="icon-inline"></i> რედაქტირება
+    </a>
+    <button type="button" class="admin-more-sheet-item admin-more-sheet-item-danger" id="newsMoreSheetDelete">
+      <i data-lucide="trash-2" class="icon-inline"></i> წაშლა
+    </button>
+    <button type="button" class="admin-more-sheet-cancel" id="newsMoreSheetCancel">გაუქმება</button>
+  </div>
+</div>
 
 <!-- ── Delete Confirmation Modal ────────────────────── -->
 <div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">
@@ -282,6 +337,8 @@
     </div>
   </div>
 </div>
+
+</div><%# /.admin-news-page %>
 
 <script>
   function openDeleteModal(id, title) {
@@ -306,4 +363,67 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeDeleteModal();
   });
+
+  /* ── Mobile "more actions" bottom sheet ──────────────
+     Triggered by the ⋮ button on each card. Populates the
+     shared sheet with that article's view/edit/delete targets. */
+  (function () {
+    var trigger  = null; // the ⋮ button that opened the sheet (for focus return)
+    var sheet    = document.getElementById('newsMoreSheet');
+    if (!sheet) return;
+
+    var backdrop = sheet.querySelector('.admin-more-sheet-backdrop');
+    var titleEl  = document.getElementById('newsMoreSheetTitle');
+    var viewLink = document.getElementById('newsMoreSheetView');
+    var editLink = document.getElementById('newsMoreSheetEdit');
+    var deleteBtn= document.getElementById('newsMoreSheetDelete');
+    var cancelBtn= document.getElementById('newsMoreSheetCancel');
+
+    function openMoreSheet(btn) {
+      trigger = btn;
+      var id    = btn.dataset.id;
+      var title = btn.dataset.title;
+      var slug  = btn.dataset.slug;
+
+      titleEl.textContent  = title;
+      viewLink.href        = '/news/' + slug;
+      editLink.href        = '/admin/news/' + id + '/edit';
+      deleteBtn.dataset.id    = id;
+      deleteBtn.dataset.title = title;
+
+      sheet.classList.add('open');
+      sheet.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMoreSheet() {
+      sheet.classList.remove('open');
+      sheet.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    }
+
+    document.querySelectorAll('.admin-action-more').forEach(function (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.addEventListener('click', function () { openMoreSheet(btn); });
+    });
+
+    if (backdrop)  backdrop.addEventListener('click', closeMoreSheet);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeMoreSheet);
+
+    deleteBtn.addEventListener('click', function () {
+      var id    = deleteBtn.dataset.id;
+      var title = deleteBtn.dataset.title;
+      closeMoreSheet();
+      openDeleteModal(id, title);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sheet.classList.contains('open')) closeMoreSheet();
+    });
+  }());
 </script>

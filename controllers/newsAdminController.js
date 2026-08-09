@@ -22,6 +22,14 @@ const __dirname  = path.dirname(__filename);
 // Path to the news images upload folder
 const NEWS_UPLOAD_DIR = path.join(__dirname, '..', 'uploads', 'news');
 
+/**
+ * Resolve the public URL for a news article image.
+ * Multer stores files in uploads/news/ — the filename only is persisted in DB.
+ * @param {string|null} filename
+ */
+const newsImageUrl = (filename) =>
+  filename ? `/uploads/news/${filename}` : null;
+
 // ─────────────────────────────────────────────
 // Shared helpers
 // ─────────────────────────────────────────────
@@ -91,6 +99,7 @@ export const getAdminNewsList = async (req, res, next) => {
       search,
       categoryId,
       flash:       req.query.flash || null,
+      newsImageUrl,
     });
   } catch (err) {
     next(err);

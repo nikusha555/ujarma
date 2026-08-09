@@ -110,7 +110,7 @@
             <i data-lucide="menu"></i>
           </button>
           <span class="admin-topbar-title">
-            <%= typeof title !== 'undefined' ? title.replace(' — Ujarma Admin', '') : 'Admin' %>
+            <%= typeof title !== 'undefined' ? title.replace(/\s*—\s*(უჯარმა ადმინი|Ujarma Admin)\s*$/i, '') : 'Admin' %>
           </span>
         </div>
         <div class="admin-topbar-user">
