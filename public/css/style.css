@@ -1828,6 +1828,327 @@ body.admin-sidebar-open { overflow: hidden; }
   display: block;
 }
 
+/* ── 20b. News Media Manager ("მედია" section) ──────────
+   Shared by news-create.ejs and news-edit.ejs via the
+   admin/partials/news-media-manager.ejs partial. Reuses the
+   admin-form-card / admin-hint tokens above — no separate visual
+   language. One unified grid holds both photo and video tiles
+   (existing + newly-selected alike) so there is a single, calm,
+   professional media surface rather than a raw form + file list.
+   ─────────────────────────────────────────────────────────────── */
+
+.admin-media-subhead {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: -0.25rem 0 0.75rem;
+}
+
+/* Compact "N ფოტო • N ვიდეო" summary line, muted when empty */
+.admin-media-summary {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin: 0 0 0.875rem;
+}
+.admin-media-summary.is-empty {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+/* The one real file input stays in the DOM (form submission + a11y) but
+   is never visually shown — two labels below trigger it instead. It
+   remains reachable by keyboard (Tab) and a focus ring is drawn on
+   whichever trigger is currently visible via the :has() rule further
+   down, so it is not display:none. */
+.admin-media-file-input {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Empty state / primary dropzone — the ONE obvious call to action
+   before any media exists. Doubles as the drag & drop target label. ── */
+.admin-media-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+  padding: 2rem 1.25rem;
+  border: 1.5px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--gray-50);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+.admin-media-empty:hover {
+  border-color: var(--color-primary);
+  background: var(--white);
+}
+.admin-media-empty-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  transition: transform var(--transition-fast);
+}
+.admin-media-empty-icon i,
+.admin-media-empty-icon svg { width: 1.375rem; height: 1.375rem; }
+.admin-media-empty:hover .admin-media-empty-icon { transform: scale(1.06); }
+.admin-media-empty-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.admin-media-empty-sub {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.admin-media-empty-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 0.375rem;
+}
+.admin-media-formats {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin-top: 0.625rem;
+}
+/* Drag & drop is a desktop convenience only — the mention of it stays
+   out of the way on touch devices where it can never happen. */
+.admin-media-drag-hint { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .admin-media-drag-hint { display: inline; }
+}
+
+/* Dragging a file over any part of the card highlights whichever
+   trigger is currently visible (empty box or the compact pill). */
+.admin-media-manager.is-dragover .admin-media-empty,
+.admin-media-manager.is-dragover .admin-media-add-more {
+  border-color: var(--color-accent);
+  background: var(--gold-100);
+}
+
+/* Shared focus ring for both triggers, driven off the real input's
+   focus state via :has() so it works regardless of DOM position. */
+.admin-media-manager:has(#newsMediaInput:focus-visible) .admin-media-trigger {
+  outline: 2px solid var(--navy-600);
+  outline-offset: 2px;
+}
+
+/* Small inline error line for client-side validation feedback */
+.admin-media-error {
+  font-size: 0.8125rem;
+  color: #dc2626;
+  margin-top: 0.625rem;
+  display: none;
+}
+.admin-media-error.is-visible { display: block; }
+
+/* ── Unified tile grid — photos and videos together ── */
+.admin-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.875rem;
+}
+.admin-media-grid:empty { display: none; }
+
+.admin-media-tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--gray-100);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px rgba(6,13,26,0.06);
+  transition: box-shadow var(--transition-fast);
+}
+.admin-media-tile:hover { box-shadow: 0 2px 6px rgba(6,13,26,0.12); }
+.admin-media-tile.is-marked-for-delete { opacity: 0.35; filter: grayscale(1); }
+
+.admin-media-tile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: var(--gray-100);
+}
+
+/* Video tiles share the exact same tile shape/size as photos (per the
+   "one system" requirement) but are unmistakably distinct: a dark
+   surface, a centered play glyph, and a "ვიდეო" label — never mistaken
+   for a broken photo thumbnail. */
+.admin-media-tile-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background: linear-gradient(160deg, var(--navy-800, #101f38), var(--navy-900, #0a1628));
+  padding: 0.5rem;
+  text-align: center;
+}
+.admin-media-video-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+}
+.admin-media-video-play {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-media-video-play i,
+.admin-media-video-play svg { width: 1rem; height: 1rem; }
+.admin-media-video-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-300, #d9b26a);
+}
+.admin-media-video-filename {
+  font-size: 0.6875rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 0.25rem;
+}
+
+/* Cover ("★ მთავარი") toggle — image tiles only. Non-cover tiles show a
+   plain, subtle star with no label; the cover tile gets the full gold
+   pill so there is never any ambiguity about which photo is primary. */
+.admin-media-cover-btn {
+  position: absolute;
+  top: 0.375rem; left: 0.375rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 26px;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  border: none;
+  background: rgba(6,13,26,0.55);
+  color: var(--white);
+  font-size: 0.625rem;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: background 0.15s, color 0.15s;
+}
+.admin-media-cover-btn i,
+.admin-media-cover-btn svg { width: 0.75rem; height: 0.75rem; }
+.admin-media-cover-btn:hover { background: rgba(6,13,26,0.75); }
+.admin-media-cover-btn.is-cover {
+  background: var(--color-accent);
+  color: var(--navy-900, #0a1628);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.admin-media-cover-label { display: none; }
+.admin-media-cover-btn.is-cover .admin-media-cover-label { display: inline; }
+
+/* Remove ("✕") — always top-right, always destructive-tinted, identical
+   on photo and video tiles */
+.admin-media-remove-btn {
+  position: absolute;
+  top: 0.375rem; right: 0.375rem;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(6,13,26,0.55);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: background 0.15s;
+}
+.admin-media-remove-btn:hover { background: #dc2626; }
+.admin-media-remove-btn i,
+.admin-media-remove-btn svg { width: 0.875rem; height: 0.875rem; }
+
+/* Reorder controls — simple ◀ ▶ buttons instead of drag-and-drop
+   reordering, so it works identically and reliably on touch, mouse,
+   and keyboard (see the media-manager JS header comment for why).
+   Photos only — videos aren't reorderable. */
+.admin-media-tile-controls {
+  position: absolute;
+  left: 0.375rem; right: 0.375rem; bottom: 0.375rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.375rem;
+}
+.admin-media-move-btn {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(6,13,26,0.55);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: background 0.15s, opacity 0.15s;
+}
+.admin-media-move-btn:hover { background: rgba(6,13,26,0.8); }
+.admin-media-move-btn:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+.admin-media-move-btn i,
+.admin-media-move-btn svg { width: 0.75rem; height: 0.75rem; }
+
+/* Compact "+ მედიის დამატება" pill once media already exists — small,
+   secondary, matches the site's .admin-page-btn outline language. */
+.admin-media-add-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.875rem;
+  padding: 0.5rem 0.875rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--color-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+.admin-media-add-more:hover {
+  border-color: var(--color-primary);
+  background: var(--gray-50);
+}
+.admin-media-add-more i,
+.admin-media-add-more svg { width: 0.9375rem; height: 0.9375rem; }
+
+/* Focus visibility for every icon-only control in the manager */
+.admin-media-cover-btn:focus-visible,
+.admin-media-remove-btn:focus-visible,
+.admin-media-move-btn:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 2px;
+}
+
 /* Error list banner */
 .admin-error-list {
   background-color: #fef2f2;

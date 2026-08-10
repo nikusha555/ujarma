@@ -5,9 +5,9 @@
 import { Router }       from 'express';
 import { requireAdmin } from '../middleware/authMiddleware.js';
 
-import uploadNews        from '../config/multerNews.js';
 import uploadAttractions from '../config/multerAttractions.js';
 import uploadGallery     from '../config/multerGallery.js';
+import uploadNewsMedia, { MAX_FILES_PER_UPLOAD } from '../config/multerNewsMedia.js';
 
 import {
   getAdminLogin, postAdminLogin, getAdminLogout,
@@ -44,9 +44,29 @@ const makeUploadHandler = (multerInstance, field = 'image') =>
     });
   };
 
-const handleNewsUpload        = makeUploadHandler(uploadNews);
 const handleAttractionUpload  = makeUploadHandler(uploadAttractions);
 const handleGalleryUpload     = makeUploadHandler(uploadGallery);
+
+/**
+ * News "მედია" section — multiple images + video from one field,
+ * uploaded together with the rest of the create/edit form. Same
+ * req.fileError convention as makeUploadHandler above, translated
+ * to plain Georgian (never expose the raw Multer/Node error).
+ */
+const handleNewsMediaUpload = (req, res, next) => {
+  uploadNewsMedia.array('media', MAX_FILES_PER_UPLOAD)(req, res, (err) => {
+    if (err) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        req.fileError = 'ერთ-ერთი ფაილის ზომა ძალიან დიდია.';
+      } else if (err.code === 'LIMIT_FILE_COUNT' || err.code === 'LIMIT_UNEXPECTED_FILE') {
+        req.fileError = `ერთდროულად მაქსიმუმ ${MAX_FILES_PER_UPLOAD} ფაილის ატვირთვაა შესაძლებელი.`;
+      } else {
+        req.fileError = err.message || 'ფაილის ატვირთვა ვერ მოხერხდა.';
+      }
+    }
+    next();
+  });
+};
 
 // ── Public Auth ────────────────────────────────
 router.get('/login',  getAdminLogin);
@@ -62,9 +82,9 @@ router.get('/dashboard', getDashboard);
 // ── News CRUD ──────────────────────────────────
 router.get('/news',             getAdminNewsList);
 router.get('/news/create',      getAdminNewsCreate);
-router.post('/news/create',     handleNewsUpload, postAdminNewsCreate);
+router.post('/news/create',     handleNewsMediaUpload, postAdminNewsCreate);
 router.get('/news/:id/edit',    getAdminNewsEdit);
-router.post('/news/:id/edit',   handleNewsUpload, postAdminNewsEdit);
+router.post('/news/:id/edit',   handleNewsMediaUpload, postAdminNewsEdit);
 router.post('/news/:id/delete', postAdminNewsDelete);
 
 // ── Attractions CRUD ───────────────────────────

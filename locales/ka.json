@@ -123,7 +123,9 @@
     "published": "გამოქვეყნდა",
     "status": "სტატუსი",
     "publishedStatus": "გამოქვეყნებული",
-    "fbShareAriaLabel": "Facebook-ზე გაზიარება"
+    "fbShareAriaLabel": "Facebook-ზე გაზიარება",
+    "gallery": "დამატებითი ფოტოები",
+    "videos": "ვიდეო"
   },
   "attractions": {
     "bannerTitle": "ღირსშესანიშნაობები",

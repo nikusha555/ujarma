@@ -1324,3 +1324,56 @@
     margin-bottom: 0.75rem;
   }
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   18. NEWS MEDIA MANAGER — mobile responsive grid
+   Base styles live in style.css (section 20b). Everything here
+   only adjusts sizing/density for ≤991.98px so the grid stays a
+   comfortable, tappable 2-column layout instead of a shrunk
+   desktop grid, and the empty-state / add-more triggers stay
+   compact instead of eating the screen.
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+  /* Force 2 columns (auto-fill would collapse to 1 on narrow phones) */
+  .admin-media-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+  }
+
+  /* Empty-state dropzone: compact but still an obvious, comfortable
+     tap target — no oversized vertical padding on small screens. */
+  .admin-media-empty {
+    padding: 1.5rem 1rem;
+  }
+  .admin-media-empty-icon { width: 42px; height: 42px; margin-bottom: 0.375rem; }
+  .admin-media-empty-title { font-size: 0.875rem; }
+  .admin-media-empty-sub   { font-size: 0.75rem; }
+  .admin-media-empty-hint  { font-size: 0.6875rem; }
+
+  /* Add-more pill: full comfortable touch height */
+  .admin-media-add-more {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 0.875rem;
+    min-height: 44px;
+  }
+
+  /* Slightly larger tile controls than desktop — still can't reach a
+     literal 44px on a ~140px tile without covering the photo, so this
+     is a deliberate middle ground (bigger hit area via padding, not
+     just a bigger icon) rather than the desktop 24–26px. */
+  .admin-media-cover-btn { height: 30px; padding: 0 0.625rem; }
+  .admin-media-remove-btn,
+  .admin-media-move-btn { width: 32px; height: 32px; }
+  .admin-media-remove-btn i, .admin-media-remove-btn svg,
+  .admin-media-move-btn i,   .admin-media-move-btn svg { width: 1rem; height: 1rem; }
+
+  .admin-media-video-play { width: 30px; height: 30px; }
+  .admin-media-video-label { font-size: 0.625rem; }
+  .admin-media-video-filename { font-size: 0.625rem; }
+
+  .admin-media-summary { font-size: 0.75rem; }
+  .admin-media-subhead { font-size: 0.75rem; }
+}

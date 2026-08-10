@@ -114,6 +114,26 @@ const getTableDefinitions = () => [
     KEY idx_attractions_featured (is_featured, is_published)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
 
+  // ── news_media (multi-image / video gallery per article) ──
+  // Mirrors the attraction_images pattern below. `news.image` /
+  // `news.featured_image` remain as legacy "cover" columns kept in
+  // sync by the admin controller for backward compatibility — every
+  // other admin/public code path that only knows about a single
+  // cover image keeps working unmodified.
+  `CREATE TABLE IF NOT EXISTS news_media (
+    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    news_id    INT UNSIGNED NOT NULL,
+    type       ENUM('image','video') NOT NULL DEFAULT 'image',
+    file       VARCHAR(255) NOT NULL,
+    is_cover   TINYINT(1)   NOT NULL DEFAULT 0,
+    sort_order INT          NOT NULL DEFAULT 0,
+    created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_news_media_news (news_id),
+    CONSTRAINT fk_news_media_news
+      FOREIGN KEY (news_id) REFERENCES news (id) ON DELETE CASCADE
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+
   // ── attraction_images ─────────────────────────
   `CREATE TABLE IF NOT EXISTS attraction_images (
     id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -283,6 +303,33 @@ const ensureMigrations = async (conn) => {
     log('created', 'Migration: news.featured_image column added');
   } else {
     log('skip', 'Migration: news.featured_image — already exists');
+  }
+
+  // ── news_media: backfill legacy single-image news into the new
+  // multi-media table, as the cover image. Only touches news rows that
+  // have a legacy image AND currently have zero news_media rows, so
+  // this is safe to run on every startup — it never re-adds a row for
+  // an article the admin has already migrated to real gallery media
+  // (even if they later removed all of it), and never duplicates.
+  const [legacyImageRows] = await conn.execute(
+    `SELECT n.id AS news_id, COALESCE(n.featured_image, n.image) AS legacy_image
+       FROM news n
+       LEFT JOIN news_media nm ON nm.news_id = n.id
+      WHERE COALESCE(n.featured_image, n.image) IS NOT NULL
+        AND nm.id IS NULL
+      GROUP BY n.id`
+  );
+  if (legacyImageRows.length > 0) {
+    for (const row of legacyImageRows) {
+      await conn.execute(
+        `INSERT INTO news_media (news_id, type, file, is_cover, sort_order)
+         VALUES (?, 'image', ?, 1, 0)`,
+        [row.news_id, row.legacy_image]
+      );
+    }
+    log('created', `Migration: backfilled ${legacyImageRows.length} legacy news image(s) into news_media`);
+  } else {
+    log('skip', 'Migration: news_media backfill — nothing to migrate');
   }
 };
 

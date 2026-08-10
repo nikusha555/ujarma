@@ -123,7 +123,9 @@
     "published": "Опубликовано",
     "status": "Статус",
     "publishedStatus": "Опубликовано",
-    "fbShareAriaLabel": "Поделиться в Facebook"
+    "fbShareAriaLabel": "Поделиться в Facebook",
+    "gallery": "Дополнительные фото",
+    "videos": "Видео"
   },
   "attractions": {
     "bannerTitle": "Достопримечательности",

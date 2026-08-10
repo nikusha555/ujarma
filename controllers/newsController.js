@@ -4,7 +4,8 @@
  * Handles news listing and single-article views.
  */
 
-import News from '../models/News.js';
+import News      from '../models/News.js';
+import NewsMedia from '../models/NewsMedia.js';
 
 /**
  * Resolve the public URL for a news article image.
@@ -55,6 +56,14 @@ export const getNewsArticle = async (req, res, next) => {
     const imageFilename = article.featured_image || article.image;
     const imageUrl      = newsImageUrl(imageFilename);
 
+    // Extra gallery images + videos, beyond the cover already shown above
+    // the article. Optional by design — most articles only have a cover,
+    // so the section only renders at all when there's something extra
+    // to show (see the `<% if %>` in pages/news-article.ejs).
+    const allMedia    = await NewsMedia.findByNewsId(article.id).catch(() => []);
+    const galleryImages = allMedia.filter((m) => m.type === 'image' && !m.is_cover);
+    const galleryVideos  = allMedia.filter((m) => m.type === 'video');
+
     res.render('pages/news-article', {
       title:          `${article.title} — უჯარმა`,
       description:    article.summary || article.excerpt || article.title,
@@ -63,6 +72,8 @@ export const getNewsArticle = async (req, res, next) => {
       imageUrl,
       relatedArticles,
       newsImageUrl,
+      galleryImages,
+      galleryVideos,
     });
   } catch (error) {
     next(error);

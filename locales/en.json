@@ -123,7 +123,9 @@
     "published": "Published",
     "status": "Status",
     "publishedStatus": "Published",
-    "fbShareAriaLabel": "Share on Facebook"
+    "fbShareAriaLabel": "Share on Facebook",
+    "gallery": "More Photos",
+    "videos": "Videos"
   },
   "attractions": {
     "bannerTitle": "Attractions",

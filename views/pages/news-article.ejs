@@ -78,6 +78,40 @@
           <%- article.content %>
         </article>
 
+        <!-- ── Additional gallery photos (beyond the cover above) ──────
+             Optional: only rendered when the article actually has more
+             than its one cover image. Reuses the site's existing
+             gallery-item component, so the lightbox already wired up in
+             main.js works here with no extra JS. ── -->
+        <% if (galleryImages && galleryImages.length > 0) { %>
+          <div style="margin-top:2.5rem;">
+            <h3 class="article-sidebar-heading" data-i18n="newsArticle.gallery">დამატებითი ფოტოები</h3>
+            <div class="gallery-grid" style="grid-template-columns:repeat(3,1fr);">
+              <% galleryImages.forEach(function(m) { %>
+                <% const gUrl = newsImageUrl(m.file); %>
+                <div class="gallery-item" data-src="<%= gUrl %>" title="<%= article.title %>" role="button" tabindex="0" aria-label="<%= article.title %>">
+                  <img src="<%= gUrl %>" alt="" loading="lazy" />
+                  <div class="gallery-item-overlay" aria-hidden="true"><i data-lucide="zoom-in"></i></div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+
+        <!-- ── Videos (optional) ────────────────────────────────────
+             preload="metadata" only — no autoplay, no eager full-file
+             loading. ── -->
+        <% if (galleryVideos && galleryVideos.length > 0) { %>
+          <div style="margin-top:2.5rem;">
+            <h3 class="article-sidebar-heading" data-i18n="newsArticle.videos">ვიდეო</h3>
+            <% galleryVideos.forEach(function(m) { %>
+              <video controls preload="metadata" style="width:100%;border-radius:var(--radius-lg);margin-bottom:1rem;background:#000;">
+                <source src="<%= newsImageUrl(m.file) %>" />
+              </video>
+            <% }) %>
+          </div>
+        <% } %>
+
         <!-- ── Bottom Bar: back link ──────────────────── -->
         <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--color-border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
           <a href="/news" class="section-link">

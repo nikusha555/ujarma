@@ -1,0 +1,110 @@
+<%# admin/partials/news-media-manager.ejs — "მედია" section
+    Shared by news-create.ejs (mode='create', media=[]) and
+    news-edit.ejs (mode='edit', media=<existing news_media rows>).
+    Requires: mode, media, newsImageUrl in scope.
+
+    Design: ONE unified media grid holding both photo and video tiles
+    (existing + newly-selected, rendered identically) so the admin never
+    perceives "two systems". A single hidden <input type="file"> is
+    triggered by two custom labels — a large empty-state dropzone shown
+    only when there's no media yet, and a compact "add more" pill shown
+    once media exists — so there is exactly one entry point for uploads
+    and the native "Choose file / No file chosen" control is never seen.
+-%>
+<%
+  const mediaImages = (media || []).filter(function(m) { return m.type === 'image'; });
+  const mediaVideos  = (media || []).filter(function(m) { return m.type === 'video'; });
+  const currentCover = mediaImages.find(function(m) { return m.is_cover; });
+  const hasMedia = (mediaImages.length + mediaVideos.length) > 0;
+  const summaryParts = [];
+  if (mediaImages.length > 0) summaryParts.push(mediaImages.length + ' ფოტო');
+  if (mediaVideos.length > 0) summaryParts.push(mediaVideos.length + ' ვიდეო');
+  const summaryText = summaryParts.join(' • ');
+%>
+<div class="admin-form-card mb-4 admin-media-manager" id="newsMediaManager" data-mode="<%= mode %>">
+  <div class="admin-form-card-header">
+    <i data-lucide="images" class="icon-inline"></i>
+    <span class="admin-form-card-title">მედია</span>
+  </div>
+  <div class="admin-form-card-body">
+    <p class="admin-media-subhead">დაამატეთ ფოტოები და ვიდეოები ამ სიახლეს.</p>
+    <p class="admin-media-summary <%= hasMedia ? '' : 'is-empty' %>" id="newsMediaSummary">
+      <span id="newsMediaSummaryText" data-empty-text="ფოტოები და ვიდეოები ჯერ არ არის დამატებული."><%=
+        hasMedia ? summaryText : 'ფოტოები და ვიდეოები ჯერ არ არის დამატებული.'
+      %></span>
+    </p>
+
+    <!-- ── The ONE real file input — kept in the DOM (form submission +
+         keyboard access) but never shown; two labels below trigger it ── -->
+    <input type="file"
+           id="newsMediaInput"
+           name="media"
+           class="admin-media-file-input"
+           accept="image/jpeg,image/jpg,image/png,image/webp,video/mp4,video/webm"
+           multiple
+           aria-describedby="newsMediaFormats" />
+
+    <!-- ── Empty state: shown only until the first file exists ── -->
+    <label for="newsMediaInput" class="admin-media-empty admin-media-trigger" id="newsMediaEmpty" <%= hasMedia ? 'hidden' : '' %>>
+      <span class="admin-media-empty-icon"><i data-lucide="plus"></i></span>
+      <span class="admin-media-empty-title">მედიის დამატება</span>
+      <span class="admin-media-empty-sub">ფოტოები და ვიდეოები</span>
+      <span class="admin-media-empty-hint">აირჩიეთ რამდენიმე ფაილი ერთდროულად<span class="admin-media-drag-hint"> ან გადმოათრიეთ ფაილები აქ</span></span>
+      <span class="admin-media-formats" id="newsMediaFormats">JPG • PNG • WebP • MP4 • WebM</span>
+    </label>
+
+    <p class="admin-media-error" id="newsMediaError" role="alert"></p>
+
+    <!-- ── Unified grid: photos and videos together, identical treatment
+         for existing (server-rendered) and newly-selected media ── -->
+    <div class="admin-media-grid" id="newsMediaGrid" <%= hasMedia ? '' : 'hidden' %>>
+      <% mediaImages.forEach(function(m) { %>
+        <div class="admin-media-tile" data-existing-id="<%= m.id %>">
+          <img class="admin-media-tile-img" src="<%= newsImageUrl(m.file) %>" alt="" loading="lazy" />
+          <button type="button"
+                  class="admin-media-cover-btn <%= m.is_cover ? 'is-cover' : '' %>"
+                  aria-pressed="<%= m.is_cover ? 'true' : 'false' %>"
+                  aria-label="მთავარ ფოტოდ დაყენება"
+                  title="მთავარ ფოტოდ დაყენება">
+            <i data-lucide="star"></i>
+            <span class="admin-media-cover-label"><%= m.is_cover ? 'მთავარი' : '' %></span>
+          </button>
+          <button type="button" class="admin-media-remove-btn" aria-label="სურათის წაშლა" title="სურათის წაშლა">
+            <i data-lucide="x"></i>
+          </button>
+          <div class="admin-media-tile-controls">
+            <button type="button" class="admin-media-move-btn" data-dir="-1" aria-label="მარცხნივ გადატანა" title="მარცხნივ გადატანა">
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <button type="button" class="admin-media-move-btn" data-dir="1" aria-label="მარჯვნივ გადატანა" title="მარჯვნივ გადატანა">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      <% }) %>
+      <% mediaVideos.forEach(function(m) { %>
+        <div class="admin-media-tile admin-media-tile-video" data-existing-id="<%= m.id %>">
+          <div class="admin-media-video-visual">
+            <span class="admin-media-video-play"><i data-lucide="play"></i></span>
+            <span class="admin-media-video-label">ვიდეო</span>
+          </div>
+          <span class="admin-media-video-filename"><%= m.file %></span>
+          <button type="button" class="admin-media-remove-btn" aria-label="ვიდეოს წაშლა" title="ვიდეოს წაშლა">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- ── Compact "add more" entry point once media already exists ── -->
+    <label for="newsMediaInput" class="admin-media-add-more admin-media-trigger" id="newsMediaAddMore" <%= hasMedia ? '' : 'hidden' %>>
+      <i data-lucide="plus" class="icon-inline"></i> მედიის დამატება
+    </label>
+
+    <!-- ── State committed atomically on the form's normal submit ── -->
+    <input type="hidden" name="delete_media_ids"  id="newsMediaDeleteIds"  value="" />
+    <input type="hidden" name="media_order"       id="newsMediaOrder"      value="<%= mediaImages.map(function(m){ return m.id; }).join(',') %>" />
+    <input type="hidden" name="cover_media_id"    id="newsMediaCoverId"    value="<%= currentCover ? currentCover.id : '' %>" />
+    <input type="hidden" name="cover_index"       id="newsMediaCoverIndex" value="" />
+  </div>
+</div>

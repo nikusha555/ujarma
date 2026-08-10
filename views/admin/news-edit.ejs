@@ -151,43 +151,8 @@
         </div>
       </div>
 
-      <!-- სურათი -->
-      <div class="admin-form-card mb-4">
-        <div class="admin-form-card-header">
-          <i data-lucide="image" class="icon-inline"></i>
-          <span class="admin-form-card-title">მთავარი სურათი</span>
-        </div>
-        <div class="admin-form-card-body">
-
-          <!-- Existing image preview -->
-          <% const existingImg = article.featured_image || article.image; %>
-          <% if (existingImg) { %>
-            <div class="admin-image-preview mb-3">
-              <img src="/uploads/news/<%= existingImg %>"
-                   alt="მიმდინარე სურათი"
-                   style="max-height:160px;width:auto;" />
-            </div>
-            <div class="admin-check-row mb-2">
-              <input type="checkbox" id="remove_image" name="remove_image" />
-              <label for="remove_image" style="color:#dc2626;">სურათის წაშლა</label>
-            </div>
-          <% } %>
-
-          <div class="admin-field">
-            <label for="image" class="admin-label">
-              <%= existingImg ? 'ახალი სურათი (ჩასანაცვლებლად)' : 'სურათის ატვირთვა' %>
-            </label>
-            <input type="file"
-                   id="image"
-                   name="image"
-                   class="admin-input"
-                   accept="image/jpeg,image/jpg,image/png,image/webp"
-                   style="padding:.5rem;" />
-            <p class="admin-hint">JPG, PNG, WebP — მაქს. 5 MB</p>
-          </div>
-
-        </div>
-      </div>
+      <!-- მედია (ფოტოები + ვიდეო) -->
+      <%- include('partials/news-media-manager', { mode: 'edit', media: media || [], newsImageUrl: newsImageUrl }) %>
 
       <!-- Save -->
       <button type="submit"
@@ -209,6 +174,8 @@
   </div>
 
 </form>
+
+<script src="/js/newsMediaManager.js?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>"></script>
 
 <!-- ── Delete Confirmation Modal ────────────────────── -->
 <div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">

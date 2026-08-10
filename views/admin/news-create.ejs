@@ -139,25 +139,8 @@
         </div>
       </div>
 
-      <!-- სურათი -->
-      <div class="admin-form-card mb-4">
-        <div class="admin-form-card-header">
-          <i data-lucide="image" class="icon-inline"></i>
-          <span class="admin-form-card-title">მთავარი სურათი</span>
-        </div>
-        <div class="admin-form-card-body">
-          <div class="admin-field">
-            <label for="image" class="admin-label">სურათის ატვირთვა</label>
-            <input type="file"
-                   id="image"
-                   name="image"
-                   class="admin-input"
-                   accept="image/jpeg,image/jpg,image/png,image/webp"
-                   style="padding:.5rem;" />
-            <p class="admin-hint">JPG, PNG, WebP — მაქს. 5 MB</p>
-          </div>
-        </div>
-      </div>
+      <!-- მედია (ფოტოები + ვიდეო) -->
+      <%- include('partials/news-media-manager', { mode: 'create', media: [], newsImageUrl: newsImageUrl }) %>
 
       <!-- Submit -->
       <button type="submit"
@@ -170,3 +153,5 @@
   </div>
 
 </form>
+
+<script src="/js/newsMediaManager.js?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>"></script>
