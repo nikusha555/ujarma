@@ -1,8 +1,8 @@
 ﻿<%# admin/news.ejs — სიახლეების სია -%>
-<%# Root wrapper — every NEW mobile rule below is scoped under .admin-news-page
+<%# Root wrapper — every NEW mobile rule below is scoped under .admin-mobile-list-page
     so the shared .admin-table / .admin-action-* / .admin-mobile-search-bar
     styles used by attractions.ejs and gallery.ejs stay completely untouched. -%>
-<div class="admin-news-page">
+<div class="admin-mobile-list-page">
 
 <div class="admin-page-header">
   <h1 class="admin-page-title">სიახლეების მართვა</h1>
@@ -157,11 +157,11 @@
               <% if (thumbUrl) { %>
                 <img src="<%= thumbUrl %>"
                      alt=""
-                     class="admin-news-thumb"
+                     class="admin-card-thumb"
                      width="104" height="104"
                      loading="lazy" />
               <% } else { %>
-                <div class="admin-news-thumb admin-news-thumb-placeholder" aria-hidden="true">
+                <div class="admin-card-thumb admin-card-thumb-placeholder" aria-hidden="true">
                   <i data-lucide="image"></i>
                 </div>
               <% } %>
@@ -338,7 +338,7 @@
   </div>
 </div>
 
-</div><%# /.admin-news-page %>
+</div><%# /.admin-mobile-list-page %>
 
 <script>
   function openDeleteModal(id, title) {

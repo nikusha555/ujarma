@@ -49,6 +49,7 @@ export const getAdminAttractionsList = async (req, res, next) => {
       search,
       category,
       flash:      req.query.flash || null,
+      imgUrl,
     });
   } catch (err) { next(err); }
 };

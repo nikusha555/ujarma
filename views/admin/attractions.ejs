@@ -1,4 +1,12 @@
 ﻿<%# admin/attractions.ejs — ღირსშესანიშნაობების სია -%>
+<%# Root wrapper. `admin-mobile-list-page` reuses the shared mobile
+    infrastructure (thumb-cell flex positioning, icon-in-field search,
+    Edit+More action wiring, "more" bottom sheet) that news.ejs established.
+    `admin-attractions-page` layers attraction-specific card hierarchy on
+    top of that (full-width status/featured/category row, circular FAB,
+    larger title) — scoped so it can never affect News. See
+    admin-mobile.css sections 16 (shared) and 17 (attractions-only). -%>
+<div class="admin-mobile-list-page admin-attractions-page">
 
 <div class="admin-page-header">
   <h1 class="admin-page-title">ღირსშესანიშნაობების მართვა</h1>
@@ -32,18 +40,26 @@
       <span style="margin-left:auto;font-size:.8125rem;color:var(--color-text-muted);">სულ: <%= total %></span>
     </div>
 
-    <!-- Mobile search bar -->
+    <!-- Mobile search bar — single pill field with an integrated icon,
+         matching News Management. Submits on the keyboard's search/enter
+         action, so no separate submit button is needed. -->
     <div class="admin-mobile-search-bar">
-      <input type="text" class="admin-filter-input" id="mobileSearchInput"
-             value="<%= search %>" placeholder="სახელით ძებნა…" autocomplete="off" />
+      <label class="admin-search-input-wrap" for="mobileSearchInput">
+        <i data-lucide="search" class="admin-search-icon" aria-hidden="true"></i>
+        <input type="search"
+               class="admin-filter-input admin-search-input"
+               id="mobileSearchInput"
+               value="<%= search %>"
+               placeholder="სახელით ძებნა…"
+               aria-label="ღირსშესანიშნაობის ძებნა სახელით"
+               enterkeyhint="search"
+               autocomplete="off" />
+      </label>
       <button type="button"
               class="admin-mobile-filter-toggle <%= category ? 'has-filter' : '' %>"
               id="mobileFilterToggle" aria-label="ფილტრები">
         <i data-lucide="sliders-horizontal"></i>
         <% if (category) { %><span class="admin-filter-active-dot"></span><% } %>
-      </button>
-      <button type="submit" class="admin-mobile-search-submit" aria-label="ძებნა">
-        <i data-lucide="search"></i>
       </button>
     </div>
     <div class="admin-results-count">სულ: <%= total %> ობიექტი</div>
@@ -89,31 +105,69 @@
       <thead><tr><th>სახელი</th><th>კატეგორია</th><th>სტატუსი</th><th>გამორჩეული</th><th>მოქმედება</th></tr></thead>
       <tbody>
         <% attractions.forEach(function(a) { %>
+          <% const thumbUrl = imgUrl(a.image); %>
           <tr>
+            <%# td-thumb: mobile-only cover-image cell (hidden on desktop via CSS).
+                onerror swaps in the same clean placeholder used for "no image"
+                if the file is missing/broken on disk, instead of a browser
+                broken-image icon. %>
+            <td class="td-thumb" data-label="">
+              <% if (thumbUrl) { %>
+                <img src="<%= thumbUrl %>"
+                     alt=""
+                     class="admin-card-thumb"
+                     width="104" height="104"
+                     loading="lazy"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="admin-card-thumb admin-card-thumb-placeholder" style="display:none;" aria-hidden="true">
+                  <i data-lucide="map-pin"></i>
+                </div>
+              <% } else { %>
+                <div class="admin-card-thumb admin-card-thumb-placeholder" aria-hidden="true">
+                  <i data-lucide="map-pin"></i>
+                </div>
+              <% } %>
+            </td>
+            <%# td-title: attraction name only. Status/featured/category now
+                live in their own full-width td-meta row below — cramming
+                them into this narrow image-adjacent column was the source
+                of the "compressed desktop table" feel. %>
             <td class="td-title" data-label="სახელი">
               <div class="admin-cell-title" style="font-weight:500;color:var(--color-primary);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= a.name %></div>
-              <div class="td-mobile-meta">
+            </td>
+            <%# td-meta: mobile-only, full-width row below image+title
+                (hidden on desktop via CSS — desktop keeps its own
+                კატეგორია/სტატუსი/გამორჩეული columns, untouched below).
+                Status + featured share one line with room to breathe;
+                category gets its own line, clamped to one line so a long
+                value can never stretch the card. %>
+            <td class="td-meta" data-label="">
+              <div class="attraction-status-row">
                 <% if (a.is_published) { %>
                   <span class="badge-published">გამოქვეყნებული</span>
                 <% } else { %>
                   <span class="badge-draft">მუსვარი</span>
                 <% } %>
                 <% if (a.is_featured) { %>
-                  <span class="meta-sep">·</span>
-                  <span class="meta-text" style="color:var(--gold-700);">&#9733; გამორჩეული</span>
+                  <span class="badge-featured">
+                    <i data-lucide="star" class="icon-inline"></i> გამორჩეული
+                  </span>
                 <% } %>
-                <% if (a.category) { %>
-                  <span class="meta-sep">·</span>
-                  <span class="meta-text"><%= a.category %></span>
-                <% } %>
-                <span class="meta-slug"><%= a.slug %></span>
               </div>
+              <% if (a.category) { %>
+                <div class="attraction-category" title="<%= a.category.replace(/"/g, '&quot;') %>"><%= a.category %></div>
+              <% } %>
             </td>
             <td data-label="კატეგორია" style="font-size:.875rem;color:var(--color-text-secondary);"><%= a.category || '—' %></td>
             <td data-label="სტატუსი"><% if (a.is_published) { %><span class="badge-published">გამოქვეყნებული</span><% } else { %><span class="badge-draft">მუსვარი</span><% } %></td>
             <td data-label="გამორჩ." style="text-align:center;">
               <% if (a.is_featured) { %><i data-lucide="star" style="fill:var(--color-accent);stroke:var(--color-accent);width:1rem;height:1rem;"></i><% } else { %><i data-lucide="star" style="fill:none;stroke:var(--gray-400);width:1rem;height:1rem;"></i><% } %>
             </td>
+            <%# td-actions: always visible as card footer.
+                Desktop keeps the original 3 inline icon actions untouched.
+                Mobile hides view/delete and routes them through the
+                compact "მეტი" (more) bottom sheet instead — same pattern
+                as News Management. %>
             <td class="td-actions" data-label="">
               <div class="admin-card-actions">
                 <a href="/admin/attractions/<%= a.id %>/edit"
@@ -130,6 +184,15 @@
                         title="წაშლა">
                   <i data-lucide="trash-2" class="icon-inline"></i>
                   <span class="admin-action-label">წაშლა</span>
+                </button>
+                <button type="button"
+                        class="admin-action-more"
+                        data-id="<%= a.id %>"
+                        data-title="<%= a.name.replace(/\"/g, '&quot;') %>"
+                        data-slug="<%= a.slug %>"
+                        aria-haspopup="dialog"
+                        aria-label="მეტი მოქმედება — <%= a.name.replace(/\"/g, '&quot;') %>">
+                  <i data-lucide="more-vertical"></i>
                 </button>
               </div>
             </td>
@@ -151,10 +214,33 @@
   <% } %>
 </div>
 
-<!-- FAB (mobile only) -->
-<a href="/admin/attractions/create" class="admin-fab" aria-label="ობიექტის დამატება">
+<!-- FAB (mobile only) — simple circular icon button. No label: the "+"
+     icon is universally understood and this keeps the button fully clear
+     of content at any screen width (the extended pill used on News was
+     clipping here on narrow phones). -->
+<a href="/admin/attractions/create" class="admin-fab" aria-label="ღირსშესანიშნაობის დამატება">
   <i data-lucide="plus"></i>
 </a>
+
+<!-- "More actions" bottom sheet (mobile only) — same pattern as News
+     Management: one shared sheet, populated per-card by the ⋮ button. -->
+<div class="admin-more-sheet" id="attractionsMoreSheet" aria-hidden="true">
+  <div class="admin-more-sheet-backdrop"></div>
+  <div class="admin-more-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="attractionsMoreSheetTitle">
+    <div class="admin-filter-sheet-handle"></div>
+    <div class="admin-more-sheet-title" id="attractionsMoreSheetTitle"></div>
+    <a href="#" target="_blank" rel="noopener" class="admin-more-sheet-item" id="attractionsMoreSheetView">
+      <i data-lucide="external-link" class="icon-inline"></i> ვებსაიტზე ნახვა
+    </a>
+    <a href="#" class="admin-more-sheet-item" id="attractionsMoreSheetEdit">
+      <i data-lucide="pencil" class="icon-inline"></i> რედაქტირება
+    </a>
+    <button type="button" class="admin-more-sheet-item admin-more-sheet-item-danger" id="attractionsMoreSheetDelete">
+      <i data-lucide="trash-2" class="icon-inline"></i> წაშლა
+    </button>
+    <button type="button" class="admin-more-sheet-cancel" id="attractionsMoreSheetCancel">გაუქმება</button>
+  </div>
+</div>
 
 <!-- Delete modal -->
 <div class="admin-modal-overlay" id="deleteModal" role="dialog" aria-modal="true">
@@ -169,6 +255,9 @@
     </div>
   </div>
 </div>
+
+</div><%# /.admin-mobile-list-page %>
+
 <script>
   function openDeleteModal(id, title) {
     document.getElementById('deleteModalBody').textContent = 'გსურთ "' + title + '" წაშლა? ეს მოქმედება შეუქცევადია.';
@@ -180,4 +269,68 @@
   document.querySelectorAll('.btn-delete-trigger').forEach(b => b.addEventListener('click', () => openDeleteModal(b.dataset.id, b.dataset.title)));
   document.getElementById('deleteModal').addEventListener('click', e => { if (e.target === document.getElementById('deleteModal')) closeDeleteModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDeleteModal(); });
+
+  /* ── Mobile "more actions" bottom sheet ──────────────
+     Triggered by the ⋮ button on each card. Populates the
+     shared sheet with that attraction's view/edit/delete targets.
+     Mirrors the identical pattern used on News Management. */
+  (function () {
+    var trigger  = null;
+    var sheet    = document.getElementById('attractionsMoreSheet');
+    if (!sheet) return;
+
+    var backdrop  = sheet.querySelector('.admin-more-sheet-backdrop');
+    var titleEl   = document.getElementById('attractionsMoreSheetTitle');
+    var viewLink  = document.getElementById('attractionsMoreSheetView');
+    var editLink  = document.getElementById('attractionsMoreSheetEdit');
+    var deleteBtn = document.getElementById('attractionsMoreSheetDelete');
+    var cancelBtn = document.getElementById('attractionsMoreSheetCancel');
+
+    function openMoreSheet(btn) {
+      trigger = btn;
+      var id    = btn.dataset.id;
+      var title = btn.dataset.title;
+      var slug  = btn.dataset.slug;
+
+      titleEl.textContent = title;
+      viewLink.href       = '/attractions/' + slug;
+      editLink.href       = '/admin/attractions/' + id + '/edit';
+      deleteBtn.dataset.id    = id;
+      deleteBtn.dataset.title = title;
+
+      sheet.classList.add('open');
+      sheet.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMoreSheet() {
+      sheet.classList.remove('open');
+      sheet.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    }
+
+    document.querySelectorAll('.admin-action-more').forEach(function (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.addEventListener('click', function () { openMoreSheet(btn); });
+    });
+
+    if (backdrop)  backdrop.addEventListener('click', closeMoreSheet);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeMoreSheet);
+
+    deleteBtn.addEventListener('click', function () {
+      var id    = deleteBtn.dataset.id;
+      var title = deleteBtn.dataset.title;
+      closeMoreSheet();
+      openDeleteModal(id, title);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sheet.classList.contains('open')) closeMoreSheet();
+    });
+  }());
 </script>

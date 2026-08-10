@@ -870,40 +870,42 @@
 
 
 /* ═══════════════════════════════════════════════════════
-   16. NEWS LIST — mobile-first card redesign
-   Everything below is scoped under .admin-news-page so it
-   can never leak onto attractions.ejs / gallery.ejs, which
-   share the same .admin-table / .admin-action-* / mobile
-   search-bar base classes defined in sections 4–8 above.
+   16. MOBILE CARD LIST — shared thumbnail-card redesign
+   Originally built for News, now also used by Attractions —
+   both wrap their list markup in .admin-mobile-list-page so
+   this block applies to them and only them. gallery.ejs does
+   NOT use this wrapper, so it (and any other admin list page)
+   keeps the plain shared .admin-table / .admin-action-* / mobile
+   search-bar base styling from sections 4–8 above, untouched.
 ═══════════════════════════════════════════════════════ */
 
 /* ── 16.1 Search bar: icon-in-field, no separate submit button ── */
 @media (max-width: 991.98px) {
-  .admin-news-page .admin-mobile-search-bar .admin-search-input-wrap {
+  .admin-mobile-list-page .admin-mobile-search-bar .admin-search-input-wrap {
     position: relative;
     display: flex;
     align-items: center;
     flex: 1;
     min-width: 0;
   }
-  .admin-news-page .admin-mobile-search-bar .admin-search-icon {
+  .admin-mobile-list-page .admin-mobile-search-bar .admin-search-icon {
     position: absolute;
     left: 0.875rem;
     color: var(--color-text-muted);
     pointer-events: none;
   }
-  .admin-news-page .admin-search-icon,
-  .admin-news-page .admin-search-icon svg { width: 1rem; height: 1rem; }
-  .admin-news-page .admin-mobile-search-bar .admin-search-input {
+  .admin-mobile-list-page .admin-search-icon,
+  .admin-mobile-list-page .admin-search-icon svg { width: 1rem; height: 1rem; }
+  .admin-mobile-list-page .admin-mobile-search-bar .admin-search-input {
     width: 100%;
     padding-left: 2.5rem;
     -webkit-appearance: none;
     appearance: none;
   }
-  .admin-news-page .admin-search-input::-webkit-search-cancel-button {
+  .admin-mobile-list-page .admin-search-input::-webkit-search-cancel-button {
     margin-right: 0.125rem;
   }
-  .admin-news-page .admin-search-input::-webkit-search-decoration {
+  .admin-mobile-list-page .admin-search-input::-webkit-search-decoration {
     -webkit-appearance: none;
   }
 }
@@ -912,12 +914,12 @@
 
 /* Desktop: thumbnail column is mobile-only, never rendered in the table */
 @media (min-width: 992px) {
-  .admin-news-page .td-thumb { display: none !important; }
+  .admin-mobile-list-page .td-thumb { display: none !important; }
 }
 
 @media (max-width: 991.98px) {
   /* Row becomes a flex container: [thumb][title] on top, [actions] full-width below */
-  .admin-news-page .admin-table tbody tr {
+  .admin-mobile-list-page .admin-table tbody tr {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -926,16 +928,16 @@
   }
 
   /* Slightly tighter outer list padding than the shared default (0.75rem) */
-  .admin-news-page .admin-table tbody { padding: 0.625rem; }
+  .admin-mobile-list-page .admin-table tbody { padding: 0.625rem; }
 
-  .admin-news-page .admin-table td.td-thumb {
+  .admin-mobile-list-page .admin-table td.td-thumb {
     display: block;
     order: 1;
     flex: 0 0 auto;
     padding: 0.75rem 0 0.75rem 0.875rem;
   }
 
-  .admin-news-page .admin-table td.td-title {
+  .admin-mobile-list-page .admin-table td.td-title {
     order: 2;
     flex: 1 1 0%;
     min-width: 0;
@@ -944,7 +946,7 @@
     border-bottom: none !important;
   }
 
-  .admin-news-page .admin-table td.td-actions {
+  .admin-mobile-list-page .admin-table td.td-actions {
     order: 3;
     flex: 0 0 100%;
     /* shorter footer than the shared default (0.75rem) while keeping
@@ -954,7 +956,7 @@
 
   /* Cover image is now one of the primary visual elements of the card —
      bumped from 72px to ~104px per the mobile-card refinement pass. */
-  .admin-news-thumb {
+  .admin-card-thumb {
     width: 104px;
     height: 104px;
     border-radius: 12px;
@@ -963,18 +965,18 @@
     background: var(--gray-100);
     flex-shrink: 0;
   }
-  .admin-news-thumb-placeholder {
+  .admin-card-thumb-placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid var(--color-border);
     color: var(--gray-400);
   }
-  .admin-news-thumb-placeholder i,
-  .admin-news-thumb-placeholder svg { width: 1.75rem; height: 1.75rem; }
+  .admin-card-thumb-placeholder i,
+  .admin-card-thumb-placeholder svg { width: 1.75rem; height: 1.75rem; }
 
   /* Title: clamp to 3 lines so a long Georgian headline never blows out card height */
-  .admin-news-page .admin-table td.td-title .admin-cell-title {
+  .admin-mobile-list-page .admin-table td.td-title .admin-cell-title {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -987,30 +989,39 @@
      itself never wraps mid-word — only the row does).
      Category is intentionally not shown here — it stays on desktop's own
      column; on the card it added a redundant row without earning its space. */
-  .admin-news-page .td-mobile-meta {
+  .admin-mobile-list-page .td-mobile-meta {
     row-gap: 0.1875rem;
     column-gap: 0.25rem;
     margin-top: 0.3125rem;
   }
-  .admin-news-page .td-mobile-meta .meta-sep { margin: 0 -0.0625rem; }
+  .admin-mobile-list-page .td-mobile-meta .meta-sep { margin: 0 -0.0625rem; }
 
   /* Status pill: smaller, tighter than the shared badge default so it
      reads as secondary metadata rather than competing with the title. */
-  .admin-news-page .td-mobile-meta .badge-published,
-  .admin-news-page .td-mobile-meta .badge-draft {
+  .admin-mobile-list-page .td-mobile-meta .badge-published,
+  .admin-mobile-list-page .td-mobile-meta .badge-draft {
     font-size: 0.5625rem;
     padding: 0.09375rem 0.375rem;
     gap: 0.1875rem;
   }
-  .admin-news-page .td-mobile-meta .badge-published::before,
-  .admin-news-page .td-mobile-meta .badge-draft::before {
+  .admin-mobile-list-page .td-mobile-meta .badge-published::before,
+  .admin-mobile-list-page .td-mobile-meta .badge-draft::before {
     width: 4px; height: 4px;
   }
 
   /* Compact, muted date — secondary to the status pill */
-  .admin-news-page .meta-date {
+  .admin-mobile-list-page .meta-date {
     font-size: 0.6875rem;
     color: var(--color-text-muted);
+  }
+
+  /* Featured indicator — a bare star glyph instead of a full "გამორჩეული"
+     pill, so a featured attraction doesn't cost the meta row extra width. */
+  .admin-mobile-list-page .meta-featured-star {
+    font-size: 0.75rem;
+    line-height: 1;
+    color: var(--gold-600, #b45309);
+    flex-shrink: 0;
   }
 }
 
@@ -1020,15 +1031,15 @@
    here only — it stays clearly bigger than the old 72px and still reads
    as a prominent cover image — to keep the metadata row compact. */
 @media (max-width: 374.98px) {
-  .admin-news-page .admin-news-thumb,
-  .admin-news-page .admin-news-thumb-placeholder { width: 88px; height: 88px; }
+  .admin-mobile-list-page .admin-card-thumb,
+  .admin-mobile-list-page .admin-card-thumb-placeholder { width: 88px; height: 88px; }
 }
 
 /* Tablet: a touch more breathing room for the thumbnail + title */
 @media (min-width: 576px) and (max-width: 991.98px) {
-  .admin-news-thumb,
-  .admin-news-thumb-placeholder { width: 118px; height: 118px; }
-  .admin-news-page .admin-table td.td-title .admin-cell-title { font-size: 1rem; }
+  .admin-card-thumb,
+  .admin-card-thumb-placeholder { width: 118px; height: 118px; }
+  .admin-mobile-list-page .admin-table td.td-title .admin-cell-title { font-size: 1rem; }
 }
 
 /* ── 16.3 Actions: Edit stays primary, View/Delete move into "More" ──
@@ -1039,30 +1050,30 @@
    win that specificity war without having to touch the legacy file. */
 
 /* Hidden everywhere by default — desktop keeps its original 3 inline icons untouched */
-.admin-news-page .admin-action-more { display: none; }
+.admin-mobile-list-page .admin-action-more { display: none; }
 
 @media (max-width: 991.98px) {
-  .admin-news-page .admin-table td.td-actions .admin-action-view,
-  .admin-news-page .admin-table td.td-actions .admin-action-delete {
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-view,
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-delete {
     display: none !important;
   }
 
   /* Re-assert Edit's intended look over the legacy rule's forced
      background/color/padding on ".admin-table td:last-child a" (and
      its ":first-child" muted-color variant — Edit is now first-child). */
-  .admin-news-page .admin-table td.td-actions .admin-action-edit {
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-edit {
     background: var(--gray-50) !important;
     color: var(--color-primary) !important;
     padding: 0 0.875rem !important;
     min-height: 44px;
     height: 44px !important;
   }
-  .admin-news-page .admin-table td.td-actions .admin-action-edit:hover {
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-edit:hover {
     background: var(--color-primary) !important;
     color: var(--white) !important;
   }
 
-  .admin-news-page .admin-table td.td-actions .admin-action-more {
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-more {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1075,17 +1086,25 @@
     color: var(--color-text-secondary);
     cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
+    /* Some mobile browsers (notably iOS Safari) skin a bare <button> with
+       native chrome — rounded gradient, inset shadow — even when background
+       and border are set explicitly. Reset it so it renders as the plain
+       button drawn above, not a "browser default" widget. */
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    box-shadow: none;
   }
-  .admin-news-page .admin-table td.td-actions .admin-action-more:hover {
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-more:hover {
     border-color: var(--gray-500);
     color: var(--color-text);
   }
-  .admin-news-page .admin-table td.td-actions .admin-action-more:focus-visible {
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-more:focus-visible {
     outline: 2px solid var(--navy-600);
     outline-offset: 2px;
   }
-  .admin-news-page .admin-table td.td-actions .admin-action-more i,
-  .admin-news-page .admin-table td.td-actions .admin-action-more svg { width: 1.125rem; height: 1.125rem; }
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-more i,
+  .admin-mobile-list-page .admin-table td.td-actions .admin-action-more svg { width: 1.125rem; height: 1.125rem; }
 }
 
 /* ── 16.4 "More actions" bottom sheet ── */
@@ -1177,19 +1196,131 @@
 
 /* ── 16.5 Extended FAB: "+ ახალი სიახლე" instead of a bare icon ── */
 @media (max-width: 991.98px) {
-  .admin-news-page .admin-fab {
+  .admin-mobile-list-page .admin-fab {
     width: auto;
     height: 48px;
     padding: 0 1.125rem 0 1rem;
     border-radius: 999px;
     gap: 0.375rem;
   }
-  .admin-news-page .admin-fab i,
-  .admin-news-page .admin-fab svg { width: 1.125rem !important; height: 1.125rem !important; }
+  .admin-mobile-list-page .admin-fab i,
+  .admin-mobile-list-page .admin-fab svg { width: 1.125rem !important; height: 1.125rem !important; }
   .admin-fab-label {
     display: inline-block;
     font-size: 0.8125rem;
     font-weight: 600;
     white-space: nowrap;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   17. ATTRACTIONS — page-specific mobile card hierarchy
+   Attractions shares section 16's plumbing (thumb-cell flex
+   positioning, icon-in-field search, Edit+More wiring, the
+   "more" sheet) via .admin-mobile-list-page, but its card
+   content is different enough from News (status + featured +
+   category, no date) that cramming it into News's single
+   meta line felt like a compressed desktop table. Everything
+   here is scoped under .admin-attractions-page, which ONLY
+   attractions.ejs uses, so News is never touched.
+   Selectors that override a rule scoped to plain
+   .admin-mobile-list-page use the compound
+   .admin-attractions-page.admin-mobile-list-page prefix so they
+   win on specificity regardless of source order.
+═══════════════════════════════════════════════════════ */
+
+/* ── 17.1 Title: larger and bolder — it's the #1 scan target ── */
+@media (max-width: 991.98px) {
+  .admin-attractions-page .admin-table td.td-title {
+    /* meta now lives in its own td-meta row right below, so td-title
+       only needs a little breathing room under the title itself */
+    padding-bottom: 0.375rem !important;
+  }
+  .admin-attractions-page .admin-table td.td-title .admin-cell-title {
+    font-size: 1.0625rem;   /* ~17px, per the "17–19px" title spec */
+    line-height: 1.35;
+  }
+}
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .admin-attractions-page.admin-mobile-list-page .admin-table td.td-title .admin-cell-title {
+    font-size: 1.125rem;    /* ~18px on tablet */
+  }
+}
+
+/* ── 17.2 Status + featured + category: a full-width row of their own,
+   instead of squeezed into the narrow column beside the thumbnail. ── */
+@media (max-width: 991.98px) {
+  .admin-attractions-page .admin-table td.td-meta {
+    display: block;
+    order: 3;
+    flex: 0 0 100%;
+    padding: 0 0.875rem 0.75rem 0.875rem;
+  }
+  /* td-actions now comes after td-meta */
+  .admin-attractions-page.admin-mobile-list-page .admin-table td.td-actions {
+    order: 4;
+  }
+
+  .attraction-status-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Featured badge — paired visually with the status pill so "featured"
+     reads as a second, equally-clear piece of status, not a stray glyph. */
+  .badge-featured {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5625rem;
+    border-radius: 999px;
+    background: var(--gold-100);
+    color: var(--gold-700);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-featured i,
+  .badge-featured svg { width: 0.75rem; height: 0.75rem; fill: currentColor; }
+
+  /* Category — secondary metadata, one line only, ellipsis if it's long.
+     The full value is still on the element via `title`, and still fully
+     present as real text for screen readers / find-in-page. */
+  .attraction-category {
+    margin-top: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* ── 17.3 Circular, icon-only FAB (overrides News's extended pill) ── */
+@media (max-width: 991.98px) {
+  .admin-attractions-page.admin-mobile-list-page .admin-fab {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    gap: 0;
+  }
+  .admin-attractions-page.admin-mobile-list-page .admin-fab i,
+  .admin-attractions-page.admin-mobile-list-page .admin-fab svg {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+  }
+}
+
+/* ── 17.4 Card rhythm: a touch more breathing room now that the card
+   has three visual sections (image+title / status+category / actions)
+   instead of two. ── */
+@media (max-width: 991.98px) {
+  .admin-attractions-page .admin-table tbody tr {
+    margin-bottom: 0.75rem;
   }
 }
