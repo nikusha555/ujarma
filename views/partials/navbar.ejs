@@ -91,6 +91,17 @@
           </a>
         </li>
 
+        <!-- ── Language Switcher (mobile menu) ─────────
+             Sits inside the hamburger panel, just above Contact,
+             as its own clearly-labelled "Language" section. All
+             three languages render every time — nothing is hidden
+             behind a second tap. Desktop keeps its own separate
+             instance further down (d-lg-flex), unaffected. -->
+        <li class="nav-item lang-switcher-item lang-switcher-item--mobile d-flex d-lg-none flex-column">
+          <span class="lang-switcher-label" data-i18n="lang.select">ენის არჩევა</span>
+          <%- include('lang-switcher', { hideFlags: true, extraClass: 'lang-switcher--menu' }) %>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link nav-link-contact <%= currentPath.startsWith('/contact') ? 'active' : '' %>"
              href="/contact">
@@ -98,36 +109,11 @@
           </a>
         </li>
 
-        <!-- ── Language Switcher ───────────────────── -->
-        <li class="nav-item lang-switcher-item">
-          <div class="lang-switcher" role="group"
-               aria-label="ენის არჩევა"
-               data-i18n-aria-label="lang.select">
-            <button class="lang-btn"
-                    data-lang="ka"
-                    aria-pressed="true"
-                    title="ქართული"
-                    type="button">
-              <span class="lang-btn-flag" aria-hidden="true">🇬🇪</span>
-              <span class="lang-btn-label">ქარ</span>
-            </button>
-            <button class="lang-btn"
-                    data-lang="en"
-                    aria-pressed="false"
-                    title="English"
-                    type="button">
-              <span class="lang-btn-flag" aria-hidden="true">🇬🇧</span>
-              <span class="lang-btn-label">Eng</span>
-            </button>
-            <button class="lang-btn"
-                    data-lang="ru"
-                    aria-pressed="false"
-                    title="Русский"
-                    type="button">
-              <span class="lang-btn-flag" aria-hidden="true">🇷🇺</span>
-              <span class="lang-btn-label">Рус</span>
-            </button>
-          </div>
+        <!-- ── Language Switcher (desktop) ─────────────
+             Hidden below lg — the mobile menu carries its own
+             instance above instead. -->
+        <li class="nav-item lang-switcher-item d-none d-lg-flex">
+          <%- include('lang-switcher') %>
         </li>
 
       </ul>

@@ -1504,7 +1504,14 @@ body.admin-sidebar-open { overflow: hidden; }
 
 .lh-tight { line-height: 1.2 !important; }
 
-/* ── Language Switcher — premium pill selector ─────────── */
+/* ── Language Switcher — premium pill selector ───────────
+   The site-navbar background is white in every state (only a
+   drop shadow is added on scroll — see .site-navbar.scrolled
+   above), so the switcher is themed for a light backdrop by
+   default. All three languages (GE / ENG / RU) are always
+   rendered and always clickable; only the active one gets a
+   distinct gold treatment — nothing is ever hidden behind a
+   hover/click reveal. */
 .lang-switcher-item {
   margin-left: 0.875rem;
 }
@@ -1513,8 +1520,8 @@ body.admin-sidebar-open { overflow: hidden; }
   display: flex;
   align-items: center;
   gap: 2px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(10, 22, 40, 0.05);
+  border: 1px solid rgba(10, 22, 40, 0.14);
   border-radius: 999px;
   padding: 3px;
   transition: background var(--transition-fast), border-color var(--transition-fast);
@@ -1531,7 +1538,7 @@ body.admin-sidebar-open { overflow: hidden; }
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--color-text-secondary);
   letter-spacing: 0.02em;
   transition: background var(--transition-fast), color var(--transition-fast),
               box-shadow var(--transition-fast), transform var(--transition-fast);
@@ -1546,8 +1553,8 @@ body.admin-sidebar-open { overflow: hidden; }
 }
 
 .lang-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  background: rgba(10, 22, 40, 0.08);
+  color: var(--color-primary);
   transform: translateY(-1px);
 }
 
@@ -1578,61 +1585,59 @@ body.admin-sidebar-open { overflow: hidden; }
   text-transform: uppercase;
 }
 
-/* Scrolled state: navy bg, adjust lang switcher contrast */
-.site-navbar.scrolled .lang-switcher {
-  border-color: rgba(10, 22, 40, 0.14);
-  background: rgba(10, 22, 40, 0.05);
+/* ── Mobile menu "Language" section ─────────────────────────
+   Lives inside the hamburger panel itself (not the header, not
+   a dropdown) as its own clearly-labelled block directly above
+   Contact. GE / ENG / RUS render every time the menu opens —
+   no second tap needed to reveal the inactive two. Hidden at
+   lg+ where the header's own desktop instance takes over. */
+.lang-switcher-item--mobile {
+  align-items: stretch;
+  margin-left: 0;
+  padding: 1rem 0.5rem 0.25rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 0.5rem;
 }
-.site-navbar.scrolled .lang-btn {
-  color: rgba(10, 22, 40, 0.55);
-}
-.site-navbar.scrolled .lang-btn:hover {
-  background: rgba(10, 22, 40, 0.08);
-  color: var(--color-primary);
-}
-.site-navbar.scrolled .lang-btn--active {
-  color: var(--navy-900);
+.lang-switcher-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.625rem;
 }
 
-/* Mobile: stack lang switcher below nav links as a full-width segmented control */
-@media (max-width: 991.98px) {
-  .lang-switcher-item {
-    margin-left: 0;
-    padding: 0.875rem 0 0.25rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-  }
-  .lang-switcher {
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 14px;
-    padding: 4px;
-    gap: 4px;
-  }
-  .lang-btn {
-    flex: 1;
-    justify-content: center;
-    min-height: 44px;
-    padding: 0 0.625rem;
-    border-radius: 11px;
-    font-size: 0.8125rem;
-  }
-  .lang-btn-flag {
-    font-size: 1.0625rem;
-  }
-  .lang-btn--active {
-    box-shadow: 0 2px 10px rgba(197, 160, 40, 0.3);
-  }
-  /* On scrolled / expanded navbar on mobile */
-  .site-navbar.scrolled .lang-switcher {
-    background: rgba(10, 22, 40, 0.035);
-    border-color: rgba(10, 22, 40, 0.12);
-  }
-  .site-navbar.scrolled .lang-btn {
-    color: var(--color-text-secondary);
-  }
-  .site-navbar.scrolled .lang-btn--active {
-    color: var(--navy-900);
-  }
+.lang-switcher--menu {
+  width: 100%;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 14px;
+  background: rgba(10, 22, 40, 0.04);
+  border: 1px solid rgba(10, 22, 40, 0.12);
+}
+.lang-switcher--menu .lang-btn {
+  flex: 1;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 0.5rem;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  color: var(--gray-700);
+}
+.lang-switcher--menu .lang-btn:hover {
+  background: rgba(10, 22, 40, 0.07);
+}
+.lang-switcher--menu .lang-btn--active {
+  box-shadow: 0 2px 10px rgba(197, 160, 40, 0.32);
+}
+/* Keep the active button solid gold even while hovered/tapped —
+   without this, the higher-specificity hover rule above would
+   wash out the active state's gradient. */
+.lang-switcher--menu .lang-btn--active:hover {
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+  color: var(--navy-900);
 }
 
 .divider {

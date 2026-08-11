@@ -1,0 +1,46 @@
+<%#
+  partials/lang-switcher.ejs — ენის ამორჩევის სეგმენტირებული კონტროლი
+  ─────────────────────────────────────────────────────────────────
+  Renders the GE / ENG / RU segmented control. All three languages are
+  always rendered and always clickable — the active one is only ever
+  distinguished with styling (see .lang-btn--active), never hidden
+  siblings that require a click/hover to reveal.
+
+  locals:
+    hideFlags (boolean, optional) — omit the flag emoji, text-only
+    extraClass (string, optional) — extra class(es) appended to the
+    outer .lang-switcher, e.g. a sizing/placement variant modifier.
+-%>
+<%
+  var _hideFlags = (typeof hideFlags !== 'undefined' && hideFlags);
+  var _extraClass = (typeof extraClass !== 'undefined' && extraClass) ? ' ' + extraClass : '';
+%>
+<div class="lang-switcher<%= _extraClass %>"
+     role="group"
+     aria-label="ენის არჩევა"
+     data-i18n-aria-label="lang.select">
+  <button class="lang-btn"
+          data-lang="ka"
+          aria-pressed="true"
+          title="ქართული"
+          type="button">
+    <% if (!_hideFlags) { %><span class="lang-btn-flag" aria-hidden="true">🇬🇪</span><% } %>
+    <span class="lang-btn-label">ქარ</span>
+  </button>
+  <button class="lang-btn"
+          data-lang="en"
+          aria-pressed="false"
+          title="English"
+          type="button">
+    <% if (!_hideFlags) { %><span class="lang-btn-flag" aria-hidden="true">🇬🇧</span><% } %>
+    <span class="lang-btn-label">Eng</span>
+  </button>
+  <button class="lang-btn"
+          data-lang="ru"
+          aria-pressed="false"
+          title="Русский"
+          type="button">
+    <% if (!_hideFlags) { %><span class="lang-btn-flag" aria-hidden="true">🇷🇺</span><% } %>
+    <span class="lang-btn-label">Рус</span>
+  </button>
+</div>
