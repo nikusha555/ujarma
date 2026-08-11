@@ -6,6 +6,10 @@
   <title><%= typeof title !== 'undefined' ? title : 'Admin — Ujarma' %></title>
   <meta name="robots" content="noindex, nofollow" />
 
+  <!-- Favicon — official Ujarma logo mark -->
+  <link rel="icon" type="image/png" href="/favicon.png?v=<%= assetVersion %>" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=<%= assetVersion %>" />
+
   <!-- Google Fonts (with Georgian support) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,9 +35,16 @@
     <aside class="admin-sidebar" id="adminSidebar">
 
       <div class="admin-logo">
-        <div>
-          <div class="admin-logo-name">უჯარმა</div>
-          <div class="admin-logo-label">ადმინისტრაციის პანელი</div>
+        <div class="admin-logo-brand">
+          <!-- ოფიციალური ლოგო — decorative; the text beside it already
+               carries the accessible name. -->
+          <div class="admin-logo-emblem" aria-hidden="true">
+            <img src="/images/ujarma-logo-mark.png?v=<%= assetVersion %>" alt="" class="site-logo-img" width="488" height="561" />
+          </div>
+          <div>
+            <div class="admin-logo-name">უჯარმა</div>
+            <div class="admin-logo-label">ადმინისტრაციის პანელი</div>
+          </div>
         </div>
         <!-- Close button: visible only on mobile/tablet -->
         <button id="adminSidebarClose"

@@ -13,18 +13,10 @@
     <!-- ── ბრენდი / ლოგო ──────────────────────────── -->
     <a href="/" class="navbar-brand-wrap" aria-label="<%= siteName %> — მთავარი გვერდი" data-i18n-aria-label="nav.homeAriaLabel">
 
-      <!-- სოფლის გერბი (SVG) -->
+      <!-- ოფიციალური ლოგო — the anchor already carries the accessible
+           name via aria-label, so this image stays decorative (alt=""). -->
       <div class="brand-emblem" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 72" width="44" height="52">
-          <path d="M30 3 L57 15 L57 44 Q57 64 30 70 Q3 64 3 44 L3 15 Z"
-                fill="none" stroke="#C5A028" stroke-width="1.5"/>
-          <path d="M30 8 L52 19 L52 43 Q52 60 30 66 Q8 60 8 43 L8 19 Z"
-                fill="#0A1628" stroke="none"/>
-          <line x1="30" y1="18" x2="30" y2="56" stroke="#C5A028" stroke-width="1.75"/>
-          <line x1="11" y1="37" x2="49" y2="37" stroke="#C5A028" stroke-width="1.75"/>
-          <circle cx="30" cy="37" r="4"   fill="none" stroke="#C5A028" stroke-width="1.25"/>
-          <circle cx="30" cy="37" r="1.5" fill="#C5A028"/>
-        </svg>
+        <img src="/images/ujarma-logo-mark.png?v=<%= assetVersion %>" alt="" class="site-logo-img" width="488" height="561" />
       </div>
 
       <!-- ბრენდის ტექსტი -->

@@ -248,6 +248,16 @@ p { margin-top: 0; margin-bottom: 1.25rem; }
   height: 52px;
   flex-shrink: 0;
 }
+
+/* Official Ujarma logo — every emblem/brand container below sizes a fixed
+   box; the image itself always uses object-fit: contain so the artwork's
+   real aspect ratio is respected and it is never stretched or cropped. */
+.site-logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 .brand-text {
   display: flex;
   flex-direction: column;
@@ -1016,6 +1026,11 @@ p { margin-top: 0; margin-bottom: 1.25rem; }
   width: 60%;
 }
 
+.footer-brand-emblem {
+  width: 48px;
+  height: 56px;
+  margin-bottom: 0.875rem;
+}
 .footer-brand-name {
   font-family: var(--font-serif);
   font-size: 1.375rem;
@@ -1236,8 +1251,22 @@ body.admin-body {
 }
 
 .admin-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 1.75rem 1.5rem;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.admin-logo-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.admin-logo-emblem {
+  width: 34px;
+  height: 40px;
+  flex-shrink: 0;
 }
 .admin-logo-name {
   font-family: var(--font-serif);
@@ -2788,6 +2817,8 @@ body.admin-sidebar-open { overflow: hidden; }
   color: rgba(255,255,255,.25);
 }
 .about-hero-emblem {
+  width: 56px;
+  height: 66px;
   margin-bottom: 1.25rem;
 }
 .about-hero-label {
